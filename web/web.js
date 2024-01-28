@@ -100,11 +100,8 @@ const server = http2.createSecureServer({
 }, app);
 
 server.listen(process.env.WWWPort, () => {
-	GetDate().then(dte =>{console.log('\u001b[36m'+dte+': \u001b[32mHTTPS Server rodando na porta ${process.env.WWWPort}.\u001b[0;0m');});
+	GetDate().then(dte =>{console.log('\u001b[36m'+dte+': \u001b[32mHTTPS Server rodando na porta '+process.env.WWWPort+'.\u001b[0;0m');});
 });
-
-server.on('listening', function () { GetDate().then(dte =>{ console.log('\u001b[36m'+dte+': \u001b[32mHTTPS no ar.\u001b[0;0m');}); });
-
 
 /****************************************************************************************************/
 /* 	Mostra os parâmetros no Log e aguarda conexões													*/

@@ -159,10 +159,9 @@ setInterval(function() {
 },60000);
 
 /****************************************************************************************************/
-/* 	Mostra os parâmetros no Log e aguarda conexões													*/
+/* Mostra os parâmetros no Log e aguarda conexões													*/
 /****************************************************************************************************/
 const OS = require('node:os');
-
 
 GetDate().then(dte => {
 	// Save start datetime
