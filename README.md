@@ -1,2 +1,5 @@
 # tk4in
-Site 
+-Para renovar o certifica letsencript
+
+sudo systemctl stop httpd
+sudo certbot certonly --standalone
