@@ -125,9 +125,8 @@ app.get("/", function (req, res) {
   let lang = require("./lang/" + session.lang + "/index");
 
   nonce = randomBytes(16).toString("hex");
-  res.status(200);
   res.set("Content-Type", "text/html");
-  res.send(
+  res.status(200).send(
     "<!DOCTYPE html><html itemscope itemtype='http://schema.org/WebSite'; lang=" +
       session.lang +
       "><head><meta name='viewport' content='width=device-width, initial-scale=1'><meta charset=utf-8><title itemprop=name>" +
@@ -148,6 +147,10 @@ app.get("/", function (req, res) {
   );
 });
 
+app.get("/favicon.ico", function (req, res) {
+	res.set("Content-Type", "image/x-icon");
+	res.status(200).end();
+});
 /****************************************************************************************************/
 /* 	Mostra os parâmetros no Log e aguarda conexões													*/
 /****************************************************************************************************/
