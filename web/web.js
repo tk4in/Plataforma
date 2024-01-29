@@ -143,7 +143,7 @@ app.get("/", function (req, res) {
       lang._KEYWORDS +
       "'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous><link href='" +
       process.env.CDNBase +
-      "css/style.css' rel=stylesheet crossorigin=anonymous></head><body></body></html>"
+      "css/style.css' rel=stylesheet crossorigin=anonymous></head><body>hello word</body></html>"
   );
 });
 
