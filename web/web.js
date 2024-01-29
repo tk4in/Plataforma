@@ -86,7 +86,7 @@ setInterval(function() {
 /****************************************************************************************************/
 const express = require('express')
 const http2Express = require('http2-express-bridge')
-const http2 = require('node:http2')
+const http2 = require('http2')
 const { readFileSync } = require('node:fs')
 const app = http2Express(express)
 
