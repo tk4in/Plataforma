@@ -63,7 +63,7 @@ hub.on("message", (channel, message) => {
 const mysql = require('mysql2');
 const db = mysql.createPool({host:process.env.DB_host, database:process.env.DB_name, user:process.env.DB_user, password:process.env.DB_pass, connectionLimit:10});
 
-// Grava estatísticas a acada 60s
+// Grava estatísticas a cada 60s
 setInterval(function() {
 			// Publica o STATUS do serviço
 			PublishUpdate();
@@ -74,7 +74,7 @@ setInterval(function() {
 /****************************************************************************************************/
 const express = require('express')
 const http2Express = require('http2-express-bridge')
-const http2 = require('http2')
+const http2 = require('node:http2')
 const { readFileSync } = require('node:fs')
 const app = http2Express(express)
 
@@ -110,7 +110,8 @@ app.get("/", function (req, res) {
 
   // Le a linguagem
   let lang = require("./lang/" + session.lang + "/index");
-
+  app.set("x-powered-by", false);
+  
   nonce = randomBytes(16).toString("hex");
   res.set("Content-Type", "text/html");
   res.status(200).send(
@@ -138,6 +139,7 @@ app.get("/favicon.ico", function (req, res) {
 	res.set("Content-Type", "image/x-icon");
 	res.status(200).end();
 });
+
 /****************************************************************************************************/
 /* 	Mostra os parâmetros no Log e aguarda conexões													*/
 /****************************************************************************************************/
