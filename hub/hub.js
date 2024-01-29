@@ -141,7 +141,7 @@ var starttime=0,numdev=0,msgsin=0,msgsout=0,bytsin=0,bytsout=0,bytserr=0;
 
 // Update statistics ever 60s
 setInterval(function() {
-			// Get datetime
+			// Pega data e hora GMT
 			let dte = new Date(new Date().getTime()).toISOString().replace(/T/,' ').replace(/\..+/, '');
 			// Publish update status
 			PublishUpdate();

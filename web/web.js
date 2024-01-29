@@ -67,19 +67,6 @@ const db = mysql.createPool({host:process.env.DB_host, database:process.env.DB_n
 setInterval(function() {
 			// Publica o STATUS do serviço
 			PublishUpdate();
-			// Pega data e hora GMT
-			let dte = new Date(new Date().getTime()).toISOString().replace(/T/,' ').replace(/\..+/, '');
-			// Grava estatísticas
-			db.getConnection(function(err,connection){
-				if (!err) {
-					connection.query('INSERT INTO syslog (datlog,server,version,ipport,devices,msgsin,msgsout,bytsin,bytsout,bytserr) VALUES (?,?,?,?,?,?,?,?,?,?)',[dte, process.title, version, process.env.SrvIP + ':' + process.env.SrvPort, numdev, msgsin, msgsout, bytsin, bytsout, bytserr],function (err, result) {connection.release(); if (err) err => console.error(err);});
-				}
-				msgsin=0;
-				msgsout=0;
-				bytsin=0;
-				bytsout=0;
-				bytserr=0;
-			});
 },60000);
 
 /****************************************************************************************************/
