@@ -114,6 +114,7 @@ app.get("/", function (req, res) {
   
   nonce = randomBytes(16).toString("hex");
   res.set("Content-Type", "text/html");
+  res.setHeader("Access-Control-Allow-Origin", process.env.WWWBase);
   res.status(200).send(
     "<!DOCTYPE html><html itemscope itemtype='http://schema.org/WebSite'; lang=" +
       session.lang +
