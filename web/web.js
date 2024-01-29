@@ -6,6 +6,7 @@ process.title = 'web';
 const version = 'v2.0.0';
 
 const { GetDate, GetUSID } = require('../utils/utils.js');
+const { randomBytes } = require("node:crypto");
 
 /****************************************************************************************************/
 /* Inicializa variáveis globais																		*/
