@@ -81,7 +81,6 @@ setInterval(function() {
 			});
 },60000);
 
-
 /****************************************************************************************************/
 /* Cria o servidor https que vai servir o conteúdo													*/
 /****************************************************************************************************/
@@ -104,6 +103,13 @@ server.listen(process.env.WWWPort, () => {
 });
 
 /****************************************************************************************************/
+/* Rotas																							*/
+/****************************************************************************************************/
+app.get("/", function (req, res) {
+  res.send("Hello World");
+});
+
+/****************************************************************************************************/
 /* 	Mostra os parâmetros no Log e aguarda conexões													*/
 /****************************************************************************************************/
 const OS = require('node:os');
@@ -121,6 +127,6 @@ GetDate().then(dte => {
 /*
 	https://github.com/shubham-thorat/http2-server/blob/main/src/app.js
 	https://github.com/georgewitteman/http2/blob/main/index.js
-	https://github.com/giesberge/krakend_http2_stream_test/blob/master/server/server.js\
+	https://github.com/giesberge/krakend_http2_stream_test/blob/master/server/server.js
 	https://github.com/sohamkamani/node-http2-example/blob/main/server.jshttps://github.com/passport90/servant/blob/main/main.js
 */
