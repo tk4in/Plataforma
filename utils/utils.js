@@ -9,6 +9,11 @@ async function GetDate() {
 	return new Date(new Date().getTime() - (offset*60*1000)).toISOString().replace(/T/,' ').replace(/\..+/, '');
 }
 
+const { randomBytes } = require("node:crypto");
+async function GetNONCE() {
+	return randomBytes(16).toString("hex");
+}
+
 async function RandomNum(min, max) {  
 	return Math.floor( Math.random() * (max - min) + min)
 }
@@ -23,4 +28,4 @@ async function GetUSID() {
 	return('TK-'+Version+'.'+res1+'.'+res2+'.'+res3+'.'+res4+'.'+res5);
 }
 
-module.exports = { GetDate, GetUSID }
+module.exports = { GetDate, GetUSID, GetNONCE };
