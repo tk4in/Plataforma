@@ -1,5 +1,5 @@
 /****************************************************************************************************/
-/* Home page																						*/
+/* Root     																						*/
 /****************************************************************************************************/
 const express = require("express");
 const router = express.Router();
@@ -81,7 +81,7 @@ router.get('/', (req, res, next) => {
       process.env.CDNBase +
       "css/style.css' rel=stylesheet crossorigin=anonymous></head><body>"
   );
-  
+
   // Block
   res.write(
     "<div class=loader-wrap id=loader-wrap><div class=blocks><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div><div class=block></div></div></div>"
