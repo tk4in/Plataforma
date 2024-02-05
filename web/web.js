@@ -70,7 +70,7 @@ setInterval(function() {
 },60000);
 
 /****************************************************************************************************/
-/* Cria o servidor https que vai servir o conteúdo													*/
+/* Cria o servidor https que vai servir o conteúdo													                        */
 /****************************************************************************************************/
 const express = require('express')
 const http2Express = require('http2-express-bridge')
@@ -90,6 +90,9 @@ server.listen(process.env.WWWPort, () => {
 	GetDate().then(dte =>{console.log('\u001b[36m'+dte+': \u001b[32mHTTPS Server rodando na porta '+process.env.WWWPort+'.\u001b[0;0m');});
 });
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser("cookies"));
+
 /****************************************************************************************************/
 /* Rotas																						                                              	*/
 /****************************************************************************************************/
@@ -105,7 +108,7 @@ app.get("/favicon.ico", function (req, res) {
 });
 
 /****************************************************************************************************/
-/* 	Mostra os parâmetros no Log e aguarda conexões													*/
+/* 	Mostra os parâmetros no Log e aguarda conexões													                        */
 /****************************************************************************************************/
 const OS = require('node:os');
 
@@ -118,10 +121,3 @@ GetDate().then(dte => {
 	console.log('\u001b[36m'+dte+': \u001b[37mIP/Port : ' + process.env.WWWIP + ':' + process.env.WWWPort);
 	console.log('\u001b[36m'+dte+': \u001b[37mCPUs: '+ OS.cpus().length);
 	console.log('\u001b[36m'+dte+': \u001b[37m================================');});
-
-/*
-	https://github.com/shubham-thorat/http2-server/blob/main/src/app.js
-	https://github.com/georgewitteman/http2/blob/main/index.js
-	https://github.com/giesberge/krakend_http2_stream_test/blob/master/server/server.js
-	https://github.com/sohamkamani/node-http2-example/blob/main/server.jshttps://github.com/passport90/servant/blob/main/main.js
-*/
