@@ -96,6 +96,9 @@ server.listen(process.env.WWWPort, () => {
 const root = require("./root");
 app.use("/", root);
 
+const main = require("./main");
+app.use("/main", main);
+
 app.get("/favicon.ico", function (req, res) {
 	res.set("Content-Type", "image/x-icon");
 	res.status(200).end();
