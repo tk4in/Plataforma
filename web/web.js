@@ -90,8 +90,13 @@ server.listen(process.env.WWWPort, () => {
 	GetDate().then(dte =>{console.log('\u001b[36m'+dte+': \u001b[32mHTTPS Server rodando na porta '+process.env.WWWPort+'.\u001b[0;0m');});
 });
 
-const cookieParser = require("cookie-parser");
-app.use(cookieParser("cookies"));
+const cookie = require("cookie");
+app.use(function (req, res, next) {
+  var cookies = cookie.parse(req.headers.cookie || "");
+
+  
+  next();
+});
 
 /****************************************************************************************************/
 /* Rotas																						                                              	*/
