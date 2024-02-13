@@ -71,14 +71,19 @@ router.get("/main", (req, res, next) => {
       "</title><link rel='dns-prefetch' href=" +
       process.env.CDNBase +
       "><link rel=icon href='" +
-      process.env.CDNBase + AppID +
+      process.env.CDNBase + process.env.AppID +
       "/img/logo.png'><meta name='viewport' content='width=device-width, initial-scale=1'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://fonts.googleapis.com/css2?family=Russo+One&family=Sarala:wght@700&display=swap' rel='stylesheet'><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous>"
   );
   res.write(
     "<link rel=stylesheet href='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css' crossorigin=anonymous>"
   );
   res.write(
-    "<link rel=stylesheet href='" + process.env.CDNBase + AppID + "/css/main.css#" + nonce + "' crossorigin=anonymous></head><body><div class='baroff' id='baroff'>" + lang._WAITCONECT + "</div>"
+    "<link rel=stylesheet href='" +
+      process.env.CDNBase + process.env.AppID + "/css/main.css#" +
+      nonce +
+      "' crossorigin=anonymous></head><body><div class='baroff' id='baroff'>" +
+      lang._WAITCONECT +
+      "</div>"
   );
 
   // GNSS Desktop
@@ -149,8 +154,12 @@ router.get("/main", (req, res, next) => {
     "<div id='content' class='content d-none'><div class='search_div noselect'><div id='barsid' class='bars_icon noselect'><i class='fa fa-fw fa-bars'></i></div><input id='searchbox' type='search' placeholder='" +
       lang._SEARCH +
       "' /><div class='search_icon noselect'><i class='fa fa-fw fa-search'></i></div></div><div class='controls'><div class='switch_style'><img id='street_style' alt='Street layer' src='" +
-      process.env.CDNBase + AppID + "/img/street.jpg'><img id='satellite_style' alt='Satellie layer' class='d-none' src='" +
-      process.env.CDNBase + AppID + "/img/satellite.jpg'></div></div></div>"
+      process.env.CDNBase +
+      process.env.AppID +
+      "/img/street.jpg'><img id='satellite_style' alt='Satellie layer' class='d-none' src='" +
+      process.env.CDNBase +
+      process.env.AppID +
+      "/img/satellite.jpg'></div></div></div>"
   );
 
   // Mapa
@@ -171,7 +180,8 @@ router.get("/main", (req, res, next) => {
       "';const n2yoKey='" +
       process.env.N2_KEY +
       "';</script><script defer src='" +
-      process.env.CDNBase + AppID + "/js/mb.js#" + nonce + "' crossorigin=anonymous></script>"
+      process.env.CDNBase + process.env.AppID + "/js/mb.js#" + nonce +
+      "' crossorigin=anonymous></script>"
   );
   res.end("</body></html>");
 });
