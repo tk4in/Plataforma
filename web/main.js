@@ -71,14 +71,14 @@ router.get("/main", (req, res, next) => {
       "</title><link rel='dns-prefetch' href=" +
       process.env.CDNBase +
       "><link rel=icon href='" +
-      process.env.CDNBase +
-      "img/logo.png'><meta name='viewport' content='width=device-width, initial-scale=1'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://fonts.googleapis.com/css2?family=Russo+One&family=Sarala:wght@700&display=swap' rel='stylesheet'><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous>"
+      process.env.CDNBase + AppID +
+      "/img/logo.png'><meta name='viewport' content='width=device-width, initial-scale=1'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://fonts.googleapis.com/css2?family=Russo+One&family=Sarala:wght@700&display=swap' rel='stylesheet'><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous>"
   );
   res.write(
     "<link rel=stylesheet href='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css' crossorigin=anonymous>"
   );
   res.write(
-    "<link rel=stylesheet href='" + process.env.WWWBase + "css/main.css#" + nonce + "' crossorigin=anonymous></head><body><div class='baroff' id='baroff'>" + lang._WAITCONECT + "</div>"
+    "<link rel=stylesheet href='" + process.env.CDNBase + AppID + "/css/main.css#" + nonce + "' crossorigin=anonymous></head><body><div class='baroff' id='baroff'>" + lang._WAITCONECT + "</div>"
   );
 
   // GNSS Desktop
