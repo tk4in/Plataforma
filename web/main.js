@@ -23,14 +23,14 @@ router.get("/main", (req, res, next) => {
     session.lang = "pt-BR";
   }
 
-  nonce = GetNONCE();
+  nonce = wait GetNONCE();
+
   res.writeHead(200, {
     "access-control-allow-methods": "GET,POST",
     "access-control-allow-origin": "'" + process.env.WWWBase + "'",
     "cache-control": "no-cache",
-    "content-Security-Policy": "default-src 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" +
-      nonce +
-      "' 'self' 'unsafe-eval' cdnjs.cloudflare.com/ajax/libs/socket.io/ cdn.jsdelivr.net/npm/ api.mapbox.com/ www.gstatic.com/draco/ " +
+    "content-Security-Policy": "default-src 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" + nonce +
+      "' 'self' 'unsafe-eval' cdnjs.cloudflare.com/ajax/libs/socket.io/ cdn.jsdelivr.net/npm/ api.mapbox.com/ www.gstatic.com/draco/ https://ajax.googleapis.com/ajax/libs/ " +
       process.env.CDNBase +
       "; style-src 'self' 'unsafe-hashes' 'unsafe-inline' 'report-sample' https://fonts.googleapis.com/ https://fonts.gstatic.com/ cdn.jsdelivr.net/npm/ api.mapbox.com/ " +
       process.env.CDNBase +
