@@ -149,10 +149,8 @@ router.get("/main", (req, res, next) => {
     "<div id='content' class='content d-none'><div class='search_div noselect'><div id='barsid' class='bars_icon noselect'><i class='fa fa-fw fa-bars'></i></div><input id='searchbox' type='search' placeholder='" +
       lang._SEARCH +
       "' /><div class='search_icon noselect'><i class='fa fa-fw fa-search'></i></div></div><div class='controls'><div class='switch_style'><img id='street_style' alt='Street layer' src='" +
-      process.env.CDNBase +
-      "img/street.jpg'><img id='satellite_style' alt='Satellie layer' class='d-none' src='" +
-      process.env.CDNBase +
-      "img/satellite.jpg'></div></div></div>"
+      process.env.CDNBase + AppID + "/img/street.jpg'><img id='satellite_style' alt='Satellie layer' class='d-none' src='" +
+      process.env.CDNBase + AppID + "/img/satellite.jpg'></div></div></div>"
   );
 
   // Mapa
@@ -161,8 +159,9 @@ router.get("/main", (req, res, next) => {
   // Scripts
   res.write(
     "<script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js' integrity='sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H' crossorigin=anonymous></script><script type=module src='https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js'></script>" +
-    "<script src='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js' crossorigin=anonymous></script><script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm' crossorigin=anonymous></script>" +
-    "<script nonce=" + nonce +
+      "<script src='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js' crossorigin=anonymous></script><script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm' crossorigin=anonymous></script>" +
+      "<script nonce=" +
+      nonce +
       ">const accessToken='" +
       process.env.accessToken +
       "';const cdnAddr='" +
@@ -172,10 +171,7 @@ router.get("/main", (req, res, next) => {
       "';const n2yoKey='" +
       process.env.N2_KEY +
       "';</script><script defer src='" +
-      process.env.WWWBase +
-      "js/mb.js#" +
-      nonce +
-      "' crossorigin=anonymous></script>"
+      process.env.CDNBase + AppID + "/js/mb.js#" + nonce + "' crossorigin=anonymous></script>"
   );
   res.end("</body></html>");
 });
