@@ -177,11 +177,12 @@ router.get("/main", (req, res, next) => {
       process.env.CDNBase +
       "';const hubAddr='" +
       process.env.HUBAddr +
-      "';const n2yoKey='" +
-      process.env.N2_KEY +
+      "';const AppID='" +
+      process.env.AppID +
       "';</script><script defer src='" +
-      process.env.CDNBase + process.env.AppID + "/js/mb.js#" + nonce +
-      "' crossorigin=anonymous></script>"
+      process.env.CDNBase +
+      process.env.AppID +
+      "/js/mb.js#" + nonce + "' crossorigin=anonymous></script>"
   );
   res.end("</body></html>");
 });
