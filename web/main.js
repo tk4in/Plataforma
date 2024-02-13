@@ -74,16 +74,10 @@ router.get("/main", (req, res, next) => {
       "img/logo.png'><meta name='viewport' content='width=device-width, initial-scale=1'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://fonts.googleapis.com/css2?family=Russo+One&family=Sarala:wght@700&display=swap' rel='stylesheet'><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous>"
   );
   res.write(
-    "<link rel=stylesheet href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' crossorigin=anonymous>"
+    "<link rel=stylesheet href='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css' crossorigin=anonymous>"
   );
   res.write(
-    "<link rel=stylesheet href='" +
-      process.env.CDNBase +
-      "css/main.css#" +
-      nonce +
-      "' crossorigin=anonymous></head><body><div class='baroff' id='baroff'>" +
-      lang._WAITCONECT +
-      "</div>"
+    "<link rel=stylesheet href='" + process.env.WWWBase + "css/main.css#" + nonce + "' crossorigin=anonymous></head><body><div class='baroff' id='baroff'>" + lang._WAITCONECT + "</div>"
   );
 
   // GNSS Desktop
@@ -165,9 +159,9 @@ router.get("/main", (req, res, next) => {
 
   // Scripts
   res.write(
-    "<script async src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js' integrity='sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H' crossorigin=anonymous></script>" +
-      "<script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js' crossorigin=anonymous></script><script nonce=" +
-      nonce +
+    "<script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js' integrity='sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H' crossorigin=anonymous></script><script type=module src='https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js'></script>" +
+    "<script src='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js' crossorigin=anonymous></script><script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm' crossorigin=anonymous></script>" +
+    "<script nonce=" + nonce +
       ">const accessToken='" +
       process.env.accessToken +
       "';const cdnAddr='" +
@@ -177,7 +171,7 @@ router.get("/main", (req, res, next) => {
       "';const n2yoKey='" +
       process.env.N2_KEY +
       "';</script><script defer src='" +
-      process.env.CDNBase +
+      process.env.WWWBase +
       "js/mb.js#" +
       nonce +
       "' crossorigin=anonymous></script>"
