@@ -4,7 +4,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { GetDate, GetUSID, GetNONCE } = require("../utils/utils.js");
+const { GetDate, GetUSID} = require("../utils/utils.js");
+const { randomBytes } = require("node:crypto");
 
 router.get("/main", (req, res, next) => {
   // Inicializa a sessao
@@ -23,7 +24,7 @@ router.get("/main", (req, res, next) => {
     session.lang = "pt-BR";
   }
 
-  nonce = wait GetNONCE();
+  nonce = randomBytes(16).toString("hex");
 
   res.writeHead(200, {
     "access-control-allow-methods": "GET,POST",
