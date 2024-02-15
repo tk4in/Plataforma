@@ -29,19 +29,19 @@ router.get('/', (req, res, next) => {
 
   res.writeHead(200, {
     "access-control-allow-methods": "GET,POST",
-    "access-control-allow-origin": "'" + process.env.WWWBase + "'",
+    "access-control-allow-origin": "'https://" + process.env.WEBAddr + "'",
     "cache-control": "no-cache",
     "content-security-policy":
-      "default-src 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" + nonce +
-      "' cdn.jsdelivr.net/npm/ " + process.env.CDNBase +
-      "; style-src 'self' 'report-sample' cdn.jsdelivr.net/npm/ " + process.env.CDNBase +
-      "; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; img-src 'self' " + process.env.CDNBase +
-      "; font-src cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' " + process.env.CDNBase + "; form-action 'self'; media-src 'self'; worker-src 'self'",
+      "default-src https: 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" + nonce +
+      "' cdn.jsdelivr.net/npm/ " + process.env.CDNAddr +
+      "/; style-src 'self' 'report-sample' cdn.jsdelivr.net/npm/ " + process.env.CDNAddr +
+      "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; img-src 'self' " + process.env.CDNAddr +
+      "; font-src cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' " + process.env.CDNAddr + "/; form-action 'self'; media-src 'self'; worker-src 'self'",
       "content-type": "text/html; charset=UTF-8",
     date: new Date().toUTCString(),
-    "permissions-policy": 'geolocation=(self "' + process.env.WWWBase + '")',
+    "permissions-policy": 'geolocation=(self "hppt://' + process.env.WEBAddr + '")',
     "referrer-policy": "no-referrer-when-downgrade",
-    "set-cookie": "tk_v=" + session.USID + "; Domain=" + process.env.CKEBase + "; Path=/; Secure; HttpOnly",
+    "set-cookie": "tk_v=" + session.USID + "; Domain=" + process.env.WEBAddr + "; Path=/; Secure; HttpOnly",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "vary": "Accept-Encoding",
     "x-content-type-options": "nosniff",
@@ -57,9 +57,9 @@ router.get('/', (req, res, next) => {
   res.write(
     "<!DOCTYPE html><html itemscope itemtype='http://schema.org/WebSite'; lang=" + session.lang +
       "><head><meta name='viewport' content='width=device-width, initial-scale=1'><meta charset=utf-8><title itemprop=name>" + lang._TITLE +
-      "</title><link rel=dns-prefetch href=" + process.env.CDNBase +
-      "><link rel=canonical href=" + process.env.WWWBase +
-      " itemprop=url><link rel=icon href='" + process.env.CDNBase + process.env.AppID +
+      "</title><link rel=dns-prefetch href=https://" + process.env.CDNAddr +
+      "><link rel=canonical href=https://" + process.env.WEBAddr +
+      " itemprop=url><link rel=icon href='https://" + process.env.CDNAddr + '/' + process.env.AppID +
       "/img/logo.png' itemprop=image><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/webfonts/fa-regular-400.woff2' as=font type='font/woff2' crossorigin=anonymous><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/webfonts/fa-solid-900.woff2' as=font type='font/woff2' crossorigin=anonymous><meta name=description content='" + lang._DESCRIPTION +
       "' itemprop=description><meta name=keywords content='" + lang._KEYWORDS +
       "'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous><link href='" + process.env.CDNBase + process.env.AppID + "/css/style.css' rel=stylesheet crossorigin=anonymous></head><body>"

@@ -6,7 +6,6 @@ process.title = 'web';
 const version = 'v2.0.0';
 
 const { GetDate, GetUSID } = require('../utils/utils.js');
-const { randomBytes } = require("node:crypto");
 
 /****************************************************************************************************/
 /* Inicializa variáveis globais																		*/
@@ -29,7 +28,7 @@ const pub = new Redis({host:process.env.RD_host, port:process.env.RD_port, passw
 async function PublishUpdate() {
 	GetDate().then(dte => {
 		let uptime = Date.parse(dte) - starttime;
-		pub.publish('san:server_update','{"name":"'+process.title+'","version":"'+version+'","ipport":"'+process.env.WWWIP+':'+process.env.WWWPort+'","uptime":"'+Math.floor(uptime/60000)+'"}');
+		pub.publish('san:server_update','{"name":"'+process.title+'","version":"'+version+'","addr":"https://'+process.env.WEBAddr+'","uptime":"'+Math.floor(uptime/60000)+'"}');
 	});
 }
 
@@ -86,8 +85,8 @@ const server = http2.createSecureServer({
   allowHTTP1 : true
 }, app);
 
-server.listen(process.env.WWWPort, () => {
-	GetDate().then(dte =>{console.log('\u001b[36m'+dte+': \u001b[32mHTTPS Server rodando na porta '+process.env.WWWPort+'.\u001b[0;0m');});
+server.listen(443, () => {
+	GetDate().then(dte =>{console.log('\u001b[36m'+dte+': \u001b[32mHTTPS Server rodando na porta 443'+'.\u001b[0;0m');});
 });
 
 const cookie = require("cookie");
@@ -123,6 +122,6 @@ GetDate().then(dte => {
 	// Mostra parâmetros no LOG
 	console.log('\u001b[36m'+dte+': \u001b[37m================================');
 	console.log('\u001b[36m'+dte+': \u001b[37mAPP : ' + process.title + ' ('+version+')');
-	console.log('\u001b[36m'+dte+': \u001b[37mIP/Port : ' + process.env.WWWIP + ':' + process.env.WWWPort);
+	console.log('\u001b[36m'+dte+': \u001b[37mDomínio : https://' + process.env.WEBAddr);
 	console.log('\u001b[36m'+dte+': \u001b[37mCPUs: '+ OS.cpus().length);
 	console.log('\u001b[36m'+dte+': \u001b[37m================================');});
