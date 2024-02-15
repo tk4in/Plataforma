@@ -38,7 +38,7 @@ router.get('/', (req, res, next) => {
       "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; img-src 'self' data: https: " + process.env.CDNAddr +
       "; font-src cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' " + process.env.CDNAddr + "/; form-action 'self'; media-src 'self'; worker-src 'self'",
       "content-type": "text/html; charset=UTF-8",
-    date: new Date().toUTCString(),
+    "date": new Date().toUTCString(),
     "permissions-policy": 'geolocation=(self "https://' + process.env.WEBAddr + '")',
     "referrer-policy": "no-referrer-when-downgrade",
     "set-cookie": process.env.SessID + "=" + session.USID + "; Domain=" + process.env.WEBAddr + "; Path=/; Secure; HttpOnly",

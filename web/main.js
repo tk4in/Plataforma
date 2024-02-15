@@ -36,7 +36,7 @@ router.get("/main", (req, res, next) => {
       "/; style-src 'self' 'unsafe-hashes' 'unsafe-inline' 'report-sample' fonts.googleapis.com/ fonts.gstatic.com/ cdn.jsdelivr.net/npm/ api.mapbox.com/ " +
       process.env.CDNAddr +
       "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; child-src 'self'; img-src 'self' data: https: " + process.env.CDNAddr + 
-      "/; font-src  https://fonts.gstatic.com/ https://fonts.googleapis.com/ cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' blob: *.mapbox.com/ api.n2yo.com/rest/ www.gstatic.com/draco/ https://" +
+      "/; font-src https://fonts.gstatic.com/ https://fonts.googleapis.com/ cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' blob: *.mapbox.com/ api.n2yo.com/rest/ www.gstatic.com/draco/ https://" +
       process.env.HUBIP + "/ ws://" + process.env.HUBIP + "/ " + process.env.CDNAddr +
       "/; form-action 'self'; media-src 'self'; worker-src 'self' blob: https: " +
       process.env.CDNAddr,
