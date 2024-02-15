@@ -46,7 +46,7 @@ router.get('/', (req, res, next) => {
     "vary": "Accept-Encoding",
     "x-content-type-options": "nosniff",
     "x-frame-options": "DENY",
-    "x-permitted-cross-domain-policies": "none",
+    "x-permitted-cross-domain-policies": "none", 
     "x-xss-protection": "1; mode=block",
   });
 
