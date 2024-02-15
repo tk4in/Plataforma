@@ -60,7 +60,7 @@ router.get('/', (req, res, next) => {
       "</title><link rel=dns-prefetch href=https://" + process.env.CDNAddr +
       "><link rel=canonical href=https://" + process.env.WEBAddr +
       " itemprop=url><link rel=icon href='https://" + process.env.CDNAddr + '/' + process.env.AppID +
-      "/img/logo.png' itemprop=image><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/webfonts/fa-regular-400.woff2' as=font type='font/woff2' crossorigin=anonymous><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/webfonts/fa-solid-900.woff2' as=font type='font/woff2' crossorigin=anonymous><meta name=description content='" + lang._DESCRIPTION +
+      "/img/logo.png' itemprop=image><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-regular-400.woff2' as=font type='font/woff2' crossorigin=anonymous><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2' as=font type='font/woff2' crossorigin=anonymous><meta name=description content='" + lang._DESCRIPTION +
       "' itemprop=description><meta name=keywords content='" + lang._KEYWORDS +
       "'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous><link href='https://" + process.env.CDNAddr + '/' + process.env.AppID + "/css/style.css' rel=stylesheet crossorigin=anonymous></head><body>"
   );
