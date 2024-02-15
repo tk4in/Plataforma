@@ -146,7 +146,7 @@ router.get("/main", (req, res, next) => {
     "<div id='content' class='content d-none'><div class='search_div noselect'><div id='barsid' class='bars_icon noselect'><i class='fa fa-fw fa-bars'></i></div><input id='searchbox' type='search' placeholder='" +
       lang._SEARCH +
       "' /><div class='search_icon noselect'><i class='fa fa-fw fa-search'></i></div></div><div class='controls'><div class='switch_style'><img id='street_style' alt='Street layer' src='https://" +
-      process.env.CDNAddr + '/' + process.env.AppID + "/img/street.jpg'><img id='satellite_style' alt='Satellie layer' class='d-none' src='" +
+      process.env.CDNAddr + '/' + process.env.AppID + "/img/street.jpg'><img id='satellite_style' alt='Satellie layer' class='d-none' src='https://" +
       process.env.CDNAddr + '/' + process.env.AppID + "/img/satellite.jpg'></div></div></div>"
   );
 
