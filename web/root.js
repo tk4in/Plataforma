@@ -55,25 +55,14 @@ router.get('/', (req, res, next) => {
 
   // Html
   res.write(
-    "<!DOCTYPE html><html itemscope itemtype='http://schema.org/WebSite'; lang=" +
-      session.lang +
-      "><head><meta name='viewport' content='width=device-width, initial-scale=1'><meta charset=utf-8><title itemprop=name>" +
-      lang._TITLE +
-      "</title><link rel=dns-prefetch href=" +
-      process.env.CDNBase +
-      "><link rel=canonical href=" +
-      process.env.WWWBase +
-      " itemprop=url><link rel=icon href='" +
-      process.env.CDNBase +
-      process.env.AppID +
-      "/img/logo.png' itemprop=image><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/webfonts/fa-regular-400.woff2' as=font type='font/woff2' crossorigin=anonymous><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/webfonts/fa-solid-900.woff2' as=font type='font/woff2' crossorigin=anonymous><meta name=description content='" +
-      lang._DESCRIPTION +
-      "' itemprop=description><meta name=keywords content='" +
-      lang._KEYWORDS +
-      "'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous><link href='" +
-      process.env.CDNBase +
-      process.env.AppID +
-      "/css/style.css' rel=stylesheet crossorigin=anonymous></head><body>"
+    "<!DOCTYPE html><html itemscope itemtype='http://schema.org/WebSite'; lang=" + session.lang +
+      "><head><meta name='viewport' content='width=device-width, initial-scale=1'><meta charset=utf-8><title itemprop=name>" + lang._TITLE +
+      "</title><link rel=dns-prefetch href=" + process.env.CDNBase +
+      "><link rel=canonical href=" + process.env.WWWBase +
+      " itemprop=url><link rel=icon href='" + process.env.CDNBase + process.env.AppID +
+      "/img/logo.png' itemprop=image><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/webfonts/fa-regular-400.woff2' as=font type='font/woff2' crossorigin=anonymous><link rel=preload href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/webfonts/fa-solid-900.woff2' as=font type='font/woff2' crossorigin=anonymous><meta name=description content='" + lang._DESCRIPTION +
+      "' itemprop=description><meta name=keywords content='" + lang._KEYWORDS +
+      "'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css' rel=stylesheet integrity='sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9' crossorigin=anonymous><link href='" + process.env.CDNBase + process.env.AppID + "/css/style.css' rel=stylesheet crossorigin=anonymous></head><body>"
   );
 
   // Block
@@ -130,8 +119,8 @@ router.get('/', (req, res, next) => {
   // Scripts
   res.write(
     "<script async src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm' crossorigin=anonymous></script><script nonce=" + nonce +
-    ">const es=document.getElementsByName('flip');Array.from(es).forEach(function (e){e.addEventListener('click', function(){document.getElementById('login-box').classList.toggle('flipped');});});document.getElementById('log').addEventListener('click', function(){document.getElementById('content').classList.add('blured');document.getElementById('loader-wrap').style.display='block';});"
-  );
+    ">const es=document.getElementsByName('flip');Array.from(es).forEach(function (e){e.addEventListener('click', function(){document.getElementById('login-box').classList.toggle('flipped');});});document.getElementById('log').addEventListener('click', function(){document.getElementById('content').classList.add('blured');document.getElementById('loader-wrap').style.display='block';});" +
+    "if ('caches' in window) {caches.open('" + process.env.AppID + "-models').then((cache) => {	const url = '" + process.env.CDNBase + "3d/cars/car-6RCup.glb';	cache.match(url).then((cachedResponse) => { if (!cachedResponse || !cachedResponse.ok) { const urls = [url, '" + process.env.CDNBase + "3d/air/air-zVuA.glb', '" + process.env.CDNBase + "3d/air/air-oBEWt.glb'];	cache.addAll(urls).then(() => console.log('Data added to cache.')).catch((error) => console.error('Error adding data to cache:', error));}}); }); }");
   res.end("</script></body></html>");
 
 });
