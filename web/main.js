@@ -147,7 +147,7 @@ router.get("/main", (req, res, next) => {
       lang._SEARCH +
       "' /><div class='search_icon noselect'><i class='fa fa-fw fa-search'></i></div></div><div class='controls'><div class='switch_style'><img id='street_style' alt='Street layer' src='https://" +
       process.env.CDNAddr + '/' + process.env.AppID + "/img/street.jpg'><img id='satellite_style' alt='Satellie layer' class='d-none' src='" +
-      process.env.CDNBase + '/' + process.env.AppID + "/img/satellite.jpg'></div></div></div>"
+      process.env.CDNAddr + '/' + process.env.AppID + "/img/satellite.jpg'></div></div></div>"
   );
 
   // Mapa
