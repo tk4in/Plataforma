@@ -35,7 +35,7 @@ router.get('/', (req, res, next) => {
       "default-src https: 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" + nonce +
       "' cdn.jsdelivr.net/npm/ " + process.env.CDNAddr +
       "/; style-src 'self' 'report-sample' cdn.jsdelivr.net/npm/ " + process.env.CDNAddr +
-      "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; img-src 'self' " + process.env.CDNAddr +
+      "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; img-src 'self' data: https: " + process.env.CDNAddr +
       "; font-src cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' " + process.env.CDNAddr + "/; form-action 'self'; media-src 'self'; worker-src 'self'",
       "content-type": "text/html; charset=UTF-8",
     date: new Date().toUTCString(),
