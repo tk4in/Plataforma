@@ -36,7 +36,7 @@ router.get('/', (req, res, next) => {
       "' cdn.jsdelivr.net/npm/ " + process.env.CDNBase +
       "; style-src 'self' 'report-sample' cdn.jsdelivr.net/npm/ " + process.env.CDNBase +
       "; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; img-src 'self' " + process.env.CDNBase +
-      "; font-src cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' *.mapbox.com/; form-action 'self'; media-src 'self'; worker-src 'self'",
+      "; font-src cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' " + process.env.CDNBase + "; form-action 'self'; media-src 'self'; worker-src 'self'",
       "content-type": "text/html; charset=UTF-8",
     date: new Date().toUTCString(),
     "permissions-policy": 'geolocation=(self "' + process.env.WWWBase + '")',
