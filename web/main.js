@@ -41,7 +41,7 @@ router.get("/main", (req, res, next) => {
       "/; form-action 'self'; media-src 'self'; worker-src 'self' blob: https: " +
       process.env.CDNAddr,
     "content-type": "text/html; charset=UTF-8",
-    "date": new Date().toUTCString(),
+    date: new Date().toUTCString(),
     "permissions-policy": 'geolocation=(self "https://' + process.env.WEBAddr + '")',
     "referrer-policy": "no-referrer-when-downgrade",
     "set-cookie":  process.env.SessID + "=" + session.USID + "; Domain=" + process.env.WEBAddr + "; Path=/; Secure; HttpOnly", "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
