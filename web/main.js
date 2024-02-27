@@ -44,7 +44,7 @@ router.get("/main", (req, res, next) => {
     date: new Date().toUTCString(),
     "permissions-policy": 'geolocation=(self "https://' + process.env.WEBAddr + '")',
     "referrer-policy": "no-referrer-when-downgrade",
-    "set-cookie":  process.env.SessID + "=" + session.USID + "; Domain=" + process.env.WEBAddr + "; Path=/; Secure; HttpOnly", "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "set-cookie": process.env.SessID + "=" + session.USID + "; Domain=" + process.env.WEBAddr + "; Path=/; Secure; HttpOnly", "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "vary": "Accept-Encoding",
     "x-content-type-options": "nosniff",
     "x-frame-options": "DENY",
@@ -159,7 +159,7 @@ router.get("/main", (req, res, next) => {
       "<script type=module src='https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js'></script><script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm' crossorigin=anonymous></script>" +
       "<script nonce=" + nonce +
       ">const accessToken='" + process.env.accessToken +
-      "';const CDNAddr='https://" + process.env.CDNAddr +
+      "';const CDNAddr='https://" + process.env.CDNAddr + 
       "/';const HUBAddr='https://" + process.env.HUBIP + ':' + process.env.HUBPort +
       "';const AppID='" + process.env.AppID +
       "';</script><script defer src='https://" + process.env.CDNAddr + '/' + process.env.AppID + "/js/mb.js#" + nonce + "' crossorigin=anonymous></script>"
