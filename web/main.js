@@ -30,22 +30,34 @@ router.get("/main", (req, res, next) => {
     "access-control-allow-methods": "GET,POST",
     "access-control-allow-origin": "'https://" + process.env.WEBAddr + "'",
     "cache-control": "no-cache",
-    "content-Security-Policy": "default-src https: 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" + nonce +
+    "content-Security-Policy":
+      "default-src https: 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" +
+      nonce +
       "' 'self' 'unsafe-eval' cdnjs.cloudflare.com/ajax/libs/socket.io/ cdn.jsdelivr.net/npm/ api.mapbox.com/ www.gstatic.com/draco/ ajax.googleapis.com/ajax/libs/ " +
       process.env.CDNAddr +
       "/; style-src 'self' 'unsafe-hashes' 'unsafe-inline' 'report-sample' fonts.googleapis.com/ fonts.gstatic.com/ cdn.jsdelivr.net/npm/ api.mapbox.com/ " +
       process.env.CDNAddr +
-      "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; child-src 'self'; img-src 'self' data: https: " + process.env.CDNAddr + 
-      "/; font-src https://fonts.gstatic.com/ https://fonts.googleapis.com/ cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' blob: *.mapbox.com/ api.n2yo.com/rest/ www.gstatic.com/draco/ https://" +
-      process.env.HUBIP + "/ ws://" + process.env.HUBIP + "/ " + process.env.CDNAddr +
+      "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; child-src 'self'; img-src 'self' data: https: " +
+      process.env.CDNAddr +
+      "/; font-src https://fonts.gstatic.com/ https://fonts.googleapis.com/ cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' blob: *.mapbox.com/ www.gstatic.com/draco/ https://" +
+      process.env.HUBIP + ":" + process.env.HUBIP + "/" +
+      process.env.CDNAddr +
       "/; form-action 'self'; media-src 'self'; worker-src 'self' blob: https: " +
       process.env.CDNAddr,
     "content-type": "text/html; charset=UTF-8",
     date: new Date().toUTCString(),
-    "permissions-policy": 'geolocation=(self "https://' + process.env.WEBAddr + '")',
+    "permissions-policy":
+      'geolocation=(self "https://' + process.env.WEBAddr + '")',
     "referrer-policy": "no-referrer-when-downgrade",
-    "set-cookie": process.env.SessID + "=" + session.USID + "; Domain=" + process.env.WEBAddr + "; Path=/; Secure; HttpOnly", "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "vary": "Accept-Encoding",
+    "set-cookie":
+      process.env.SessID +
+      "=" +
+      session.USID +
+      "; Domain=" +
+      process.env.WEBAddr +
+      "; Path=/; Secure; HttpOnly",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    vary: "Accept-Encoding",
     "x-content-type-options": "nosniff",
     "x-frame-options": "DENY",
     "x-permitted-cross-domain-policies": "none",
