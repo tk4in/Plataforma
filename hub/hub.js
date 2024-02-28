@@ -15,11 +15,7 @@ require("dotenv").config({ path: "../.env" });
 /****************************************************************************************************/
 /* Gera as chaves publica e privada para encriptar													*/
 /****************************************************************************************************/
-const {
-  generateKeyPairSync,
-  createSign,
-  createVerify,
-} = require("node:crypto");
+const { generateKeyPairSync, createSign, createVerify} = require("node:crypto");
 const { publicKey, privateKey } = generateKeyPairSync("rsa", {
   modulusLength: 2048,
   publicKeyEncoding: { type: "pkcs1", format: "pem" },
@@ -43,19 +39,21 @@ const io = require("socket.io")(http, {
 });
 
 io.on("connection", (socket) => {
-  // Envia nome do app versao e a chave publica para troca de messagens
-  socket.emit("message", `{"msgid":"HELLO","content":{"app":"${process.title}","version":"${version}","pubkey":"${publicKey}"}}` );
-  // Inicializa a sessão
-  socket.on("session", (data) => {
-    //socket.emit('begin_update', '{"name":"'+process.title+'","version":"'+Version+'"}');
-    GNSSInfo(socket, -23.513346, -46.631134);
-  });
   // Trata as memssagens
   socket.on("message", (msg) => {
     let jmsg = JSON.parse(msg);
     switch (jmsg.msgid) {
-      case "START": // Inicializa a sessão
-        break;
+		case "START": // Inicializa a sessão
+    	    break;
+
+		case "GNSS": // Inicializa a sessão
+			GNSSInfo(socket, -23.513346, -46.631134);
+			break;
+
+		case "HELLO": // Se apresenta
+			// Envia nome do app versao e a chave publica para troca de messagens
+			socket.emit("message", `{"msgid":"HELLO","content":{"app":"${process.title}","version":"${version}","pubkey":"${publicKey}"}}` );
+        	break;
     }
     //socket.broadcast.emit('message', msg);
   });
@@ -66,10 +64,7 @@ async function SendMsg(socket, msgid, content) {
   signer.update(content);
   let auth = signer.sign(privateKey, "base64");
   console.log(`{"msgid":"${msgid}","auth":"${auth}","content":${content}}`);
-  socket.emit(
-    "message",
-    `{"msgid":"${msgid}","auth":"${auth}","content":${content}}`
-  );
+  socket.emit("message", `{"msgid":"${msgid}","auth":"${auth}","content":${content}}` );
 
   /*verifier = createVerify("RSA-SHA256");
 verifier.update(content);
