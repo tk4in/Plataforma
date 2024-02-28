@@ -69,7 +69,7 @@ setInterval(function() {
 },60000);
 
 /****************************************************************************************************/
-/* Cria o servidor https que vai servir o conteúdo													                        */
+/* Cria o servidor https que vai servir o conteúdo													*/
 /****************************************************************************************************/
 const express = require('express')
 const http2Express = require('http2-express-bridge')
