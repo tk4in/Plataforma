@@ -23,7 +23,7 @@ const { publicKey, privateKey } = generateKeyPairSync("rsa", {
 });
 
 /****************************************************************************************************/
-/* Create and open express connection 																*/
+/* Cria e abre uma conexão express	 																*/
 /****************************************************************************************************/
 const app = require("express");
 const http = require("http").createServer(app);
@@ -50,8 +50,8 @@ io.on("connection", (socket) => {
 			GNSSInfo(socket, -23.513346, -46.631134);
 			break;
 
-		case "HELLO": // Se apresenta
-			// Envia nome do app versao e a chave publica para troca de messagens
+		case "HELLO": 	// Envia nome do app versao e a chave publica para troca de messagens
+
 			socket.emit("message", `{"msgid":"HELLO","content":{"app":"${process.title}","version":"${version}","pubkey":"${publicKey}"}}` );
         	break;
     }
@@ -80,13 +80,13 @@ async function GNSSInfo(socket, lat, lng) {
         data.above.forEach((element) => {
           gnss += `{"name":"${element.satname}","lat":"${element.satlat}","lng":"${element.satlng}","alt":"${element.satalt}","designator":"${element.intDesignator}"},`;
         });
-        SendMsg(socket, `GNSS${constellation}`, gnss.slice(0, -1) + `]}`);
+		socket.emit("message", '{"msgid":"GNSS' + constellation + '","content":"' + gnss.slice(0, -1) + ']}"}');
       }).catch((error) => console.error(error));
   });
 }
 
 /****************************************************************************************************/
-/* Create and open Redis connection 																*/
+/* Cria e abre uma conexão Redis	 																*/
 /****************************************************************************************************/
 const Redis = require("ioredis");
 const hub = new Redis({host: process.env.RD_host, port: process.env.RD_port, password: process.env.RD_pass});
@@ -96,20 +96,7 @@ const pub = new Redis({host: process.env.RD_host, port: process.env.RD_port, pas
 async function PublishUpdate() {
   GetDate().then((dte) => {
     let uptime = Date.parse(dte) - starttime;
-    pub.publish(
-      "san:server_update",
-      '{"name":"' +
-        process.title +
-        '","version":"' +
-        version +
-        '","ipport":"' +
-        process.env.HUBIP +
-        ":" +
-        process.env.HUBPort +
-        '","uptime":"' +
-        Math.floor(uptime / 60000) +
-        '"}'
-    );
+    pub.publish( "san:server_update", '{"name":"' + process.title + '","version":"' + version + '","ipport":"' + process.env.HUBIP + ":" + process.env.HUBPort + '","uptime":"' + Math.floor(uptime / 60000) + '"}');
   });
 }
 
@@ -148,13 +135,7 @@ const mysql = require('mysql2');
 const db = mysql.createPool({host:process.env.DB_host, database:process.env.DB_name, user:process.env.DB_user, password:process.env.DB_pass, connectionLimit:10});
 
 // Initialize global variables
-var starttime = 0,
-  numdev = 0,
-  msgsin = 0,
-  msgsout = 0,
-  bytsin = 0,
-  bytsout = 0,
-  bytserr = 0;
+var starttime = 0, numdev = 0, msgsin = 0, msgsout = 0, bytsin = 0, bytsout = 0, bytserr = 0;
 
 // Update statistics ever 60s
 setInterval(function () {
@@ -167,18 +148,7 @@ setInterval(function () {
     if (!err) {
       connection.query(
         "INSERT INTO syslog (datlog,server,version,ipport,devices,msgsin,msgsout,bytsin,bytsout,bytserr) VALUES (?,?,?,?,?,?,?,?,?,?)",
-        [
-          dte,
-          process.title,
-          version,
-          process.env.SrvIP + ":" + process.env.SrvPort,
-          numdev,
-          msgsin,
-          msgsout,
-          bytsin,
-          bytsout,
-          bytserr,
-        ],
+        [dte, process.title, version, process.env.SrvIP + ":" + process.env.SrvPort, numdev, msgsin, msgsout, bytsin, bytsout, bytserr],
         function (err, result) {
           connection.release();
           if (err) (err) => console.error(err);
