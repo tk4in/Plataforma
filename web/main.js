@@ -165,7 +165,7 @@ router.get("/main", (req, res, next) => {
   res.write("<div id='map' class='map'></div>");
 
   // Scripts
-  res.write("<script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.min.js' integrity='sha512-skuhu6jj+sQnhLq1Txsack8VfnIrX8wL+MTFilYlFFT/NuLJm7eya7zOROs39Jy5cjASMEWqxLzijRVmKhsqWQ==' crossorigin=anonymous></script>" +
+  res.write("<script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js' integrity='sha512-+f5zHh0q6pj9rhdxgaL5u6H+PnKADOwJSNfQM9NcavVq4y3GnzoRqoVih4Exd//uzdqE7XqnjtQyfr0GuVId2A==' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.min.js' integrity='sha512-skuhu6jj+sQnhLq1Txsack8VfnIrX8wL+MTFilYlFFT/NuLJm7eya7zOROs39Jy5cjASMEWqxLzijRVmKhsqWQ==' crossorigin=anonymous></script>" +
       "<script type module src='https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js' integrity='sha512-7aWZDAF0AfUGit0ugd2rk8PxytqMiqaEZnUcXmmH0OcF/aGnGa0uQou8MXJthNjNpIC8yI9G9sWvMXXbn0boxg==' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js' integrity='sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==' crossorigin=anonymous></script>" +
       "<script nonce=" + nonce +
       ">const accessToken='" + process.env.accessToken +
