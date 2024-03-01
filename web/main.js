@@ -81,7 +81,7 @@ router.get("/main", (req, res, next) => {
       "/img/logo.png'><meta name='viewport' content='width=device-width, initial-scale=1'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://fonts.googleapis.com/css2?family=Russo+One&family=Sarala:wght@700&display=swap' rel='stylesheet'>"
   );
   res.write(
-    "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css' integrity='sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==' crossorigin=anonymous /><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/3.2.0/mapbox-gl.min.css' integrity='sha512-bO5qtUO8dOCnH8R2KGwkBv0OslCpuOWrMZtMXRxqCgMRzo3w5OmebZZBfr3jhfHKTcnHgEfQhAaTVdyQhoP+pw==' crossorigin=anonymous />"
+    "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css' integrity='sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==' crossorigin=anonymous /><link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' crossorigin=anonymous />"
   );
   res.write(
     "<link rel=stylesheet href='https://" +
@@ -165,7 +165,7 @@ router.get("/main", (req, res, next) => {
   res.write("<div id='map' class='map'></div>");
 
   // Scripts
-  res.write("<script src='https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/3.2.0/mapbox-gl.min.js' integrity='sha512-1GxuKJG8lAS3n28x5b43QsKP3CTkKXHeqAz3mWlCjLtCQcx7g3YVXrVwDFp98cr9uvHAqUmqzy8Dfynxr1+q+w==' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.min.js' integrity='sha512-skuhu6jj+sQnhLq1Txsack8VfnIrX8wL+MTFilYlFFT/NuLJm7eya7zOROs39Jy5cjASMEWqxLzijRVmKhsqWQ==' crossorigin=anonymous></script>" +
+  res.write("<script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.min.js' integrity='sha512-skuhu6jj+sQnhLq1Txsack8VfnIrX8wL+MTFilYlFFT/NuLJm7eya7zOROs39Jy5cjASMEWqxLzijRVmKhsqWQ==' crossorigin=anonymous></script>" +
       "<script type module src='https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js' integrity='sha512-7aWZDAF0AfUGit0ugd2rk8PxytqMiqaEZnUcXmmH0OcF/aGnGa0uQou8MXJthNjNpIC8yI9G9sWvMXXbn0boxg==' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js' integrity='sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==' crossorigin=anonymous></script>" +
       "<script nonce=" + nonce +
       ">const accessToken='" + process.env.accessToken +
