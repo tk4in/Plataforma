@@ -33,9 +33,9 @@ router.get("/main", (req, res, next) => {
     "content-Security-Policy":
       "default-src https: 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" +
       nonce +
-      "' 'self' 'unsafe-eval' cdnjs.cloudflare.com/ajax/libs/socket.io/ cdn.jsdelivr.net/npm/ api.mapbox.com/ www.gstatic.com/draco/ ajax.googleapis.com/ajax/libs/ " +
+      "' 'self' 'unsafe-eval' cdnjs.cloudflare.com/ajax/libs/ api.mapbox.com/ www.gstatic.com/draco/ ajax.googleapis.com/ajax/libs/ " +
       process.env.CDNAddr +
-      "/; style-src 'self' 'unsafe-hashes' 'unsafe-inline' 'report-sample' fonts.googleapis.com/ fonts.gstatic.com/ cdn.jsdelivr.net/npm/ api.mapbox.com/ " +
+      "/; style-src 'self' 'unsafe-hashes' 'unsafe-inline' 'report-sample' cdnjs.cloudflare.com/ajax/libs/ fonts.googleapis.com/ fonts.gstatic.com/ api.mapbox.com/ " +
       process.env.CDNAddr +
       "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; child-src 'self'; img-src 'self' data: https: " +
       process.env.CDNAddr +
