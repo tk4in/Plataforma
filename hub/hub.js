@@ -1,19 +1,19 @@
-/****************************************************************************************************/
-/* HUB		                                                                                        */
-/* Para executar use: node hub.js &        		                                                    */
-/****************************************************************************************************/
+/***************************************************************************************************/
+/* HUB		                                                                                         */
+/* Para executar use: node hub.js &        		                                                     */
+/***************************************************************************************************/
 process.title = "hub";
 const version = "v1.0.0";
 
 const { GetDate } = require("../utils/utils.js");
 
 /****************************************************************************************************/
-/* Le as variáveis de ambiente																		*/
+/* Le as variáveis de ambiente																		                                  */
 /****************************************************************************************************/
 require("dotenv").config({ path: "../.env" });
 
 /****************************************************************************************************/
-/* Gera as chaves publica e privada para encriptar													*/
+/* Gera as chaves publica e privada para encriptar										                        			*/
 /****************************************************************************************************/
 const { generateKeyPairSync, createSign, createVerify} = require("node:crypto");
 const { publicKey, privateKey } = generateKeyPairSync("rsa", {
@@ -39,37 +39,52 @@ const io = require("socket.io")(http, {
 });
 
 io.on("connection", (socket) => {
-  // Trata as memssagens
+  // Trata as menssagens
   socket.on("message", (msg) => {
+    // Atualiza contadores
+    bytsin=bytsin + msg.length;
+    msgsin++;
+    // converte em JSON
     let jmsg = JSON.parse(msg);
+
+    /*if (jmsg.auth) {
+      verifier = createVerify("RSA-SHA256");
+      verifier.update(content);
+      result = verifier.verify(publicKey, auth, "base64");
+      console.log(result);//true
+    }*/
     switch (jmsg.msgid) {
-		case "START": // Inicializa a sessão
+		  case "START":     // Inicializa a sessão
     	    break;
 
-		case "GNSS": // Inicializa a sessão
-			GNSSInfo(socket, -23.513346, -46.631134);
-			break;
+		  case "GNSS":      // Inicializa a sessão
 
-		case "HELLO": 	// Envia nome do app versao e a chave publica para troca de messagens
+			    GNSSInfo(socket, -23.513346, -46.631134);
+			    break;
 
-			socket.emit("message", `{"msgid":"HELLO","content":{"app":"${process.title}","version":"${version}","pubkey":"${publicKey}"}}` );
-        	break;
+		  case "HELLO": 	  // Envia nome do app versao e a chave publica para troca de messagens
+
+          SendMsg(socket,"HELLO", `{"msgid":"HELLO","content":{"app":"${process.title}","version":"${version}","pubkey":"${publicKey}"}}`,false)
+     	    break;
     }
-    //socket.broadcast.emit('message', msg);
   });
 });
 
-async function SendMsg(socket, msgid, content) {
-  signer = createSign("RSA-SHA256");
-  signer.update(content);
-  let auth = signer.sign(privateKey, "base64");
-  console.log(`{"msgid":"${msgid}","auth":"${auth}","content":${content}}`);
-  socket.emit("message", `{"msgid":"${msgid}","auth":"${auth}","content":${content}}` );
-
-  /*verifier = createVerify("RSA-SHA256");
-verifier.update(content);
-result = verifier.verify(publicKey, sign, "base64");
-console.log(result);//true */
+async function SendMsg(socket, msgid, content, secure) {
+  if (secure) {
+    signer = createSign("RSA-SHA256");
+    signer.update(content);
+    auth = signer.sign(privateKey, "base64");
+    msg = `{"msgid":"${msgid}","auth":"${auth}","content":${content}}`;
+  } else {
+    msg = `{"msgid":"${msgid}","content":${content}}`;
+  }
+  // Envia menssagem
+  console.log(msg);
+  socket.emit("message", msg);
+  // Atualiza contadores
+  bytsout=bytsout + msg.length;
+  msgsout++;
 }
 
 async function GNSSInfo(socket, lat, lng) {
@@ -80,13 +95,13 @@ async function GNSSInfo(socket, lat, lng) {
         data.above.forEach((element) => {
           gnss += `{"name":"${element.satname}","lat":"${element.satlat}","lng":"${element.satlng}","alt":"${element.satalt}","designator":"${element.intDesignator}"},`;
         });
-		socket.emit("message", '{"msgid":"GNSS' + constellation + '","content":"' + gnss.slice(0, -1) + ']}"}');
+        SendMsg(socket, "GNSS", gnss.slice(0, -1) + ']}"}', true)
       }).catch((error) => console.error(error));
   });
 }
 
 /****************************************************************************************************/
-/* Cria e abre uma conexão Redis	 																*/
+/* Cria e abre uma conexão Redis	 																                                  */
 /****************************************************************************************************/
 const Redis = require("ioredis");
 const hub = new Redis({host: process.env.RD_host, port: process.env.RD_port, password: process.env.RD_pass});
@@ -100,7 +115,7 @@ async function PublishUpdate() {
   });
 }
 
-// Updates server status as soon as it successfully connects
+// Publica o STATUS assim que se conectar no HUB
 hub.on("connect", function () {
   PublishUpdate();
   GetDate().then((dte) => {
@@ -109,14 +124,14 @@ hub.on("connect", function () {
   });
 });
 
-// Subscribe on chanels
+// Se inscreve nos canais para receber comunicações
 hub.subscribe("san:server_update", "san:monitor_update", (err, count) => {
   if (err) {
-    console.log("\u001b[36m" + dte + ": \u001b[31mFailed to subscribe: " + err.message + "\u001b[0m");
+    console.log("\u001b[36m" + dte + ": \u001b[31mFalha na inscrição: " + err.message + "\u001b[0m");
   }
 });
 
-// Waiting messages
+// Aguarda messagens dos canais
 hub.on("message", (channel, message) => {
   switch (channel) {
     case "san:server_update":
@@ -129,7 +144,7 @@ hub.on("message", (channel, message) => {
 });
 
 /****************************************************************************************************/
-/* Cria e abre uma conexão MySQL																	*/
+/* Cria e abre uma conexão MySQL										                                  							*/
 /****************************************************************************************************/
 const mysql = require('mysql2');
 const db = mysql.createPool({host:process.env.DB_host, database:process.env.DB_name, user:process.env.DB_user, password:process.env.DB_pass, connectionLimit:10});
@@ -137,17 +152,16 @@ const db = mysql.createPool({host:process.env.DB_host, database:process.env.DB_n
 // Initialize global variables
 var starttime = 0, numdev = 0, msgsin = 0, msgsout = 0, bytsin = 0, bytsout = 0, bytserr = 0;
 
-// Update statistics ever 60s
+// Grava estatísticas a cada 60s
 setInterval(function () {
   // Pega data e hora GMT
   let dte = new Date(new Date().getTime()).toISOString().replace(/T/, " ").replace(/\..+/, "");
-  // Publish update status
+  // Publica o STATUS do serviço
   PublishUpdate();
-  // Update database
+  // Atualiza banco de dados
   db.getConnection(function (err, connection) {
     if (!err) {
-      connection.query(
-        "INSERT INTO syslog (datlog,server,version,ipport,devices,msgsin,msgsout,bytsin,bytsout,bytserr) VALUES (?,?,?,?,?,?,?,?,?,?)",
+      connection.query("INSERT INTO syslog (datlog,server,version,ipport,devices,msgsin,msgsout,bytsin,bytsout,bytserr) VALUES (?,?,?,?,?,?,?,?,?,?)",
         [dte, process.title, version, process.env.SrvIP + ":" + process.env.SrvPort, numdev, msgsin, msgsout, bytsin, bytsout, bytserr],
         function (err, result) {
           connection.release();
@@ -164,7 +178,7 @@ setInterval(function () {
 }, 60000);
 
 /****************************************************************************************************/
-/* Mostra os parâmetros no Log e aguarda conexões													*/
+/* Mostra os parâmetros no Log e aguarda conexões						                           							*/
 /****************************************************************************************************/
 const OS = require("node:os");
 

@@ -36,7 +36,7 @@ async function PublishUpdate() {
 hub.on('connect', function () { PublishUpdate(); GetDate().then(dte =>{ console.log('\u001b[36m'+dte+': \u001b[32mHUB conectado.\u001b[0;0m');
 																		console.log('\u001b[36m'+dte+': \u001b[32mAguardando clientes...\u001b[0;0m');}); });
 
-// Se increve nos canais para receber comunicações
+// Se inscreve nos canais para receber comunicações
 hub.subscribe("san:server_update","san:monitor_update", (err, count) => {
   if (err) {
 	  console.log('\u001b[36m'+dte+': \u001b[31mFalha na inscrição: '+ err.message +'\u001b[0m');
@@ -98,7 +98,7 @@ app.use(function (req, res, next) {
 });
 
 /****************************************************************************************************/
-/* Rotas																						                                              	*/
+/* Rotas											                                              	*/
 /****************************************************************************************************/
 const root = require("./root");
 app.use("/", root);
@@ -112,7 +112,7 @@ app.get("/favicon.ico", function (req, res) {
 });
 
 /****************************************************************************************************/
-/* 	Mostra os parâmetros no Log e aguarda conexões													                        */
+/* 	Mostra os parâmetros no Log e aguarda conexões							                        */
 /****************************************************************************************************/
 const OS = require('node:os');
 
