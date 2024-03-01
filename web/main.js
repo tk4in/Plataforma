@@ -46,8 +46,7 @@ router.get("/main", (req, res, next) => {
       process.env.CDNAddr,
     "content-type": "text/html; charset=UTF-8",
     date: new Date().toUTCString(),
-    "permissions-policy":
-      'geolocation=(self "https://' + process.env.WEBAddr + '")',
+    "permissions-policy": 'geolocation=(self "https://' + process.env.WEBAddr + '")',
     "referrer-policy": "no-referrer-when-downgrade",
     "set-cookie":
       process.env.SessID +
@@ -167,10 +166,10 @@ router.get("/main", (req, res, next) => {
 
   // Scripts
   res.write("<script src='https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/3.2.0/mapbox-gl.min.js' integrity='sha512-1GxuKJG8lAS3n28x5b43QsKP3CTkKXHeqAz3mWlCjLtCQcx7g3YVXrVwDFp98cr9uvHAqUmqzy8Dfynxr1+q+w==' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.min.js' integrity='sha512-skuhu6jj+sQnhLq1Txsack8VfnIrX8wL+MTFilYlFFT/NuLJm7eya7zOROs39Jy5cjASMEWqxLzijRVmKhsqWQ==' crossorigin=anonymous></script>" +
-      "<script type=module src='https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js' integrity='sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==' crossorigin=anonymous></script>" +
+      "<script type module src='https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js' integrity='sha512-7aWZDAF0AfUGit0ugd2rk8PxytqMiqaEZnUcXmmH0OcF/aGnGa0uQou8MXJthNjNpIC8yI9G9sWvMXXbn0boxg==' crossorigin=anonymous></script><script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js' integrity='sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==' crossorigin=anonymous></script>" +
       "<script nonce=" + nonce +
       ">const accessToken='" + process.env.accessToken +
-      "';const CDNAddr='https://" + process.env.CDNAddr + 
+      "';const CDNAddr='https://" + process.env.CDNAddr +
       "/';const HUBAddr='https://" + process.env.HUBIP + ':' + process.env.HUBPort +
       "';const AppID='" + process.env.AppID +
       "';</script><script defer src='https://" + process.env.CDNAddr + '/' + process.env.AppID + "/js/mb.js#" + nonce + "' crossorigin=anonymous></script>"
