@@ -33,8 +33,8 @@ router.get('/', (req, res, next) => {
     "cache-control": "no-cache",
     "content-security-policy":
       "default-src https: 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" + nonce +
-      "' cdn.jsdelivr.net/npm/ " + process.env.CDNAddr +
-      "/; style-src 'self' 'report-sample' cdn.jsdelivr.net/npm/ " + process.env.CDNAddr +
+      "' cdnjs.cloudflare.com/ajax/libs/ " + process.env.CDNAddr +
+      "/; style-src 'self' 'report-sample' cdnjs.cloudflare.com/ajax/libs/ " + process.env.CDNAddr +
       "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; img-src 'self' data: https: " + process.env.CDNAddr +
       "; font-src cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' " + process.env.CDNAddr + "/; form-action 'self'; media-src 'self'; worker-src 'self'",
       "content-type": "text/html; charset=UTF-8",
@@ -43,7 +43,7 @@ router.get('/', (req, res, next) => {
     "referrer-policy": "no-referrer-when-downgrade",
     "set-cookie": process.env.SessID + "=" + session.USID + "; Domain=" + process.env.WEBAddr + "; Path=/; Secure; HttpOnly",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "vary": "Accept-Encoding",
+    vary: "Accept-Encoding",
     "x-content-type-options": "nosniff",
     "x-frame-options": "DENY",
     "x-permitted-cross-domain-policies": "none", 
