@@ -43,7 +43,7 @@ router.get("/main", (req, res, next) => {
       process.env.HUBIP + ":" + process.env.HUBPort + "/ " +
       process.env.CDNAddr +
       "/; form-action 'self'; media-src 'self'; worker-src 'self' blob: https: " +
-      process.env.CDNAddr,
+      process.env.CDNAddr +"/",
     "content-type": "text/html; charset=UTF-8",
     date: new Date().toUTCString(),
     "permissions-policy": 'geolocation=(self "https://' + process.env.WEBAddr + '")',
@@ -54,7 +54,7 @@ router.get("/main", (req, res, next) => {
       session.USID +
       "; Domain=" +
       process.env.WEBAddr +
-      "; Path=/; Secure; HttpOnly",
+      "; Path=/; Samesite; Secure; HttpOnly",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     vary: "Accept-Encoding",
     "x-content-type-options": "nosniff",
