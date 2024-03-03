@@ -172,7 +172,8 @@ router.get("/main", (req, res, next) => {
       "';const CDNAddr='https://" + process.env.CDNAddr +
       "/';const HUBAddr='https://" + process.env.HUBIP + ':' + process.env.HUBPort +
       "';const AppID='" + process.env.AppID +
-      "';</script><script defer src='https://" + process.env.CDNAddr + '/' + process.env.AppID + "/js/mb.js#" + nonce + "' crossorigin=anonymous></script>"
+      "';const USID='" + session.USID +
+      "';</script><script defer src='https://" + process.env.CDNAddr + "/" + process.env.AppID + "/jslib/" + process.env.AppVersion + "/mb.js#" + nonce + "' crossorigin=anonymous></script>"
   );
   res.end("</body></html>");
 });

@@ -3,7 +3,7 @@
 /* Para executar use: node hub.js &        		                                                     */
 /***************************************************************************************************/
 process.title = "hub";
-const version = "v1.0.0";
+const version = "2.0.0";
 
 const { GetDate } = require("../utils/utils.js");
 
@@ -11,6 +11,78 @@ const { GetDate } = require("../utils/utils.js");
 /* Le as variáveis de ambiente																		                                  */
 /****************************************************************************************************/
 require("dotenv").config({ path: "../.env" });
+
+/****************************************************************************************************/
+/* Cria e abre uma conexão Redis	 																                                  */
+/****************************************************************************************************/
+const Redis = require("ioredis");
+const hub = new Redis({host:process.env.RD_host, port:process.env.RD_port, password:process.env.RD_pass});
+const pub = new Redis({host:process.env.RD_host, port:process.env.RD_port, password:process.env.RD_pass});
+
+// Publica o STATUS do serviço
+async function PublishUpdate() {
+    GetDate().then(dte => {
+        let uptime = Date.parse(dte) - starttime;
+        pub.publish('san:server_update', '{"app":"' + process.title + '","version":"' + process.env.CoreVersion + '","addr":"' + process.env.HUBAddr + ":" + process.env.HUBPort + '","uptime":"' + Math.floor(uptime / 60000) + '"}');
+    });
+}
+
+// Publica o STATUS assim que se conectar no HUB
+hub.on('connect', function () { PublishUpdate(); GetDate().then(dte =>{ console.log('\u001b[36m'+dte+': \u001b[32mHUB conectado.\u001b[0;0m');
+																		console.log('\u001b[36m'+dte+': \u001b[32mAguardando clientes...\u001b[0;0m');}); });
+
+// Se inscreve nos canais para receber comunicações
+hub.subscribe("san:server_update", "san:monitor_update", (err, count) => {
+  if (err) {
+    console.log("\u001b[36m" + dte + ": \u001b[31mFalha na inscrição: " + err.message + "\u001b[0m");
+  }
+});
+
+// Aguarda messagens dos canais
+hub.on("message", (channel, message) => {
+  switch (channel) {
+    case "san:server_update":
+      break;
+
+    case "san:monitor_update":
+      io.emit("dev_monitor", message);
+      break;
+  }
+});
+
+/****************************************************************************************************/
+/* Cria e abre uma conexão MySQL										                                  							*/
+/****************************************************************************************************/
+const mysql = require('mysql2');
+const db = mysql.createPool({host:process.env.DB_host, database:process.env.DB_name, user:process.env.DB_user, password:process.env.DB_pass, connectionLimit:10});
+
+// Inicializa variáveis globais		
+var starttime=0,numdev=0,msgsin=0,msgsout=0,bytsin=0,bytsout=0,bytserr=0;
+
+// Grava estatísticas a cada 60s
+setInterval(function() {
+  // Publica o STATUS do serviço
+  PublishUpdate();
+  // Pega data e hora GMT
+  let dte = new Date(new Date().getTime()).toISOString().replace(/T/, " ").replace(/\..+/, "");
+  // Atualiza banco de dados
+  db.getConnection(function (err, connection) {
+    if (!err) {
+      connection.query("INSERT INTO syslog (datlog,server,version,ipport,devices,msgsin,msgsout,bytsin,bytsout,bytserr) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        [dte, process.title, process.env.CoreVersion, process.env.HUBAddr + ":" + process.env.HUBPort, numdev, msgsin, msgsout, bytsin, bytsout, bytserr],
+        function (err, result) {
+          connection.release();
+          if (err) (err) => console.error(err);
+        }
+      );
+    }
+    msgsin = 0;
+    msgsout = 0;
+    bytsin = 0;
+    bytsout = 0;
+    bytserr = 0;
+  });
+}, 60000);
 
 /****************************************************************************************************/
 /* Gera as chaves publica e privada para encriptar										                        			*/
@@ -23,14 +95,14 @@ const { publicKey, privateKey } = generateKeyPairSync("rsa", {
 });
 
 /****************************************************************************************************/
-/* Cria e abre uma conexão express	 																*/
+/* Cria e abre uma conexão express	 																                                */
 /****************************************************************************************************/
 const app = require("express");
 const http = require("http").createServer(app);
 http.listen(process.env.HUBPort || 50900);
 
 /****************************************************************************************************/
-/* Socket.io      																					*/
+/* Socket.io      																					                                        */
 /****************************************************************************************************/
 const io = require("socket.io")(http, {
   cors: {
@@ -44,7 +116,7 @@ io.on("connection", (socket) => {
     // Atualiza contadores
     bytsin=bytsin + msg.length;
     msgsin++;
-    // converte em JSON
+    // Converte em JSON
     let jmsg = JSON.parse(msg);
 
     /*if (jmsg.auth) {
@@ -64,7 +136,7 @@ io.on("connection", (socket) => {
 
 		  case "HELLO": 	  // Envia nome do app versao e a chave publica para troca de messagens
 
-          SendMsg(socket,"HELLO", `{"msgid":"HELLO","content":{"app":"${process.title}","version":"${version}","pubkey":"${publicKey}"}}`,false)
+          SendMsg(socket,"HELLO", `{"msgid":"HELLO","content":{"app":"${process.title}","version":"${process.env.CoreVersion}","pubkey":"${publicKey}"}}`,false)
      	    break;
     }
   });
@@ -101,83 +173,6 @@ async function GNSSInfo(socket, lat, lng) {
 }
 
 /****************************************************************************************************/
-/* Cria e abre uma conexão Redis	 																                                  */
-/****************************************************************************************************/
-const Redis = require("ioredis");
-const hub = new Redis({host: process.env.RD_host, port: process.env.RD_port, password: process.env.RD_pass});
-const pub = new Redis({host: process.env.RD_host, port: process.env.RD_port, password: process.env.RD_pass});
-
-// Publica STATUS
-async function PublishUpdate() {
-  GetDate().then((dte) => {
-    let uptime = Date.parse(dte) - starttime;
-    pub.publish( "san:server_update", '{"name":"' + process.title + '","version":"' + version + '","ipport":"' + process.env.HUBIP + ":" + process.env.HUBPort + '","uptime":"' + Math.floor(uptime / 60000) + '"}');
-  });
-}
-
-// Publica o STATUS assim que se conectar no HUB
-hub.on("connect", function () {
-  PublishUpdate();
-  GetDate().then((dte) => {
-    console.log("\u001b[36m" + dte + ": \u001b[32mHUB conectado.\u001b[0;0m");
-    console.log("\u001b[36m" + dte + ": \u001b[32mAguardando clientes...\u001b[0;0m");
-  });
-});
-
-// Se inscreve nos canais para receber comunicações
-hub.subscribe("san:server_update", "san:monitor_update", (err, count) => {
-  if (err) {
-    console.log("\u001b[36m" + dte + ": \u001b[31mFalha na inscrição: " + err.message + "\u001b[0m");
-  }
-});
-
-// Aguarda messagens dos canais
-hub.on("message", (channel, message) => {
-  switch (channel) {
-    case "san:server_update":
-      break;
-
-    case "san:monitor_update":
-      io.emit("dev_monitor", message);
-      break;
-  }
-});
-
-/****************************************************************************************************/
-/* Cria e abre uma conexão MySQL										                                  							*/
-/****************************************************************************************************/
-const mysql = require('mysql2');
-const db = mysql.createPool({host:process.env.DB_host, database:process.env.DB_name, user:process.env.DB_user, password:process.env.DB_pass, connectionLimit:10});
-
-// Initialize global variables
-var starttime = 0, numdev = 0, msgsin = 0, msgsout = 0, bytsin = 0, bytsout = 0, bytserr = 0;
-
-// Grava estatísticas a cada 60s
-setInterval(function () {
-  // Pega data e hora GMT
-  let dte = new Date(new Date().getTime()).toISOString().replace(/T/, " ").replace(/\..+/, "");
-  // Publica o STATUS do serviço
-  PublishUpdate();
-  // Atualiza banco de dados
-  db.getConnection(function (err, connection) {
-    if (!err) {
-      connection.query("INSERT INTO syslog (datlog,server,version,ipport,devices,msgsin,msgsout,bytsin,bytsout,bytserr) VALUES (?,?,?,?,?,?,?,?,?,?)",
-        [dte, process.title, version, process.env.SrvIP + ":" + process.env.SrvPort, numdev, msgsin, msgsout, bytsin, bytsout, bytserr],
-        function (err, result) {
-          connection.release();
-          if (err) (err) => console.error(err);
-        }
-      );
-    }
-    msgsin = 0;
-    msgsout = 0;
-    bytsin = 0;
-    bytsout = 0;
-    bytserr = 0;
-  });
-}, 60000);
-
-/****************************************************************************************************/
 /* Mostra os parâmetros no Log e aguarda conexões						                           							*/
 /****************************************************************************************************/
 const OS = require("node:os");
@@ -188,7 +183,7 @@ GetDate().then((dte) => {
   // Mostra parâmetros no LOG
   console.log("\u001b[36m" + dte + ": \u001b[37m================================");
   console.log("\u001b[36m" + dte + ": \u001b[37mAPP : " + process.title + " (" + version + ")");
-  console.log("\u001b[36m" + dte + ": \u001b[37mIP/Port : " + process.env.HUBIP + ":" + process.env.HUBPort);
+  console.log("\u001b[36m" + dte + ": \u001b[37mIP/Port : " + process.env.HUBAddr + ":" + process.env.HUBPort);
   console.log("\u001b[36m" + dte + ": \u001b[37mCPUs: " + OS.cpus().length);
   console.log("\u001b[36m" + dte + ": \u001b[37m================================");
 });

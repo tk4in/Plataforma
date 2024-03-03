@@ -3,14 +3,9 @@
 /* Para executar use: node web.js &        		                                                    */
 /****************************************************************************************************/
 process.title = 'web';
-const version = 'v2.0.0';
+const version = '2.0.0';
 
 const { GetDate, GetUSID } = require('../utils/utils.js');
-
-/****************************************************************************************************/
-/* Inicializa variáveis globais																		*/
-/****************************************************************************************************/
-var starttime=0,numdev=0,msgsin=0,msgsout=0,bytsin=0,bytsout=0,bytserr=0;
 
 /****************************************************************************************************/
 /* Le as variáveis de ambiente																		*/
@@ -28,7 +23,7 @@ const pub = new Redis({host:process.env.RD_host, port:process.env.RD_port, passw
 async function PublishUpdate() {
 	GetDate().then(dte => {
 		let uptime = Date.parse(dte) - starttime;
-		pub.publish('san:server_update','{"name":"'+process.title+'","version":"'+version+'","addr":"https://'+process.env.WEBAddr+'","uptime":"'+Math.floor(uptime/60000)+'"}');
+		pub.publish('san:server_update', '{"app":"' + process.env.AppID+'","version":"' + process.env.CoreVersion+'","addr":"https://'+process.env.WEBAddr+'/","uptime":"'+Math.floor(uptime/60000)+'"}');
 	});
 }
 
@@ -62,11 +57,33 @@ hub.on("message", (channel, message) => {
 const mysql = require('mysql2');
 const db = mysql.createPool({host:process.env.DB_host, database:process.env.DB_name, user:process.env.DB_user, password:process.env.DB_pass, connectionLimit:10});
 
+// Inicializa variáveis globais																	
+var starttime=0,numdev=0,msgsin=0,msgsout=0,bytsin=0,bytsout=0,bytserr=0;
+
 // Grava estatísticas a cada 60s
 setInterval(function() {
-			// Publica o STATUS do serviço
-			PublishUpdate();
-},60000);
+  // Publica o STATUS do serviço
+  PublishUpdate();
+  // Pega data e hora GMT
+  let dte = new Date(new Date().getTime()).toISOString().replace(/T/, " ").replace(/\..+/, "");
+  // Atualiza banco de dados
+  db.getConnection(function (err, connection) {
+    if (!err) {
+ 	  connection.query("INSERT INTO syslog (datlog,server,version,ipport,devices,msgsin,msgsout,bytsin,bytsout,bytserr) VALUES (?,?,?,?,?,?,?,?,?,?)",
+	    [dte, process.env.AppID, process.env.CoreVersion, 'https://'+process.env.WEBAddr+'/', numdev, msgsin, msgsout, bytsin, bytsout, bytserr],
+	    function (err, result) {
+		  connection.release();
+		  if (err) (err) => console.error(err);
+	    }
+	  );
+    }
+    msgsin = 0;
+    msgsout = 0;
+    bytsin = 0;
+    bytsout = 0;
+    bytserr = 0;
+  });
+}, 60000);
 
 /****************************************************************************************************/
 /* Cria o servidor https que vai servir o conteúdo													*/
@@ -121,7 +138,7 @@ GetDate().then(dte => {
 	starttime = Date.parse(dte);
 	// Mostra parâmetros no LOG
 	console.log('\u001b[36m'+dte+': \u001b[37m================================');
-	console.log('\u001b[36m'+dte+': \u001b[37mAPP : ' + process.title + ' ('+version+')');
+	console.log('\u001b[36m'+dte+': \u001b[37mAPP : ' + process.env.AppID + ' ('+process.env.CoreVersion+')');
 	console.log('\u001b[36m'+dte+': \u001b[37mDomínio : https://' + process.env.WEBAddr);
 	console.log('\u001b[36m'+dte+': \u001b[37mCPUs: '+ OS.cpus().length);
 	console.log('\u001b[36m'+dte+': \u001b[37m================================');});
