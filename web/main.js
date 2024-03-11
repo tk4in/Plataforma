@@ -28,7 +28,7 @@ router.get("/main", (req, res, next) => {
 
   res.writeHead(200, {
     "access-control-allow-methods": "GET,POST",
-    "access-control-allow-origin": "'https://" + process.env.WEBAddr + "'",
+    "access-control-allow-origin": "'https://" + process.env.AppAddr + "'",
     "cache-control": "no-cache",
     "content-Security-Policy":
       "default-src https: 'self'; base-uri 'self'; script-src 'report-sample' 'nonce-" +
@@ -39,22 +39,15 @@ router.get("/main", (req, res, next) => {
       process.env.CDNAddr +
       "/; object-src 'none'; frame-src 'self'; frame-ancestors 'none'; child-src 'self'; img-src 'self' data: https: " +
       process.env.CDNAddr +
-      "/; font-src https://fonts.gstatic.com/ https://fonts.googleapis.com/ cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' blob: *.mapbox.com/ www.gstatic.com/draco/ https://" +
-      process.env.HUBIP + ":" + process.env.HUBPort + "/ " +
-      process.env.CDNAddr +
-      "/; form-action 'self'; media-src 'self'; worker-src 'self' blob: https: " +
-      process.env.CDNAddr +"/",
+      "/; font-src fonts.gstatic.com/ fonts.googleapis.com/ cdnjs.cloudflare.com/ajax/libs/font-awesome/; connect-src 'self' blob: *.mapbox.com/ www.gstatic.com/draco/ " +
+      process.env.HUBAddr + ":" + process.env.HUBPort + "/ " +  process.env.CDNAddr +
+      "/; form-action 'self'; media-src 'self'; worker-src 'self' blob: https: " +  process.env.CDNAddr +"/",
     "content-type": "text/html; charset=UTF-8",
     date: new Date().toUTCString(),
-    "permissions-policy": 'geolocation=(self "https://' + process.env.WEBAddr + '")',
+    "permissions-policy": 'geolocation=(self "https://' + process.env.AppAddr + '")',
     "referrer-policy": "no-referrer",
-    "set-cookie":
-      process.env.SessID +
-      "=" +
-      session.USID +
-      "; Domain=" +
-      process.env.WEBAddr +
-      "; Path=/; Samesite=none; Secure; HttpOnly",
+    "Report-To": '{"group":"default","max_age":31536000,"endpoints":[{"url":"https://' + process.env.CDNAddr + '/report-to"}],"include_subdomains":true}',
+    "set-cookie": process.env.SessID + "=" + session.USID + "; Domain=" + process.env.AppAddr + "; Path=/; Samesite=Strict; Secure; HttpOnly",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     vary: "Accept-Encoding",
     "x-content-type-options": "nosniff",
@@ -77,8 +70,7 @@ router.get("/main", (req, res, next) => {
       "</title><link rel='dns-prefetch' href=https://" +
       process.env.CDNAddr +
       "><link rel=icon href='https://" +
-      process.env.CDNAddr + '/' + process.env.AppID +
-      "/img/logo.png'><meta name='viewport' content='width=device-width, initial-scale=1'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://fonts.googleapis.com/css2?family=Russo+One&family=Sarala:wght@700&display=swap' rel='stylesheet'>"
+      process.env.CDNAddr + '/' + process.env.AppID + "/img/logo.png'><meta name='viewport' content='width=device-width, initial-scale=1'><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><link href='https://fonts.googleapis.com/css2?family=Russo+One&family=Sarala:wght@700&display=swap' rel='stylesheet'>"
   );
   res.write(
     "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css' integrity='sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==' crossorigin=anonymous /><link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' crossorigin=anonymous />"
@@ -170,7 +162,7 @@ router.get("/main", (req, res, next) => {
       "<script nonce=" + nonce +
       ">const accessToken='" + process.env.accessToken +
       "';const CDNAddr='https://" + process.env.CDNAddr +
-      "/';const HUBAddr='https://" + process.env.HUBIP + ':' + process.env.HUBPort +
+      "/';const HUBAddr='https://" + process.env.HUBAddr + ':' + process.env.HUBPort +
       "';const AppID='" + process.env.AppID +
       "';const USID='" + session.USID +
       "';</script><script defer src='https://" + process.env.CDNAddr + "/" + process.env.AppID + "/jslib/" + process.env.AppVersion + "/mb.js#" + nonce + "' crossorigin=anonymous></script>"
