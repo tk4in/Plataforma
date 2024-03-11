@@ -52,7 +52,7 @@ router.get('/', (req, res, next) => {
   });
 
   // Le a linguagem
-  let lang = require("./lang/" + session.lang + "/index");
+  let lang = require("./lang/" + session.lang + "/root");
 
   // Html
   res.write(

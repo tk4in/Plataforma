@@ -22,7 +22,7 @@ const pub = new Redis({host:process.env.RD_host, port:process.env.RD_port, passw
 // Publica o STATUS do serviço
 async function PublishUpdate() {
 	GetDate().then(dte => {
-		let uptime = Date.parse(dte) - starttime;
+		let uptime = Date.parse(dte) - starttime;                                                                                                            
 		pub.publish('san:server_update', '{"app":"' + process.env.AppID+'","version":"' + process.env.CoreVersion+'","addr":"https://'+process.env.WEBAddr+'/","uptime":"'+Math.floor(uptime/60000)+'"}');
 	});
 }
