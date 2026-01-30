@@ -18,6 +18,12 @@ while getopts d:u:p: opts; do
    esac
 done
 
+if [ -z "$DOM_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]
+then
+   echo "Preencha todos os parametros";
+   helpFunction
+fi
+
 # Atualizar a lista de pacotes e o sistema
 echo ""
 echo "Atualizando o sistema..."
