@@ -4,9 +4,9 @@ helpFunction()
 {
    echo ""
    echo "Usage: $0 -d dominio -u usuario -p password"
-   echo -e "\t-d Dominio do site `exemplo.com`"
-   echo -e "\t-u Usuario `admin`"
-   echo -e "\t-p Senha do usuario `password`"
+   echo -e "\t-d Dominio do site"
+   echo -e "\t-u Usuario"
+   echo -e "\t-p Senha do usuario"
    exit 1 # Exit script after printing help
 }
 
