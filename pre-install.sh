@@ -40,7 +40,7 @@ ufw allow https
 ufw allow 3306
 ufw allow 6922
 ufw allow http
-ufw enable
+yes | ufw enable
 
 # Alterando a porta do SSH
 echo ""
@@ -49,8 +49,26 @@ sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl restart ssh
 
 # Instalando o Node/NPM
+echo ""
 echo "Instalando o Node/NPM"
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 apt update
 apt install -y nodejs
 npm install -g npm@latest
+
+echo ""
+echo "Instalando o MariaDB"
+apt install -y mariadb-server mariadb-client
+mysql_install_db --user=mysql --ldata=/var/lib/mysql
+systemctl start mariadb && systemctl enable mariadb
+mariadb-secure-installation
+<enter>
+y
+pass
+pass
+y
+y
+y
+y
+
+
