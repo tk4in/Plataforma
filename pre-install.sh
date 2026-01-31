@@ -65,8 +65,8 @@ mariadb-secure-installation <<EOF
 
 y
 y
-$PASS_VAL
-$PASS_VAL
+${PASS_VAL}
+${PASS_VAL}
 y
 y
 y
@@ -74,6 +74,69 @@ y
 EOF
 
 echo ""
-echo "Instalando o MariaDB"
+echo "Instalando o Apache2"
+apt install -y apache2
+echo "<VirtualHost *:80>
+		ServerAdmin admin@${DOM_VAL}
+		ServerName www.${DOM_VAL}
+		DocumentRoot /var/www/html${DOM_VAL}
+		ErrorLog ${APACHE_LOG_DIR}/error.log
+		CustomLog ${APACHE_LOG_DIR}/access.log combined
+		<Directory /var/www/html/website>
+			Options Indexes FollowSymLinks
+			AllowOverride All
+			Require all granted
+		</Directory>
+	</VirtualHost>" | tee /etc/apache2/sites-available/${DOM_VAL}.conf
+mkdir -p /var/www/html/${DOM_VAL}
+chown -R www-data:www-data /var/www/html/${DOM_VAL}
+a2dissite 000-default
+a2ensite ${DOM_VAL}
+a2dismod mpm_prefork
+a2enmod mpm_event http2
+systemctl enable apache2
+
+echo ""
+echo "Instalando o Certificado HTTPS"
+apt install -y certbot python3-certbot-apache
+certbot --apache --agree-tos --redirect -d www.${DOM_VAL} -m admin@${DOM_VAL}
+certbot renew --dry-run
+systemctl restart apache2
+
+echo ""
+echo "Instalando o PHP"
+wget -qO - https://packages.sury.org/php/apt.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sury-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/sury-archive-keyring.gpg] https://packages.sury.org/php/ bookworm main" | tee /etc/apt/sources.list.d/sury-php.list
+apt update
+apt install -y php8.4-fpm libapache2-mod-fcgid
+apt install -y php8.4-{bcmath,enchant,ldap,mysql,curl,dba,gd,intl,ldap,mbstring,mcrypt,odbc,opcache,pgsql,sqlite3,pspell,soap,tidy,xml,xmlrpc,xsl,zip} 
+a2enmod proxy_fcgi setenvif
+a2enconf php8.4-fpm
+systemctl enable php8.4-fpm     
+systemctl start php8.4-fpm
+systemctl restart apache2
+echo "<?php phpinfo();?>" | tee /var/www/html/${DOM_VAL}/phpinfo.php
+
+echo ""
+echo "Instalando o Adminer"
+mkdir -p /var/www/html/${DOM_VAL}/adminer
+cd /var/www/html/${DOM_VAL}/adminer
+wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
+mv adminer-5.4.1-mysql-en.php adminer.php
+
+echo ""
+echo "Criando o Banco de Dados"
+mariadb <<EOF
+CREATE DATABASE maindb;
+CREATE USER 'userdb'@'localhost' IDENTIFIED BY '${PASS_VAL}';
+GRANT ALL ON maindb.* TO 'userdb'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EXIT;
+EOF
+
+
+
+
+
 
 
