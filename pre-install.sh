@@ -61,14 +61,19 @@ echo "Instalando o MariaDB"
 apt install -y mariadb-server mariadb-client
 mysql_install_db --user=mysql --ldata=/var/lib/mysql
 systemctl start mariadb && systemctl enable mariadb
-mariadb-secure-installation
-<enter>
-y
-pass
-pass
+mariadb-secure-installation <<EOF
+
 y
 y
+$PASS_VAL
+$PASS_VAL
 y
 y
+y
+y
+EOF
+
+echo ""
+echo "Instalando o MariaDB"
 
 
