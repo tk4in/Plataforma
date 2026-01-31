@@ -48,31 +48,6 @@ echo "Alterando a porta do SSH"
 sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl restart ssh
 
-# Instalando o Node/NPM
-echo ""
-echo "Instalando o Node/NPM"
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-apt update
-apt install -y nodejs
-npm install -g npm@latest
-
-echo ""
-echo "Instalando o MariaDB"
-apt install -y mariadb-server mariadb-client
-mysql_install_db --user=mysql --ldata=/var/lib/mysql
-systemctl start mariadb && systemctl enable mariadb
-mariadb-secure-installation <<EOF
-
-y
-y
-${PASS_VAL}
-${PASS_VAL}
-y
-y
-y
-y
-EOF
-
 echo ""
 echo "Instalando o Apache2"
 apt install -y apache2
@@ -118,11 +93,21 @@ systemctl restart apache2
 echo "<?php phpinfo();?>" | tee /var/www/html/${DOM_VAL}/phpinfo.php
 
 echo ""
-echo "Instalando o Adminer"
-mkdir -p /var/www/html/${DOM_VAL}/adminer
-cd /var/www/html/${DOM_VAL}/adminer
-wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
-mv adminer-5.4.1-mysql-en.php adminer.php
+echo "Instalando o MariaDB"
+apt install -y mariadb-server mariadb-client
+mysql_install_db --user=mysql --ldata=/var/lib/mysql
+systemctl start mariadb && systemctl enable mariadb
+mariadb-secure-installation <<EOF
+
+y
+y
+${PASS_VAL}
+${PASS_VAL}
+y
+y
+y
+y
+EOF
 
 echo ""
 echo "Criando o Banco de Dados"
@@ -133,6 +118,21 @@ GRANT ALL ON maindb.* TO 'userdb'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT;
 EOF
+
+echo ""
+echo "Instalando o Adminer"
+mkdir -p /var/www/html/${DOM_VAL}/adminer
+cd /var/www/html/${DOM_VAL}/adminer
+wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
+mv adminer-5.4.1-mysql-en.php adminer.php
+
+# Instalando o Node/NPM
+echo ""
+echo "Instalando o Node/NPM"
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+apt update
+apt install -y nodejs
+npm install -g npm@latest
 
 
 
