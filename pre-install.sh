@@ -24,12 +24,12 @@ then
    helpFunction
 fi
 
-# Atualizar a lista de pacotes e o sistema
+# Instalando dependecias
 echo ""
-echo "Atualizando o sistema..."
-apt update -y && apt upgrade -y
+echo "Instalando dependencias"
 apt install -y gnupg apt-transport-https ca-certificates
 apt install -y nano curl wget git sed subversion alembic libjansson-dev autoconf automake libxml2-dev libncurses-dev libtool
+yes | apt autoremove
 
 # Instalando o Firewall
 echo ""
@@ -46,7 +46,8 @@ yes | ufw enable
 echo ""
 echo "Alterando a porta do SSH"
 sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
-systemctl restart ssh
+systemctl daemon-reload
+systemctl restart ssh.socket
 
 echo ""
 echo "Instalando o Apache2"
@@ -74,7 +75,7 @@ systemctl enable apache2
 echo ""
 echo "Instalando o Certificado HTTPS"
 apt install -y certbot python3-certbot-apache
-certbot --apache --agree-tos --redirect -d www.${DOM_VAL} -m admin@${DOM_VAL}
+yes | certbot --apache --agree-tos --redirect -d www.${DOM_VAL} -m admin@${DOM_VAL}
 certbot renew --dry-run
 systemctl restart apache2
 
@@ -83,8 +84,8 @@ echo "Instalando o PHP"
 wget -qO - https://packages.sury.org/php/apt.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sury-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/sury-archive-keyring.gpg] https://packages.sury.org/php/ bookworm main" | tee /etc/apt/sources.list.d/sury-php.list
 apt update
-apt install -y php8.4-fpm libapache2-mod-fcgid libicu72 
-apt install -y php8.4-{bcmath,enchant,ldap,mysql,curl,dba,gd,intl,ldap,mbstring,mcrypt,odbc,opcache,pgsql,sqlite3,pspell,soap,tidy,xml,xmlrpc,xsl,zip} 
+apt install -y php8.4-fpm libapache2-mod-fcgid
+apt install -y php8.4-{bcmath,enchant,mysql,curl,dba,gd,mbstring,mcrypt,odbc,opcache,pgsql,sqlite3,pspell,soap,tidy,xml,xmlrpc,xsl,zip} 
 a2enmod proxy_fcgi setenvif
 a2enconf php8.4-fpm
 systemctl enable php8.4-fpm     
