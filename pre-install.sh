@@ -27,7 +27,7 @@ fi
 # Instalando dependecias
 echo ""
 echo "Instalando dependencias"
-apt install -y gnupg apt-transport-https ca-certificates
+apt install -y lsb-release ca-certificates apt-transport-https gnupg2
 apt install -y nano curl wget git sed subversion alembic libjansson-dev autoconf automake libxml2-dev libncurses-dev libtool
 yes | apt autoremove
 
@@ -81,9 +81,16 @@ systemctl restart apache2
 
 echo ""
 echo "Instalando o PHP"
-wget -qO - https://packages.sury.org/php/apt.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sury-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/sury-archive-keyring.gpg] https://packages.sury.org/php/ bookworm main" | tee /etc/apt/sources.list.d/sury-php.list
-apt update
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+apt update -y
+apt install -y php8.4 libapache2-mod-php8.4
+update-alternatives --install /usr/bin/php php /usr/bin/php8.4 84
+apt install -y php8.4-{bcmath,enchant,mysql,curl,dba,gd,mbstring,mcrypt,odbc,opcache,pgsql,sqlite3,pspell,soap,tidy,xml,xmlrpc,xsl,zip} 
+apt install -y php8.4-fpm
+
+
+
 apt install -y php8.4-fpm libapache2-mod-fcgid
 apt install -y php8.4-{bcmath,enchant,mysql,curl,dba,gd,mbstring,mcrypt,odbc,opcache,pgsql,sqlite3,pspell,soap,tidy,xml,xmlrpc,xsl,zip} 
 a2enmod proxy_fcgi setenvif
