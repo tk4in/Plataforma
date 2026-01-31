@@ -83,7 +83,7 @@ echo "Instalando o PHP"
 wget -qO - https://packages.sury.org/php/apt.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sury-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/sury-archive-keyring.gpg] https://packages.sury.org/php/ bookworm main" | tee /etc/apt/sources.list.d/sury-php.list
 apt update
-apt install -y php8.4-fpm libapache2-mod-fcgid
+apt install -y php8.4-fpm libapache2-mod-fcgid libicu72 
 apt install -y php8.4-{bcmath,enchant,ldap,mysql,curl,dba,gd,intl,ldap,mbstring,mcrypt,odbc,opcache,pgsql,sqlite3,pspell,soap,tidy,xml,xmlrpc,xsl,zip} 
 a2enmod proxy_fcgi setenvif
 a2enconf php8.4-fpm
