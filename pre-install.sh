@@ -38,6 +38,9 @@ apt install ufw
 ufw default deny incoming && ufw default allow outgoing
 ufw allow https
 ufw allow 3306
+ufw allow 25
+ufw allow 143
+ufw allow 587
 ufw allow 6922
 ufw allow http
 yes | ufw enable
@@ -48,6 +51,13 @@ echo "Alterando a porta do SSH"
 sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl daemon-reload
 systemctl restart ssh.socket
+
+echo ""
+echo "Instalando Servidor de e-mail"
+sudo apt install postfix
+sudo apt install dovecot-imapd dovecot-pop3d
+sudo systemctl status postfix
+sudo systemctl status dovecot
 
 echo ""
 echo "Instalando o Apache2"
