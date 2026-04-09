@@ -1,6 +1,8 @@
 
 sudo su
+
 apt update -y && apt upgrade -y
+
 systemctl reboot
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/pre-install.sh
 chmod +x pre-install.sh
