@@ -46,10 +46,6 @@ sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl daemon-reload
 systemctl restart ssh.socket
 
-echo -e "\n\e[32mInstalando Servidor de e-mail\e[0m"
-yes | apt install postfix
-yes | apt install dovecot-imapd dovecot-pop3d
-
 echo -e "\n\e[32mInstalando o Apache2\e[0m"
 apt install -y apache2
 echo "<VirtualHost *:80>
@@ -91,6 +87,12 @@ systemctl start php8.4-fpm
 systemctl restart apache2
 echo "<?php phpinfo();?>" | tee /var/www/html/${DOM_VAL}/phpinfo.php
 
+echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+apt update
+apt install -y nodejs
+npm install -g npm@latest
+
 echo -e "\n\e[32mInstalando o MariaDB\e[0m"
 apt install -y mariadb-server mariadb-client
 mysql_install_db --user=mysql --ldata=/var/lib/mysql
@@ -119,11 +121,9 @@ EOF
 echo -e "\n\e[32mInstalando o Adminer\e[0m"
 mkdir -p /var/www/html/${DOM_VAL}/adminer
 cd /var/www/html/${DOM_VAL}/adminer
-wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
-mv adminer-5.4.1-mysql-en.php adminer.php
+wget https://github.com/vrana/adminer/releases/download/v5.4.2/adminer-5.4.2-mysql-en.php
+mv adminer-5.4.2-mysql-en.php adminer.php
 
-echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-apt update
-apt install -y nodejs
-npm install -g npm@latest
+echo -e "\n\e[32mInstalando Servidor de e-mail\e[0m"
+yes | apt install postfix
+yes | apt install dovecot-imapd dovecot-pop3d
