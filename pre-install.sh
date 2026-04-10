@@ -51,7 +51,7 @@ apt install -y apache2
 echo "<VirtualHost *:80>
 		ServerAdmin admin@${DOM_VAL}
 		ServerName www.${DOM_VAL}
-		DocumentRoot /var/www/html${DOM_VAL}
+		DocumentRoot /var/www/html/${DOM_VAL}
 		ErrorLog ${APACHE_LOG_DIR}/error.log
 		CustomLog ${APACHE_LOG_DIR}/access.log combined
 		<Directory /var/www/html/website>
@@ -87,12 +87,6 @@ systemctl start php8.4-fpm
 systemctl restart apache2
 echo "<?php phpinfo();?>" | tee /var/www/html/${DOM_VAL}/phpinfo.php
 
-echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-apt update
-apt install -y nodejs
-npm install -g npm@latest
-
 echo -e "\n\e[32mInstalando o MariaDB\e[0m"
 apt install -y mariadb-server mariadb-client
 mysql_install_db --user=mysql --ldata=/var/lib/mysql
@@ -121,9 +115,41 @@ EOF
 echo -e "\n\e[32mInstalando o Adminer\e[0m"
 mkdir -p /var/www/html/${DOM_VAL}/adminer
 cd /var/www/html/${DOM_VAL}/adminer
-wget https://github.com/vrana/adminer/releases/download/v5.4.2/adminer-5.4.2-mysql-en.php
-mv adminer-5.4.2-mysql-en.php adminer.php
+wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
+mv adminer-5.4.1-mysql-en.php adminer.php
+
+echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+apt update
+apt install -y nodejs
+npm install -g npm@latest
 
 echo -e "\n\e[32mInstalando Servidor de e-mail\e[0m"
+service sendmail stop
+update-rc.d -f sendmail remove
 yes | apt install postfix
 yes | apt install dovecot-imapd dovecot-pop3d
+
+echo -e "\n\e[32mInstalando o PostFixAdmin\e[0m"
+cd /var/www/html/${DOM_VAL}
+wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-4.0.1.tar.gz
+tar -zxvf postfixadmin.tgz
+rm -rf postfixadmin.tgz
+mv postfixadmin-postfixadmin-4.0.1/ pfa
+echo "<?php
+$CONF['configured'] = true;
+$CONF['database_type'] = 'mysqli';
+$CONF['database_host'] = 'localhost';
+$CONF['database_user'] = 'postfixadmin';
+$CONF['database_password'] = '${PASS_VAL}';
+$CONF['database_name'] = 'postfixadmin';
+?>" | tee /var/www/html/${DOM_VAL}/pfa/config.local.php
+
+echo -e "\n\e[32mCriando o Banco de Dados do PostFixAdmin\e[0m"
+mariadb <<EOF
+CREATE DATABASE postfixadmin;
+CREATE USER 'postfixadmin'@'localhost' IDENTIFIED BY '${PASS_VAL}';
+GRANT ALL ON postfixadmin.* TO 'postfixadmin'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EXIT;
+EOF
