@@ -2,8 +2,7 @@
 
 helpFunction()
 {
-   echo ""
-   echo "Usage: $0 -d dominio -u usuario -p password"
+   echo "\nUsage: $0 -d dominio -u usuario -p password"
    echo -e "\t-d Dominio do site"
    echo -e "\t-u Usuario"
    echo -e "\t-p Senha do usuario"
@@ -24,43 +23,34 @@ then
    helpFunction
 fi
 
-# Instalando dependecias
-echo ""
-echo "Instalando dependencias"
-apt install -y lsb-release ca-certificates apt-transport-https gnupg2
+echo -e "\n\e[32mInstalando dependencias\e[0m"
+apt install -y software-properties-common ca-certificates lsb-release apt-transport-https gnupg2
 apt install -y nano curl wget git sed subversion alembic libjansson-dev autoconf automake libxml2-dev libncurses-dev libtool
 yes | apt autoremove
 
-# Instalando o Firewall
-echo ""
-echo "Instalando o Firewall"
+echo -e "\n\e[32mAlterando o HostName\e[0m"
+hostnamectl set-hostname server.${DOM_VAL}
+echo server.${DOM_VAL}
+
+echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apt install ufw
 ufw default deny incoming && ufw default allow outgoing
-ufw allow https
-ufw allow 3306
-ufw allow 25
-ufw allow 143
-ufw allow 587
-ufw allow 6922
-ufw allow http
+ufw allow 80,443/tcp
+ufw allow 25,143,587/tcp
+ufw allow 3306/tcp
+ufw allow 6922/tcp
 yes | ufw enable
 
-# Alterando a porta do SSH
-echo ""
-echo "Alterando a porta do SSH"
+echo -e "\n\e[32mAlterando a porta do SSH\e[0m"
 sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl daemon-reload
 systemctl restart ssh.socket
 
-echo ""
-echo "Instalando Servidor de e-mail"
-sudo apt install postfix
-sudo apt install dovecot-imapd dovecot-pop3d
-sudo systemctl status postfix
-sudo systemctl status dovecot
+echo -e "\n\e[32mInstalando Servidor de e-mail\e[0m"
+yes | apt install postfix
+yes | apt install dovecot-imapd dovecot-pop3d
 
-echo ""
-echo "Instalando o Apache2"
+echo -e "\n\e[32mInstalando o Apache2\e[0m"
 apt install -y apache2
 echo "<VirtualHost *:80>
 		ServerAdmin admin@${DOM_VAL}
@@ -82,27 +72,18 @@ a2dismod mpm_prefork
 a2enmod mpm_event http2
 systemctl enable apache2
 
-echo ""
-echo "Instalando o Certificado HTTPS"
+echo -e "\n\e[32mInstalando o Certificado HTTPS\e[0m"
 apt install -y certbot python3-certbot-apache
-yes | certbot --apache --agree-tos --redirect -d www.${DOM_VAL} -m admin@${DOM_VAL}
+yes | certbot --apache --agree-tos --redirect -d ${DOM_VAL} -d www.${DOM_VAL} -m admin@${DOM_VAL}
 certbot renew --dry-run
 systemctl restart apache2
 
-echo ""
-echo "Instalando o PHP"
-wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
-apt update -y
+echo -e "\n\e[32mInstalando o PHP\e[0m"
+add-apt-repository ppa:ondrej/php -y
+apt -y update
 apt install -y php8.4 libapache2-mod-php8.4
-update-alternatives --install /usr/bin/php php /usr/bin/php8.4 84
 apt install -y php8.4-{bcmath,enchant,mysql,curl,dba,gd,mbstring,mcrypt,odbc,opcache,pgsql,sqlite3,pspell,soap,tidy,xml,xmlrpc,xsl,zip} 
 apt install -y php8.4-fpm
-
-
-
-apt install -y php8.4-fpm libapache2-mod-fcgid
-apt install -y php8.4-{bcmath,enchant,mysql,curl,dba,gd,mbstring,mcrypt,odbc,opcache,pgsql,sqlite3,pspell,soap,tidy,xml,xmlrpc,xsl,zip} 
 a2enmod proxy_fcgi setenvif
 a2enconf php8.4-fpm
 systemctl enable php8.4-fpm     
@@ -110,8 +91,7 @@ systemctl start php8.4-fpm
 systemctl restart apache2
 echo "<?php phpinfo();?>" | tee /var/www/html/${DOM_VAL}/phpinfo.php
 
-echo ""
-echo "Instalando o MariaDB"
+echo -e "\n\e[32mInstalando o MariaDB\e[0m"
 apt install -y mariadb-server mariadb-client
 mysql_install_db --user=mysql --ldata=/var/lib/mysql
 systemctl start mariadb && systemctl enable mariadb
@@ -127,8 +107,7 @@ y
 y
 EOF
 
-echo ""
-echo "Criando o Banco de Dados"
+echo -e "\n\e[32mCriando o Banco de Dados\e[0m"
 mariadb <<EOF
 CREATE DATABASE maindb;
 CREATE USER 'userdb'@'localhost' IDENTIFIED BY '${PASS_VAL}';
@@ -137,24 +116,14 @@ FLUSH PRIVILEGES;
 EXIT;
 EOF
 
-echo ""
-echo "Instalando o Adminer"
+echo -e "\n\e[32mInstalando o Adminer\e[0m"
 mkdir -p /var/www/html/${DOM_VAL}/adminer
 cd /var/www/html/${DOM_VAL}/adminer
 wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
 mv adminer-5.4.1-mysql-en.php adminer.php
 
-# Instalando o Node/NPM
-echo ""
-echo "Instalando o Node/NPM"
+echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 apt update
 apt install -y nodejs
 npm install -g npm@latest
-
-
-
-
-
-
-
