@@ -29,8 +29,7 @@ apt install -y nano curl wget git sed subversion alembic libjansson-dev autoconf
 yes | apt autoremove
 
 echo -e "\n\e[32mAlterando o HostName\e[0m"
-hostnamectl set-hostname server.${DOM_VAL}
-echo server.${DOM_VAL}
+hostnamectl set-hostname ${DOM_VAL}
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apt install ufw
@@ -46,20 +45,27 @@ sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl daemon-reload
 systemctl restart ssh.socket
 
+echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+apt update
+apt install -y nodejs
+npm install -g npm@latest
+
 echo -e "\n\e[32mInstalando o Apache2\e[0m"
 apt install -y apache2
 echo "<VirtualHost *:80>
-		ServerAdmin admin@${DOM_VAL}
-		ServerName www.${DOM_VAL}
-		DocumentRoot /var/www/html/${DOM_VAL}
-		ErrorLog ${APACHE_LOG_DIR}/error.log
-		CustomLog ${APACHE_LOG_DIR}/access.log combined
-		<Directory /var/www/html/website>
-			Options Indexes FollowSymLinks
-			AllowOverride All
-			Require all granted
-		</Directory>
-	</VirtualHost>" | tee /etc/apache2/sites-available/${DOM_VAL}.conf
+                ServerAdmin ${USER_VAL}@${DOM_VAL}
+                ServerName ${DOM_VAL}
+                ServerAlias www.${DOM_VAL}
+                DocumentRoot /var/www/html/${DOM_VAL}
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+                <Directory /var/www/html/website>
+                        Options Indexes FollowSymLinks
+                        AllowOverride All
+                        Require all granted
+                </Directory>
+</VirtualHost>" | tee /etc/apache2/sites-available/${DOM_VAL}.conf
 mkdir -p /var/www/html/${DOM_VAL}
 chown -R www-data:www-data /var/www/html/${DOM_VAL}
 a2dissite 000-default
@@ -68,9 +74,9 @@ a2dismod mpm_prefork
 a2enmod mpm_event http2
 systemctl enable apache2
 
-echo -e "\n\e[32mInstalando o Certificado HTTPS\e[0m"
+echo -e "\n\e[32mInstalando Certificados SSL\e[0m"
 apt install -y certbot python3-certbot-apache
-yes | certbot --apache --agree-tos --redirect -d ${DOM_VAL} -d www.${DOM_VAL} -m admin@${DOM_VAL}
+yes | certbot --apache --agree-tos --redirect -d ${DOM_VAL} -d www.${DOM_VAL} -m ${USER_VAL}@${DOM_VAL}
 certbot renew --dry-run
 systemctl restart apache2
 
@@ -103,39 +109,44 @@ y
 y
 EOF
 
-echo -e "\n\e[32mCriando o Banco de Dados\e[0m"
-mariadb <<EOF
-CREATE DATABASE maindb;
-CREATE USER 'userdb'@'localhost' IDENTIFIED BY '${PASS_VAL}';
-GRANT ALL ON maindb.* TO 'userdb'@'localhost' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-EXIT;
-EOF
-
 echo -e "\n\e[32mInstalando o Adminer\e[0m"
 mkdir -p /var/www/html/${DOM_VAL}/adminer
+chown -R www-data: /var/www/html/${DOM_VAL}/adminer
 cd /var/www/html/${DOM_VAL}/adminer
 wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
 mv adminer-5.4.1-mysql-en.php adminer.php
 
-echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-apt update
-apt install -y nodejs
-npm install -g npm@latest
-
-echo -e "\n\e[32mInstalando Servidor de e-mail\e[0m"
+echo -e "\n\e[32mInstalando postfix/dovecot/rspamd (E-mail)\e[0m"
 service sendmail stop
 update-rc.d -f sendmail remove
-yes | apt install postfix
-yes | apt install dovecot-imapd dovecot-pop3d
+yes | apt install postfix postfix-mysql dovecot-imapd dovecot-lmtpd dovecot-pop3d dovecot-mysql -y
+postconf -e 'smtpd_tls_cert_file=/etc/letsencrypt/live/${DOM_VAL}/fullchain.pem'
+postconf -e 'smtpd_tls_key_file=/etc/letsencrypt/live/${DOM_VAL}/privkey.pem'
+postconf -e 'smtpd_use_tls=yes'
+postconf -e 'smtpd_tls_security_level=may'
+postconf -e 'smtp_tls_security_level=may'
+echo "ssl = yes
+ssl_cert = </etc/letsencrypt/live/${DOM_VAL}/fullchain.pem
+ssl_key = </etc/letsencrypt/live/${DOM_VAL}/privkey.pem
+ssl_dh = </etc/ssl/certs/dhparam.pem
+ssl_cipher_list = EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH
+ssl_prefer_server_ciphers = yes" | tee /etc/dovecot/conf.d/10-ssl.conf
+systemctl restart dovecot
+apt install redis-server rspamd -y
+mkdir /var/lib/rspamd/dkim/
+rspamadm dkim_keygen -b 2048 -s mail -k /var/lib/rspamd/dkim/mail.key > /var/lib/rspamd/dkim/mail.pub
+echo "selector = 'mail';
+path = '/var/lib/rspamd/dkim/$selector.key';
+allow_username_mismatch = true;" | tee /etc/rspamd/local.d/dkim_signing.conf
+systemctl restart rspamd
 
 echo -e "\n\e[32mInstalando o PostFixAdmin\e[0m"
 cd /var/www/html/${DOM_VAL}
 wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-4.0.1.tar.gz
 tar -zxvf postfixadmin.tgz
 rm -rf postfixadmin.tgz
-mv postfixadmin-postfixadmin-4.0.1/ pfa
+mv postfixadmin-postfixadmin-4.0.1/ postfixadmin
+chown -R www-data: /var/www/html/${DOM_VAL}/postfixadmin
 echo "<?php
 $CONF['configured'] = true;
 $CONF['database_type'] = 'mysqli';
@@ -143,7 +154,7 @@ $CONF['database_host'] = 'localhost';
 $CONF['database_user'] = 'postfixadmin';
 $CONF['database_password'] = '${PASS_VAL}';
 $CONF['database_name'] = 'postfixadmin';
-?>" | tee /var/www/html/${DOM_VAL}/pfa/config.local.php
+?>" | tee /var/www/html/${DOM_VAL}/postfixadmin/config.local.php
 
 echo -e "\n\e[32mCriando o Banco de Dados do PostFixAdmin\e[0m"
 mariadb <<EOF
@@ -151,5 +162,24 @@ CREATE DATABASE postfixadmin;
 CREATE USER 'postfixadmin'@'localhost' IDENTIFIED BY '${PASS_VAL}';
 GRANT ALL ON postfixadmin.* TO 'postfixadmin'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
-EXIT;
+EXIT
+EOF
+bash /var/www/postfixadmin/scripts/postfixadmin-cli admin add
+sudo -u www-data php /var/www/postfixadmin/public/upgrade.php
+
+echo -e "\n\e[32mInstalando o RoundCubeMail\e[0m"
+cd /var/www/html/${DOM_VAL}
+wget https://github.com/roundcube/roundcubemail/releases/download/1.6.15/roundcubemail-1.6.15-complete.tar.gz
+tar xzf roundcubemail-1.6.15-complete.tar.gz
+rm -rf roundcubemail-1.6.15-complete.tar.gz
+mv roundcubemail-1.6.15 /var/www/html/${DOM_VAL}/webmail
+chown -R www-data: /var/www/html/${DOM_VAL}/webmail
+
+echo -e "\n\e[32mCriando o Banco de Dados do RoundCubeMail\e[0m"
+mariadb <<EOF
+CREATE DATABASE roundcubemail;
+CREATE USER 'roundcube'@'localhost' IDENTIFIED BY '${PASS_VAL}';
+GRANT ALL ON roundcubemail.* TO 'roundcube'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EXIT
 EOF
