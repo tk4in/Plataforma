@@ -67,12 +67,16 @@ echo "<VirtualHost *:80>
                         Require all granted
                 </Directory>
 </VirtualHost>" | tee /etc/apache2/sites-available/${DOM_VAL}.conf
-mkdir -p /var/www/html/${DOM_VAL}
+mkdir -p /var/www/html/${DOM_VAL}/report-to
 chown -R www-data:www-data /var/www/html/${DOM_VAL}
 a2dissite 000-default
 a2ensite ${DOM_VAL}
 a2dismod mpm_prefork
 a2enmod mpm_event http2
+cd /var/www/html/${DOM_VAL}
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/htaccess
+sed -i 's/xxxxxxxx/${DOM_VAL}/g' ./htaccess
+mv htaccess .htaccess
 systemctl start apache2 && systemctl enable apache2 
 
 echo -e "\n\e[32mInstalando Certificados SSL\e[0m"
@@ -92,10 +96,7 @@ a2enconf php8.4-fpm
 systemctl start php8.4-fpm && systemctl enable php8.4-fpm
 systemctl restart apache2
 echo "<?php phpinfo();?>" | tee /var/www/html/${DOM_VAL}/phpinfo.php
-cd /var/www/html/${DOM_VAL}
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/htaccess
-sed -i 's/xxxxxxxx/tk4in.com/g' ./htaccess
-mv htaccess .htaccess
+
 echo -e "\n\e[32mInstalando o MariaDB\e[0m"
 apt install -y mariadb-server mariadb-client
 mysql_install_db --user=mysql --ldata=/var/lib/mysql
