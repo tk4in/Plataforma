@@ -2,7 +2,7 @@
 
 helpFunction()
 {
-   echo "\nUsage: $0 -d dominio -u usuario -p password"
+   echo -e "Usage: $0 -d dominio -u usuario -p password"
    echo -e "\t-d Dominio do site"
    echo -e "\t-u Usuario"
    echo -e "\t-p Senha do usuario"
@@ -17,13 +17,11 @@ while getopts d:u:p: opts; do
    esac
 done
 
-if [ -z "$DOM_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]
-then
-   echo "Preencha todos os parametros";
+if [ -z "$DOM_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
+   echo -e "\n\e[32mPreencha todos os parametros\e[0m";
    helpFunction
 fi
 
-sudo su
 echo -e "\n\e[32mInstalando dependencias\e[0m"
 apt update -y && apt upgrade -y
 apt install -y software-properties-common ca-certificates lsb-release apt-transport-https gnupg2
@@ -32,6 +30,7 @@ yes | apt autoremove
 
 echo -e "\n\e[32mAlterando o HostName\e[0m"
 hostnamectl set-hostname ${DOM_VAL}
+echo "${DOM_VAL}"
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apt install ufw
@@ -47,12 +46,13 @@ echo -e "\n\e[32mAlterando a porta do SSH\e[0m"
 sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl daemon-reload
 systemctl restart ssh.socket
+echo "Port: 6922"
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 apt update
 apt install -y nodejs
-npm install -g npm@latest
+npm install -g npm@11.11.0
 
 echo -e "\n\e[32mInstalando o Apache2\e[0m"
 apt install -y apache2
