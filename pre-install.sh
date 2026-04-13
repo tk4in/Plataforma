@@ -117,3 +117,49 @@ chown -R www-data: /var/www/html/${DOM_VAL}/adminer
 cd /var/www/html/${DOM_VAL}/adminer
 wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
 mv adminer-5.4.1-mysql-en.php adminer.php
+
+echo -e "\n\e[32mInstalando postfix (E-mail)\e[0m"
+{ echo -e "\n"; echo -e "${DOM_VAL}\n"; } | apt install -y postfix 
+apt install -y postfix-mysql postfix-policyd-spf-python
+echo "#policyd-spf
+policyd-spf  unix  -       n       n       -       0       spawn
+  user=policyd-spf argv=/usr/bin/policyd-spf" | tee -a /etc/postfix/master.cf
+echo "#policyd-spf
+policyd-spf_time_limit = 3600
+smtpd_recipient_restrictions =
+   permit_mynetworks,
+   permit_sasl_authenticated,
+   reject_unauth_destination,
+   check_policy_service unix:private/policyd-spf" | tee -a /etc/postfix/main.cf
+echo "#Submission Service
+submission     inet     n    -    y    -    -    smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_tls_wrappermode=no
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+  -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
+  -o smtpd_sasl_type=dovecot
+  -o smtpd_sasl_path=private/auth
+#Microsoft Outlook Support
+smtps     inet  n       -       y       -       -       smtpd
+  -o syslog_name=postfix/smtps
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+  -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
+  -o smtpd_sasl_type=dovecot
+  -o smtpd_sasl_path=private/auth" | tee -a /etc/postfix/master.cf
+postconf -e 'smtpd_tls_cert_file=/etc/letsencrypt/live/${DOM_VAL}/fullchain.pem'
+postconf -e 'smtpd_tls_key_file=/etc/letsencrypt/live/${DOM_VAL}/privkey.pem'
+postconf -e 'smtpd_use_tls=yes'
+postconf -e 'smtpd_tls_security_level=may'
+postconf -e 'smtp_tls_security_level=may'
+postconf -e 'mailbox_size_limit=256000000'
+postconf -e 'smtp_tls_loglevel=1'
+echo "#Enforce TLSv1.3 or TLSv1.2
+smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
+smtpd_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
+smtp_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
+smtp_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1" | tee -a /etc/postfix/main.cf
+service postfix restart
