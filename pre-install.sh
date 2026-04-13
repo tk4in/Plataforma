@@ -23,10 +23,8 @@ if [ -z "$DOM_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
 fi
 
 echo -e "\n\e[32mInstalando dependencias\e[0m"
-apt update -y && apt upgrade -y
 apt install -y software-properties-common ca-certificates lsb-release apt-transport-https gnupg2
 apt install -y nano curl wget git sed subversion alembic libjansson-dev autoconf automake libxml2-dev libncurses-dev libtool
-yes | apt autoremove
 
 echo -e "\n\e[32mAlterando o HostName\e[0m"
 hostnamectl set-hostname ${DOM_VAL}
@@ -94,7 +92,10 @@ a2enconf php8.4-fpm
 systemctl start php8.4-fpm && systemctl enable php8.4-fpm
 systemctl restart apache2
 echo "<?php phpinfo();?>" | tee /var/www/html/${DOM_VAL}/phpinfo.php
-
+cd /var/www/html/${DOM_VAL}
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/htaccess
+sed -i 's/xxxxxxxx/tk4in.com/g' ./htaccess
+mv htaccess .htaccess
 echo -e "\n\e[32mInstalando o MariaDB\e[0m"
 apt install -y mariadb-server mariadb-client
 mysql_install_db --user=mysql --ldata=/var/lib/mysql
@@ -150,16 +151,16 @@ smtps     inet  n       -       y       -       -       smtpd
   -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
   -o smtpd_sasl_type=dovecot
   -o smtpd_sasl_path=private/auth" | tee -a /etc/postfix/master.cf
-postconf -e 'smtpd_tls_cert_file=/etc/letsencrypt/live/${DOM_VAL}/fullchain.pem'
-postconf -e 'smtpd_tls_key_file=/etc/letsencrypt/live/${DOM_VAL}/privkey.pem'
-postconf -e 'smtpd_use_tls=yes'
-postconf -e 'smtpd_tls_security_level=may'
-postconf -e 'smtp_tls_security_level=may'
-postconf -e 'mailbox_size_limit=256000000'
-postconf -e 'smtp_tls_loglevel=1'
+postconf -e "smtpd_tls_cert_file=/etc/letsencrypt/live/${DOM_VAL}/fullchain.pem"
+postconf -e "smtpd_tls_key_file=/etc/letsencrypt/live/${DOM_VAL}/privkey.pem"
+postconf -e "smtpd_use_tls=yes"
+postconf -e "smtpd_tls_security_level=may"
+postconf -e "smtp_tls_security_level=may"
+postconf -e "mailbox_size_limit=256000000"
+postconf -e "smtp_tls_loglevel=1"
 echo "#Enforce TLSv1.3 or TLSv1.2
 smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
 smtpd_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
 smtp_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
 smtp_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1" | tee -a /etc/postfix/main.cf
-service postfix restart
+systemctl restart postfix
