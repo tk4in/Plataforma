@@ -73,10 +73,6 @@ a2dissite 000-default
 a2ensite ${DOM_VAL}
 a2dismod mpm_prefork
 a2enmod mpm_event http2
-cd /var/www/html/${DOM_VAL}
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/htaccess
-sed -i 's/xxxxxxxx/${DOM_VAL}/g' ./htaccess
-mv htaccess .htaccess
 systemctl start apache2 && systemctl enable apache2 
 
 echo -e "\n\e[32mInstalando Certificados SSL\e[0m"
@@ -129,10 +125,10 @@ policyd-spf  unix  -       n       n       -       0       spawn
 echo "#policyd-spf
 policyd-spf_time_limit = 3600
 smtpd_recipient_restrictions =
-   permit_mynetworks,
-   permit_sasl_authenticated,
-   reject_unauth_destination,
-   check_policy_service unix:private/policyd-spf" | tee -a /etc/postfix/main.cf
+  permit_mynetworks,
+  permit_sasl_authenticated,
+  reject_unauth_destination,
+  check_policy_service unix:private/policyd-spf" | tee -a /etc/postfix/main.cf
 echo "#Submission Service
 submission     inet     n    -    y    -    -    smtpd
   -o syslog_name=postfix/submission
@@ -165,3 +161,4 @@ smtpd_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
 smtp_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
 smtp_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1" | tee -a /etc/postfix/main.cf
 systemctl restart postfix
+
