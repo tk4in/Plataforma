@@ -117,8 +117,8 @@ wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mys
 mv adminer-5.4.1-mysql-en.php adminer.php
 
 echo -e "\n\e[32mInstalando postfix (E-mail)\e[0m"
-{ echo -e "\n"; echo -e "${DOM_VAL}\n"; } | apt install -y postfix 
-apt install -y postfix-mysql postfix-policyd-spf-python
+{ echo -e "\n"; echo -e "${DOM_VAL}\n"; } | apt install -y postfix postfix-mysql
+apt install -y postfix-policyd-spf-python
 echo "#policyd-spf
 policyd-spf  unix  -       n       n       -       0       spawn
   user=policyd-spf argv=/usr/bin/policyd-spf" | tee -a /etc/postfix/master.cf
@@ -153,7 +153,7 @@ postconf -e "smtpd_tls_key_file=/etc/letsencrypt/live/${DOM_VAL}/privkey.pem"
 postconf -e "smtpd_use_tls=yes"
 postconf -e "smtpd_tls_security_level=may"
 postconf -e "smtp_tls_security_level=may"
-postconf -e "mailbox_size_limit=256000000"
+postconf -e "mailbox_size_limit=25600000"
 postconf -e "smtp_tls_loglevel=1"
 echo "#Enforce TLSv1.3 or TLSv1.2
 smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
@@ -162,3 +162,45 @@ smtp_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
 smtp_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1" | tee -a /etc/postfix/main.cf
 systemctl restart postfix
 
+echo -e "\n\e[32mInstalando DKIM (E-mail)\e[0m"
+apt install -y opendkim opendkim-tools
+gpasswd -a postfix opendkim
+sed -i 's/#Mode/Mode/g' /etc/opendkim.conf
+sed -i 's/#SubDomains/SubDomains/g' /etc/opendkim.conf
+echo "LogWhy  yes
+AutoRestart  yes
+AutoRestartRate  10/1M
+Background  yes
+DNSTimeout  5
+SignatureAlgorithm  rsa-sha256
+KeyTable  refile:/etc/opendkim/key.table
+SigningTable  refile:/etc/opendkim/signing.table
+ExternalIgnoreList  /etc/opendkim/trusted.hosts
+InternalHosts  /etc/opendkim/trusted.hosts" | tee -a /etc/opendkim.conf
+mkdir -p /etc/opendkim/keys
+chown -R opendkim:opendkim /etc/opendkim
+chmod go-rw /etc/opendkim/keys
+echo "*@${DOM_VAL} default._domainkey.${DOM_VAL}
+*@*.${DOM_VAL} default._domainkey.${DOM_VAL}" | tee /etc/opendkim/signing.table
+echo "default._domainkey.${DOM_VAL}     ${DOM_VAL}:default:/etc/opendkim/keys/${DOM_VAL}/default.private" | tee /etc/opendkim/key.table
+echo "127.0.0.1
+localhost
+.${DOM_VAL}" | tee /etc/opendkim/trusted.hosts
+mkdir -p /etc/opendkim/keys/${DOM_VAL}
+opendkim-genkey -b 2048 -d ${DOM_VAL} -D /etc/opendkim/keys/${DOM_VAL} -s default -v
+chown opendkim:opendkim /etc/opendkim/keys/${DOM_VAL}/default.private
+chmod 600 /etc/opendkim/keys/${DOM_VAL}/default.private
+service opendkim restart
+mkdir /var/spool/postfix/opendkim
+chown opendkim:postfix /var/spool/postfix/opendkim
+sed -i 's/Socket/#Socket/g' /etc/opendkim.conf
+echo "Socket    local:/var/spool/postfix/opendkim/opendkim.sock" | tee -a /etc/opendkim.conf
+sed -i 's/SOCKET/#SOCKET/g' /etc/default/opendkim
+echo "SOCKET=local:/var/spool/postfix/opendkim/opendkim.sock" | tee -a /etc/default/opendkim
+echo "# Milter configuration
+milter_default_action = accept
+milter_protocol = 6
+smtpd_milters = local:opendkim/opendkim.sock
+non_smtpd_milters = $smtpd_milters" | tee -a /etc/postfix/main.cf
+service opendkim restart
+service postfix restart
