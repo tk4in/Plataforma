@@ -5,19 +5,23 @@ helpFunction()
    echo -e "Usage: $0 -d dominio -u usuario -p password"
    echo -e "\t-d Dominio do site"
    echo -e "\t-u Usuario"
+   echo -e "\t-i IP"
+   echo -e "\t-g gateway"
    echo -e "\t-p Senha do usuario"
    exit 1 # Exit script after printing help
 }
 
-while getopts d:u:p: opts; do
+while getopts d:u:p:i:g opts; do
    case ${opts} in
       d) DOM_VAL=${OPTARG} ;;
+      i) IP_VAL=${OPTARG} ;;
+      g) GW_VAL=${OPTARG} ;;
       u) USER_VAL=${OPTARG} ;;
       p) PASS_VAL=${OPTARG} ;;
    esac
 done
 
-if [ -z "$DOM_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
+if [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    echo -e "\n\e[32mPreencha todos os parametros\e[0m";
    helpFunction
 fi
@@ -197,10 +201,19 @@ sed -i 's/Socket/#Socket/g' /etc/opendkim.conf
 echo "Socket    local:/var/spool/postfix/opendkim/opendkim.sock" | tee -a /etc/opendkim.conf
 sed -i 's/SOCKET/#SOCKET/g' /etc/default/opendkim
 echo "SOCKET=local:/var/spool/postfix/opendkim/opendkim.sock" | tee -a /etc/default/opendkim
-echo "# Milter configuration
+echo '# Milter configuration
 milter_default_action = accept
 milter_protocol = 6
 smtpd_milters = local:opendkim/opendkim.sock
-non_smtpd_milters = $smtpd_milters" | tee -a /etc/postfix/main.cf
+non_smtpd_milters = $smtpd_milters' | tee -a /etc/postfix/main.cf
 service opendkim restart
 service postfix restart
+
+echo -e "\n\e[32mCriando o Banco de Dados do Maindb\e[0m"
+mariadb <<EOF
+CREATE DATABASE maindb;
+CREATE USER 'userdb'@'localhost' IDENTIFIED BY '${PASS_VAL}';
+GRANT ALL ON maindb.* TO 'mainuser'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EXIT
+EOF
