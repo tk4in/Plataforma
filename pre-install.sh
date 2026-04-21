@@ -4,14 +4,14 @@ helpFunction()
 {
    echo -e "Usage: $0 -d dominio -u usuario -p password"
    echo -e "\t-d Dominio do site"
-   echo -e "\t-u Usuario"
    echo -e "\t-i IP"
    echo -e "\t-g gateway"
+   echo -e "\t-u Usuario"
    echo -e "\t-p Senha do usuario"
    exit 1 # Exit script after printing help
 }
 
-while getopts d:u:p:i:g opts; do
+while getopts d:i:g:u:p opts; do
    case ${opts} in
       d) DOM_VAL=${OPTARG} ;;
       i) IP_VAL=${OPTARG} ;;
