@@ -17,7 +17,7 @@ done
 
 if [-z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    echo -e "\n\e[32mPreencha todos os parametros\e[0m";
-   helpFunction
+   helpFunction.
 fi
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
@@ -32,7 +32,19 @@ sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl daemon-reload
 systemctl restart sshd
 
+echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+apt update
+apt install -y nodejs
+npm install -g npm@11.11.0
+
 echo -e "\n\e[32mInstalando o KVM\e[0m"
-apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils libosinfo-bin virt-install virt-manager virt-viewer libguestfs-tools -y
 adduser $USER_VAL libvirt
 adduser $USER_VAL kvm
+chown -R $USER_VAL:$USER_VAL /var/lib/libvirt
+systemctl enable libvirtd
+systemctl start libvirtd
+apt install libguestfs-tools virtinst -y
+virsh net-start default
+virsh net-autostart default
