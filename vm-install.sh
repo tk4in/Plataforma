@@ -1,5 +1,25 @@
 #!/bin/bash
 
+helpFunction()
+{
+   echo -e "Use: $0 -u usuario -p password"
+   echo -e "\t-u Usuario"
+   echo -e "\t-p Senha do usuario"
+   exit 1
+}
+
+while getopts u:p: opts; do
+   case ${opts} in
+      u) USER_VAL=${OPTARG} ;;
+      p) PASS_VAL=${OPTARG} ;;
+   esac
+done
+
+if [-z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
+   echo -e "\n\e[32mPreencha todos os parametros\e[0m";
+   helpFunction
+fi
+
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apt install -y ufw
 ufw default deny incoming && ufw default allow outgoing
@@ -14,4 +34,5 @@ systemctl restart sshd
 
 echo -e "\n\e[32mInstalando o KVM\e[0m"
 apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
-
+adduser $USER_VAL libvirt
+adduser $USER_VAL kvm
