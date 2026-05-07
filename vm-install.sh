@@ -57,7 +57,7 @@ virt-install \
   --name debian-13.4.0 \
   --memory 2048 \
   --vcpus 2 \
-  --disk path=/var/lib/libvirt/images/debian-13.4.0-base.qcow2,size=10,format=qcow2 \
+  --disk path=/var/lib/libvirt/images/debian-13.4.0-base.qcow2,size=5,format=qcow2 \
   --location /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso \
   --os-variant=debian13 \
   --network network=default \
