@@ -39,7 +39,7 @@ apt install -y nodejs
 npm install -g npm@11.11.0
 
 echo -e "\n\e[32mInstalando o KVM\e[0m"
-apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils libosinfo-bin virt-install virt-manager virt-viewer libguestfs-tools -y
+apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils libosinfo-bin virt-install virt-manager virtinst libguestfs-tools
 usermod -a -G libvirt $USER_VAL
 usermod -a -G kvm $USER_VAL
 usermod -a -G adm $USER_VAL
@@ -47,7 +47,6 @@ usermod -a -G sudo $USER_VAL
 chown -R $USER_VAL:$USER_VAL /var/lib/libvirt
 systemctl enable libvirtd
 systemctl start libvirtd
-apt install libguestfs-tools virtinst -y
 virsh net-start default
 virsh net-autostart default
 
@@ -55,13 +54,15 @@ echo -e "\n\e[32mInstalando o ISO do Debian 13\e[0m"
 cd /var/lib/libvirt/images
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
 virt-install \
-  --name debian13.4.0 \
+  --name debian-13.4.0 \
   --memory 2048 \
   --vcpus 2 \
-  --disk path=/var/lib/libvirt/images/debian13.4.0-base.qcow2,size=5,format=qcow2 \
+  --disk path=/var/lib/libvirt/images/debian-13.4.0-base.qcow2,size=10,format=qcow2 \
   --location /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso \
   --os-variant=debian13 \
-  --network bridge=virbr0 \
+  --network network=default \
   --graphics none \
   --console pty,target_type=serial \
   --extra-args='console=ttyS0,115200n8'
+rm -rf /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso
+trap 'rm -f "$0"' EXIT
