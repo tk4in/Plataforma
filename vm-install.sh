@@ -1,5 +1,7 @@
 #!/bin/bash
 
+trap 'rm -f "$0"' EXIT
+
 helpFunction()
 {
    echo -e "Use: $0 -u usuario -p password"
@@ -50,19 +52,10 @@ systemctl start libvirtd
 virsh net-start default
 virsh net-autostart default
 
-echo -e "\n\e[32mInstalando o ISO do Debian 13\e[0m"
 cd /var/lib/libvirt/images
+echo -e "\n\e[32mInstalando o ISO do Debian 13\e[0m"
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
-virt-install \
-  --name debian-13.4.0 \
-  --memory 2048 \
-  --vcpus 2 \
-  --disk path=/var/lib/libvirt/images/debian-13.4.0-base.qcow2,size=5,format=qcow2 \
-  --location /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso \
-  --os-variant=debian13 \
-  --network network=default \
-  --graphics none \
-  --console pty,target_type=serial \
-  --extra-args='console=ttyS0,115200n8'
+./VM-MakeTemplate.sh "debian-13.4.0" "2" "2048" "5" "debian-13.4.0-amd64-netinst.iso" "debian13" &
+PID=$!
+wait $PID
 rm -rf /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso
-trap 'rm -f "$0"' EXIT
