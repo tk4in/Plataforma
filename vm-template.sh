@@ -10,7 +10,10 @@ sudo virt-install \
   --network network=default \
   --graphics none \
   --console pty,target_type=serial \
-  --extra-args='console=ttyS0,115200n8'
+  --initrd-inject /var/lib/libvirt/images/preseed.cfg \
+  --extra-args='console=ttyS0,115200n8 auto=true priority=critical'
+
+
 
 
 
