@@ -22,6 +22,10 @@ if [-z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    helpFunction.
 fi
 
+echo -e "\n\e[32mInstalando o SUDO\e[0m"
+apt install sudo -y
+sudo su
+
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apt install -y ufw
 ufw default deny incoming && ufw default allow outgoing
@@ -55,7 +59,7 @@ virsh net-autostart default
 cd /var/lib/libvirt/images
 echo -e "\n\e[32mInstalando o ISO do Debian 13\e[0m"
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
-./vm-template.sh "debian-13.4.0" "2" "2048" "5" "debian-13.4.0-amd64-netinst.iso" "debian13" &
+~/vm-template.sh "debian-13.4.0" "2" "2048" 5 "debian-13.4.0-amd64-netinst.iso" "debian13" &
 PID=$!
 wait $PID
 rm -rf /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso
