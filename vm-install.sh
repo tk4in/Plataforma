@@ -22,10 +22,6 @@ if [-z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    helpFunction.
 fi
 
-echo -e "\n\e[32mInstalando o SUDO\e[0m"
-apt install sudo -y
-sudo su
-
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apt install -y ufw
 ufw default deny incoming && ufw default allow outgoing
