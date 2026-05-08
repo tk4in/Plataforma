@@ -55,7 +55,7 @@ virsh net-autostart default
 cd /var/lib/libvirt/images
 echo -e "\n\e[32mInstalando o ISO do Debian 13\e[0m"
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
-./VM-MakeTemplate.sh "debian-13.4.0" "2" "2048" "5" "debian-13.4.0-amd64-netinst.iso" "debian13" &
+./vm-template.sh "debian-13.4.0" "2" "2048" "5" "debian-13.4.0-amd64-netinst.iso" "debian13" &
 PID=$!
 wait $PID
 rm -rf /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso
