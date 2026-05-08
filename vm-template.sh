@@ -9,9 +9,10 @@ sudo virt-install \
   --os-variant=$6 \
   --network network=default \
   --graphics none \
+  --check all=off
   --console pty,target_type=serial \
   --initrd-inject /var/lib/libvirt/images/preseed.cfg \
-  --extra-args="ks=file:/preseed.cfg console=ttyS0,115200n8"
+  --extra-args="ks=file:/preseed.cfg console=tty0 console=ttyS0,115200n8"
 
 
 
