@@ -1,11 +1,15 @@
 <h1><img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/tk4in.png" height="142"/></h1>
 # Este projeto consiste de uma plataforma web para gerenciamento de VPS`s  
 
+# Hardware necessário
+- Você vai precisar de 3 maquinas para montar seu provedor VPS
+
+  
 # Sequencia de instalação
-- Comece instalando o servidor de DNS na pasta DNS
-- Instale o servidor para as VM`s na pasta VPS
-- Por fim instale o servidor WEb na pasta WEB
-- 
+- Comece instalando o servidor de DNS (instruções na pasta DNS)
+- Instale o servidor para as VM`s na (instruções na pasta VPS)
+- Por fim instale o servidor WEB (instruções na pasta WEB)
+ 
 
 > [!IMPORTANT]
 > Este projeto esta sempre em mudança. [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)
@@ -25,6 +29,3 @@ https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso
 https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso
 - Ubuntu 26.04 LTS - Kernel 7.0.3
 https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso
-
-# Guia de instalação do servidor para maquinas virtuais (VPS)
-
