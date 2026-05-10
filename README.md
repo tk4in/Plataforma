@@ -1,6 +1,12 @@
 <h1><img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/tk4in.png" height="142"/></h1>
 # Este projeto consiste de uma plataforma web para gerenciamento de VPS`s  
 
+# Sequencia de instalação
+- Comece instalando o servidor de DNS na pasta DNS
+- Instale o servidor para as VM`s na pasta VPS
+- Por fim instale o servidor WEb na pasta WEB
+- 
+
 > [!IMPORTANT]
 > Este projeto esta sempre em mudança. [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)
 >
@@ -22,19 +28,3 @@ https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso
 
 # Guia de instalação do servidor para maquinas virtuais (VPS)
 
-
-Instalando os servidores de VM
-- Baixar e instalar o Debian 13.4.0 kernel 6.12.85
-	https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
-
-- Apos instalado logar como root e digitar a seguinte sequencia de comandos:
-
-
-```bash
-apt update && apt upgrade && apt autoremove -y
-apt install sudo -y
-sudo su
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vps-install.sh
-chmod +x vps-install.sh
-./vps-install.sh -u kvmuser -p <$pass>
-```
