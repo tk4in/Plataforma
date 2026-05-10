@@ -11,7 +11,7 @@
 - Comece instalando o servidor de DNS (instruções na pasta DNS)
 - Instale o servidor para as VM`s na (instruções na pasta VPS)
 - Por fim instale o servidor WEB (instruções na pasta WEB)
- </br>
+
 > [!IMPORTANT]
 > Este projeto esta sempre em mudança. [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)
 >
