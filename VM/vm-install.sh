@@ -39,6 +39,12 @@ wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/vm-
 chmod +x vm-template.sh
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/vm-clone.sh
 chmod +x vm-clone.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/vm-stop.sh
+chmod +x vm-stop.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/vm-start.sh
+chmod +x vm-start.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/vm-remove.sh
+chmod +x vm-remove.sh
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
