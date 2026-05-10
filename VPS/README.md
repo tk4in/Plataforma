@@ -11,7 +11,7 @@
   
 > [!CAUTION]
 >
-> Não se esqueca de trocar <$pass> por uma senha para o usuário kvmuser
+> Não se esqueça de trocar <$pass> por uma senha para o usuário kvmuser
 > 
 
 ```bash
