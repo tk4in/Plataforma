@@ -14,10 +14,10 @@
 - Um PC para o servidor web e banco de dados.
   
 # Sequência de instalação
-- Comece instalando o servidor de DNS (instruções na pasta DNS)
+- Comece configurando a Routerboard (instruções na pasta RTB)
+- Instale o servidor de DNS (instruções na pasta DNS)
 - Instale o servidor para as VM`s (instruções na pasta VPS)
 - Instale o servidor WEB (instruções na pasta WEB)
-- Por fim vamos configurar a Routerboard (instruções na pasta ROUTERBOARD)
 
 # Quais distribuições vamos usar para as VM's
 - Almalinux 10.1 - Kernel 6.12.0
