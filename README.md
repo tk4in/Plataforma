@@ -14,7 +14,7 @@
   
 # Sequência de instalação
 - Comece instalando o servidor de DNS (instruções na pasta DNS)
-- Instale o servidor para as VM`s na (instruções na pasta VPS)
+- Instale o servidor para as VM`s (instruções na pasta VPS)
 - Instale o servidor WEB (instruções na pasta WEB)
 - Por fim vamos configurar a Routerboard (instruções na pasta ROUTERBOARD)
 
