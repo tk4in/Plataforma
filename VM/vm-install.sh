@@ -35,9 +35,9 @@ systemctl daemon-reload
 systemctl restart sshd
 
 echo -e "\n\e[32mBaixando scripts\e[0m"
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/vm/vm-template.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/vm-template.sh
 chmod +x vm-template.sh
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/vm/vm-clone.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/vm-clone.sh
 chmod +x vm-clone.sh
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
@@ -62,7 +62,7 @@ cd /var/lib/libvirt/images
 echo -e "\n\e[32mInstalando o ISO do Debian 13\e[0m"
 systemctl restart libvirtd
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/vm/preseed-debian-13.cfg	
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/preseed-debian-13.cfg	
 mv /var/lib/libvirt/images/preseed-debian-13.cfg /var/lib/libvirt/images/preseed.cfg
 echo -e "\n\e[32mCriando template 'Debian 13.4.0-2-2048-5'\e[0m"
 ~/vm-template.sh "debian-13.4.0" "2" "2048" "5" "debian-13.4.0-amd64-netinst.iso" "debian13" &
@@ -71,4 +71,3 @@ wait $PID
 
 rm -rf /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso
 rm -rf /var/lib/libvirt/images/preseed.cfg
-	
