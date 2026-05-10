@@ -1,4 +1,4 @@
-<h1><img alt="Baileys logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/logo.png" height="75"/></h1>
+<h1><img alt="Baileys logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/tk4in.png" height="142"/></h1>
 # Guia de instalação do servidor para maquinas virtuais (VPS)
 
 Instalando os servidores de VM
