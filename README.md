@@ -12,7 +12,7 @@
 - Um PC para o sevidor das VM's (Separe a melhor maquina que você tiver)
 - Um PC para o servidor web e banco de dados.
   
-# Sequencia de instalação
+# Sequência de instalação
 - Comece instalando o servidor de DNS (instruções na pasta DNS)
 - Instale o servidor para as VM`s na (instruções na pasta VPS)
 - Instale o servidor WEB (instruções na pasta WEB)
