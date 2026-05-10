@@ -1,21 +1,22 @@
 <h1><img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/tk4in.png" height="142"/></h1>
 # Este projeto consiste de uma plataforma web para gerenciamento de VPS`s  
 
-# Hardware necessário
-- Você vai precisar de 3 maquinas para montar seu provedor VPS
-- Uma para servividor DNS (pode ser uma mais simples)
-- Uma para o sevidor das VM's (Separe a melhor maquina que você tiver)
-- Uma para o servidor web e banco de dados.
-  
-# Sequencia de instalação
-- Comece instalando o servidor de DNS (instruções na pasta DNS)
-- Instale o servidor para as VM`s na (instruções na pasta VPS)
-- Por fim instale o servidor WEB (instruções na pasta WEB)
-
 > [!IMPORTANT]
 > Este projeto esta sempre em mudança. [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)
 >
 > Vamos tentar resolver o mais rapido possivel.
+
+# Hardware necessário
+- Uma Routerboard MikroTik
+- Um PC para o servidor DNS (pode ser uma mais simples)
+- Um PC para o sevidor das VM's (Separe a melhor maquina que você tiver)
+- Um PC para o servidor web e banco de dados.
+  
+# Sequencia de instalação
+- Comece instalando o servidor de DNS (instruções na pasta DNS)
+- Instale o servidor para as VM`s na (instruções na pasta VPS)
+- Instale o servidor WEB (instruções na pasta WEB)
+- Por fim vamos configurar a Routerboard (instruções na pasta ROUTERBOARD)
 
 # Quais distribuições vamos usar para as VM's
 - Almalinux 10.1 - Kernel 6.12.0
