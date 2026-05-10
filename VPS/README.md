@@ -24,6 +24,6 @@ chmod +x vps-install.sh
 ```
 
 # Vamos tomar um café
-- Tenha paciência pois a instalação e demorada e complexa, mas não se preocupe e tudo automatico.
-- Se tudo correr bem (E vai correr pois eu testei milhares de vezes a instalação) o prompt do linux vai aparecer e você ja pode passar para a proxima etapa.
+- Tenha paciência pois a instalação e demorada e complexa, mas não se preocupe e tudo automático.
+- Se tudo correr bem (E vai correr pois eu testei milhares de vezes a instalação) o prompt do linux vai aparecer e você ja pode passar para a prôxima etapa.
 - Mude para a Pasta WEB e siga as instruções.
