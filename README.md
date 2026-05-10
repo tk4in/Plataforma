@@ -9,7 +9,7 @@
 # Hardware necessário
 - Uma Routerboard MikroTik
 - Um PC para o servidor DNS (pode ser uma mais simples)
-- Um PC para o sevidor das VM's (Separe a melhor maquina que você tiver)
+- Um PC para o servidor das VM's (Separe a melhor maquina que você tiver)
 - Um PC para o servidor web e banco de dados.
   
 # Sequência de instalação
