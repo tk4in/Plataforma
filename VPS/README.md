@@ -1,3 +1,13 @@
+> [!CAUTION]
+> NOTICE OF BREAKING CHANGE.
+>
+> As of 7.0.0, multiple breaking changes were introduced into the library.
+>
+> Please check out https://whiskey.so/migrate-latest for more information.
+
+
+
+
 Instalando os servidores de VM
 - Baixar e instalar o Debian 13.4.0 kernel 6.12.85
 	https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
