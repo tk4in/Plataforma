@@ -5,11 +5,10 @@ Instalando os servidores de VM
 - Apos instalado logar como root e digitar a seguinte sequencia de comandos:
 
 ```bash
-apt update && apt upgrade -y
-apt autoremove -y
+apt update && apt upgrade && apt autoremove -y
 apt install sudo -y
 sudo su
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VM/vm-install.sh
-chmod +x vm-install.sh
-./vm-install.sh -u kvmuser -p <$pass>
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vps-install.sh
+chmod +x vps-install.sh
+./vps-install.sh -u kvmuser -p <$pass>
 ```
