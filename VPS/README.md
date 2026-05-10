@@ -8,8 +8,11 @@ Instalando os servidores de VM
 	https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
 
 - Apos instalado logar como root e digitar a seguinte sequencia de comandos:
-- (Nao se esqueca de trocar <$pass> por uma senha para o usuario kvmuser)
-
+  
+> [!CAUTION]
+>
+> Não se esqueca de trocar <$pass> por uma senha para o usuario kvmuser
+> 
 
 ```bash
 apt update && apt upgrade && apt autoremove -y
