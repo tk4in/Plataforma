@@ -1,0 +1,3 @@
+#!/bin/bash
+
+virsh start $1
