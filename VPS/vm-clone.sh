@@ -17,9 +17,9 @@ while getopts t:d:p: opts; do
    esac
 done
 
-if [-z "$TEMP_VAL" ] || [-z "$DOM_VAL" ] || [ -z "$PASS_VAL" ]; then
+if [ -z "$TEMP_VAL" ] || [ -z "$DOM_VAL" ] || [ -z "$PASS_VAL" ]; then
    echo -e "\n\e[32mPreencha todos os parâmetros\e[0m";
-   helpFunction.
+   helpFunction
 fi
 
 virt-clone --original $TEMP_VAL --name $TEMP_VAL-$DOM_VAL --auto-clone
