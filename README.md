@@ -8,7 +8,7 @@
 > Vamos tentar resolver o mais rapido possivel.
 
 # Hardware necessário
-- Uma Routerboard MikroTik
+- Uma Routerboard MikroTik (Testado em uma [RB3011-UiAS-RM](https://mikrotik.com/product/RB3011UiAS-RM) e na [RB1100-AHx4](https://mikrotik.com/product/rb1100ahx4))
 - Um PC para o servidor DNS (pode ser uma mais simples)
 - Um PC para o servidor das VM's (Separe a melhor maquina que você tiver)
 - Um PC para o servidor web e banco de dados.
@@ -20,11 +20,11 @@
 - Instale o servidor WEB (instruções na pasta WEB)
 
 # Quais distribuições vamos usar para as VM's
-| Dsitribuição | Kernel | link | Tamanho |
+| Dsitribuição | Kernel | link | Tamanho (KB)|
 |:---|:---|:---|---:|
 | Almalinux 10.1 | 6.12.0 | https://repo.almalinux.org/almalinux/10/isos/x86_64/AlmaLinux-10.1-x86_64-minimal.iso | 0|
 | Alpinelinux 3.23.4 | 6.18.22 | https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso | 0|
 | Debian 13.0.4 | 6.12.85 | https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso | 0|
 | Ubuntu 22.04.5 | 6.8 | https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso | 0|
-| Ubuntu 24.04.4 | 6.17 | https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso | 0|
+| Ubuntu 24.04.4 LTS| 6.8.0-111-generic | https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso | 0|
 | Ubuntu 26.04 LTS | 7.0.3 | https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso | 0|
