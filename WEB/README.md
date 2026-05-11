@@ -9,10 +9,9 @@
  
 ```bash
 apt update && apt upgrade -y
-apt autoremove -y
+yes | apt autoremove
 apt install sudo -y
 sudo su
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/web-install.sh
-chmod +x web-install.sh
-./web-install.sh -u kvmuser -p <$pass>
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/web-install.sh && chmod +x web-install.sh
+./web-install.sh -u kvmuser -d <$dominio> i- <$ip> -g <$gateway> -u <$user> -p <$pass>
 ```
