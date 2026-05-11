@@ -17,9 +17,9 @@ while getopts u:p: opts; do
    esac
 done
 
-if [-z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
+if [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    echo -e "\n\e[32mPreencha todos os parâmetros\e[0m";
-   helpFunction.
+   helpFunction
 fi
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
@@ -64,16 +64,32 @@ systemctl start libvirtd
 virsh net-autostart default
 virsh net-start default
 
-echo -e "\n\e[32mInstalando o ISO do Debian 13\e[0m"
-systemctl restart libvirtd
-cd /var/lib/libvirt/images
-wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/preseed-debian-13.cfg	
-mv /var/lib/libvirt/images/preseed-debian-13.cfg /var/lib/libvirt/images/preseed.cfg
+echo -e "\n\e[32mBaixando o ISO do Debian 13\e[0m"
+wget -P /var/lib/libvirt/images https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
+wget -O /var/lib/libvirt/images/preseed.cfg https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/preseed-debian-13.cfg	 
+
 echo -e "\n\e[32mCriando template 'Debian 13.4.0-2-2048-5'\e[0m"
+systemctl restart libvirtd
 ~/vm-template.sh "debian-13.4.0" "2" "2048" "5" "debian-13.4.0-amd64-netinst.iso" "debian13" &
 PID=$!
 wait $PID
 
+echo -e "\n\e[32mRemovendo arquivos temporarios\e[0m"
 rm -rf /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso
 rm -rf /var/lib/libvirt/images/preseed.cfg
+
+echo -e "\n\e[32mInstalando o ISO do Alpine 3\e[0m"
+wget -P /var/lib/libvirt/images https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso
+#wget -O https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/preseed-debian-13.cfg
+
+echo -e "\n\e[32mCriando template 'Alpine 3.23.4-2-2048-5'\e[0m"
+systemctl restart libvirtd
+~/vm-template.sh "Alpine-3.23.4" "2" "2048" "5" "alpine-standard-3.23.4-x86_64.iso" "alpinelinux3.21" &
+PID=$!
+wait $PID
+
+echo -e "\n\e[32mRemovendo arquivos temporarios\e[0m"
+rm -rf /var/lib/libvirt/images/alpine-standard-3.23.4-x86_64.iso
+#rm -rf /var/lib/libvirt/images/preseed.cfg
+
+virsh list --all
