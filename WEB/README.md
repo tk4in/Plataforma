@@ -8,7 +8,8 @@
 - Após instalado logar como root e digitar a seguinte sequencia de comandos:
  
 ```bash
-apt update && apt upgrade && apt autoremove -y
+apt update && apt upgrade -y
+apt autoremove -y
 apt install sudo -y
 sudo su
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/web-install.sh
