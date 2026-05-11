@@ -15,7 +15,7 @@
 > 
 
 ```bash
-apt update && apt upgrade
+apt update && apt upgrade -y
 yes | apt autoremove
 apt install sudo -y
 sudo su
