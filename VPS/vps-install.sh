@@ -37,6 +37,8 @@ systemctl restart sshd
 echo -e "\n\e[32mBaixando scripts\e[0m"
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-template.sh
 chmod +x vm-template.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-template_a.sh
+chmod +x vm-template_a.sh
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-clone.sh
 chmod +x vm-clone.sh
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-stop.sh
@@ -54,10 +56,8 @@ npm install -g npm@11.11.0
 
 echo -e "\n\e[32mInstalando o KVM\e[0m"
 apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils libosinfo-bin virt-install virt-manager virtinst libguestfs-tools
-usermod -a -G libvirt $USER_VAL
+usermod -a -G libvirt-qemu $USER_VAL
 usermod -a -G kvm $USER_VAL
-usermod -a -G adm $USER_VAL
-usermod -a -G sudo $USER_VAL
 chown -R $USER_VAL:$USER_VAL /var/lib/libvirt
 systemctl enable libvirtd
 systemctl start libvirtd
@@ -78,18 +78,19 @@ echo -e "\n\e[32mRemovendo arquivos temporarios\e[0m"
 rm -rf /var/lib/libvirt/images/debian-13.4.0-amd64-netinst.iso
 rm -rf /var/lib/libvirt/images/preseed.cfg
 
-echo -e "\n\e[32mInstalando o ISO do Alpine 3\e[0m"
-wget -P /var/lib/libvirt/images https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso
+#echo -e "\n\e[32mInstalando o ISO do Alpine 3\e[0m"
+#wget -P /var/lib/libvirt/images https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-virt-3.23.4-x86_64.iso
+#wget -P /var/lib/libvirt/images https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso
 #wget -O https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/preseed-debian-13.cfg
 
-echo -e "\n\e[32mCriando template 'Alpine 3.23.4-2-2048-5'\e[0m"
-systemctl restart libvirtd
-~/vm-template.sh "Alpine-3.23.4" "2" "2048" "5" "alpine-standard-3.23.4-x86_64.iso" "alpinelinux3.21" &
-PID=$!
-wait $PID
+#echo -e "\n\e[32mCriando template 'Alpine 3.23.4-2-2048-5'\e[0m"
+#systemctl restart libvirtd
+#~/vm-template_a.sh "Alpine-3.23.4" "2" "2048" "5" "alpine-virt-3.23.4-x86_64.iso" "alpinelinux3.21" &
+#PID=$!
+#wait $PID
 
-echo -e "\n\e[32mRemovendo arquivos temporarios\e[0m"
-rm -rf /var/lib/libvirt/images/alpine-standard-3.23.4-x86_64.iso
+#echo -e "\n\e[32mRemovendo arquivos temporarios\e[0m"
+#rm -rf /var/lib/libvirt/images/alpine-standard-3.23.4-x86_64.iso
 #rm -rf /var/lib/libvirt/images/preseed.cfg
 
 virsh list --all
