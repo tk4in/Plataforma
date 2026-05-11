@@ -20,7 +20,7 @@
 - Instale o servidor WEB (instruções na pasta WEB)
 
 # Quais distribuições vamos usar para as VM's
-| Dsitribuição | Kernel | link | Tamanho (KB)|
+| Distribuição | Kernel | link | Tamanho (KB)|
 |:---|:---|:---|---:|
 | Almalinux 10.1 | 6.12.0 | https://repo.almalinux.org/almalinux/10/isos/x86_64/AlmaLinux-10.1-x86_64-minimal.iso | 1.499.840|
 | Alpinelinux 3.23.4 | 6.18.22 | https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso | 355.328|
