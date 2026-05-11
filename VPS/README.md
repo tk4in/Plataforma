@@ -15,7 +15,8 @@
 > 
 
 ```bash
-apt update && apt upgrade && apt autoremove -y
+apt update && apt upgrade
+yes | apt autoremove
 apt install sudo -y
 sudo su
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vps-install.sh
