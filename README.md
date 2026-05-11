@@ -20,15 +20,11 @@
 - Instale o servidor WEB (instruções na pasta WEB)
 
 # Quais distribuições vamos usar para as VM's
-- Almalinux 10.1 - Kernel 6.12.0
-https://repo.almalinux.org/almalinux/10/isos/x86_64/AlmaLinux-10.1-x86_64-minimal.iso
-- Alpinelinux 3.23.4 - Kernel 6.12 LTS
-https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso
-- Debian 13.0.4 - Kernel 6.12.85:
-https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
-- Ubuntu 22.04.5 Kernel  6.8
-https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso
-- Ubuntu 24.04.4 - Kernel 6.17
-https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso
-- Ubuntu 26.04 LTS - Kernel 7.0.3
-https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso
+| Dsitribuição | Kernel | link | Tamanho |
+|:---|:---|:---|---:|
+| Almalinux 10.1 | 6.12.0 | https://repo.almalinux.org/almalinux/10/isos/x86_64/AlmaLinux-10.1-x86_64-minimal.iso | 0|
+| Alpinelinux 3.23.4 | 6.18.22 | https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso | 0|
+| Debian 13.0.4 | 6.12.85 | https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso | 0|
+| Ubuntu 22.04.5 | 6.8 | https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso | 0|
+| Ubuntu 24.04.4 | 6.17 | https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso | 0|
+| Ubuntu 26.04 LTS | 7.0.3 | https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso | 0|
