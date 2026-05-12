@@ -7,13 +7,8 @@
 - Baixar e instalar o Debian 13.4.0 kernel 6.12.85</br>
 	https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
 
-- Após instalado logar como root e digitar a seguinte sequência de comandos:
+- Após instalado logar como root e digitar a seguinte sequência de comandos (uma linha por vez):
   
-> [!CAUTION]
->
-> Não se esqueça de trocar <$user> e <$pass> para seu usuário e senha respectivamente.
-> 
-
 ```bash
 apt update && apt upgrade -y
 yes | apt autoremove
@@ -23,7 +18,12 @@ wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vp
 ./vps-install.sh -u <$user> -p <$pass>
 ```
 
-# Vamos tomar um café
+> [!CAUTION]
+>
+> Não se esqueça de trocar <$user> e <$pass> para seu usuário e senha respectivamente.
+> 
+
+# Vai tomar um café
 - Tenha paciência pois a instalação e demorada e complexa, mas não se preocupe e tudo automático.
 - Se tudo correr bem (E vai correr pois eu testei milhares de vezes a instalação) o prompt do linux vai aparecer e você ja pode passar para a prôxima etapa.
 - Mude para a Pasta WEB e siga as instruções.
