@@ -5,7 +5,7 @@
 - Baixar e instalar o Debian 13.4.0 kernel 6.12.85</br>
 	https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
 
-- Após instalado logar como root e digitar a seguinte sequencia de comandos:
+- Após instalado logar como root e digitar a seguinte sequência de comandos (uma linha por vez):
  
 ```bash
 apt update && apt upgrade -y
@@ -15,3 +15,8 @@ sudo su
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/web-install.sh && chmod +x web-install.sh
 ./web-install.sh -d <$dominio> i- <$ip> -g <$gateway> -u <$user> -p <$pass>
 ```
+
+> [!CAUTION]
+>
+> Não se esqueça de trocar as variáveis <$dominio>, <$user>, <$ip>, <$gateway> e <$pass> por seus respectivos valores.
+> 
