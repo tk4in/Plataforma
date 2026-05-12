@@ -11,7 +11,7 @@
   
 > [!CAUTION]
 >
-> Não se esqueça de trocar <$pass> por uma senha para o usuário kvmuser
+> Não se esqueça de trocar <$user> e <$pass> pora seu usuário e senha respectivamente.
 > 
 
 ```bash
@@ -20,7 +20,7 @@ yes | apt autoremove
 apt install sudo -y
 sudo su
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vps-install.sh && chmod +x vps-install.sh
-./vps-install.sh -u kvmuser -p <$pass>
+./vps-install.sh -u <$user> -p <$pass>
 ```
 
 # Vamos tomar um café
