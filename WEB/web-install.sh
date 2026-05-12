@@ -2,7 +2,7 @@
 
 helpFunction()
 {
-   echo -e "Usage: $0 -d dominio -i ip -g gateway -u usuario -p password"
+   echo -e "Use: $0 -d dominio -i ip -g gateway -u usuario -p password"
    echo -e "\t-d Dominio do site"
    echo -e "\t-i IP"
    echo -e "\t-g gateway"
@@ -30,10 +30,6 @@ echo -e "\n\e[32mInstalando dependencias\e[0m"
 apt install -y software-properties-common ca-certificates lsb-release apt-transport-https gnupg2
 apt install -y nano curl wget git sed subversion alembic libjansson-dev autoconf automake libxml2-dev libncurses-dev libtool
 
-echo -e "\n\e[32mAlterando o HostName\e[0m"
-hostnamectl set-hostname ${DOM_VAL}
-echo "${DOM_VAL}"
-
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apt install ufw
 ufw default deny incoming && ufw default allow outgoing
@@ -43,6 +39,14 @@ ufw allow 110,995/tcp
 ufw allow 3306/tcp
 ufw allow 6922/tcp
 yes | ufw enable
+
+echo -e "\n\e[32mAlterando o HostName\e[0m"
+hostnamectl set-hostname ${DOM_VAL}
+echo "${DOM_VAL}"
+
+echo -e "\n\e[32mCriando o usuario\e[0m"
+useradd ${USER_VAL} -c "Usuario" -s /bin/bash -m -p $(openssl passwd ${PASS_VAL})
+usermod -aG www-data,opendkim ${USER_VAL}
 
 echo -e "\n\e[32mAlterando a porta do SSH\e[0m"
 sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
@@ -202,12 +206,32 @@ non_smtpd_milters = $smtpd_milters' | tee -a /etc/postfix/main.cf
 service opendkim restart
 service postfix restart
 
+echo -e "\n\e[32mInstalando o Adminer\e[0m"
+mkdir -p /var/www/html/${DOM_VAL}/adminer
+chown -R www-data: /var/www/html/${DOM_VAL}/adminer
+wget -O /var/www/html/${DOM_VAL}/adminer/adminer.php https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
+
 echo -e "\n\e[32mCriando o Banco de Dados do Maindb\e[0m"
 mariadb <<EOF
 CREATE DATABASE maindb;
-CREATE USER 'mainuser'@'%' IDENTIFIED BY '${PASS_VAL}';
-GRANT ALL ON maindb.* TO 'mainuser'@'%' WITH GRANT OPTION;
+CREATE USER '${USER_VAL}'@'%' IDENTIFIED BY '${PASS_VAL}';
+GRANT ALL ON maindb.* TO '${USER_VAL}'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+CREATE TABLE `chipstk` (
+  `msisdn` varchar(13) NOT NULL,
+  `lid` varchar(32) NOT NULL,
+  `linetype` varchar(6) NOT NULL,
+  `dateactive` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `dateblock` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `dateunblock` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `status` varchar(16) NOT NULL,
+  `custo` float(6,2) unsigned DEFAULT NULL,
+  `mbqt` int(5) unsigned DEFAULT NULL,
+  `mbs` varchar(2) DEFAULT NULL,
+  `owner` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`msisdn`),
+  UNIQUE KEY `lid` (`lid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_general_ci;
 CREATE TABLE `syslog` (
   `data` datetime NOT NULL,
   `app` varchar(20) NOT NULL,
@@ -221,10 +245,3 @@ CREATE TABLE `syslog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_general_ci;
 EXIT
 EOF
-
-echo -e "\n\e[32mInstalando o Adminer\e[0m"
-mkdir -p /var/www/html/${DOM_VAL}/adminer
-chown -R www-data: /var/www/html/${DOM_VAL}/adminer
-cd /var/www/html/${DOM_VAL}/adminer
-wget https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1-mysql-en.php
-mv adminer-5.4.1-mysql-en.php adminer.php
