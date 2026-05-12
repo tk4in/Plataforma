@@ -11,7 +11,7 @@
   
 > [!CAUTION]
 >
-> Não se esqueça de trocar <$user> e <$pass> pora seu usuário e senha respectivamente.
+> Não se esqueça de trocar <$user> e <$pass> para seu usuário e senha respectivamente.
 > 
 
 ```bash
