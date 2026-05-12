@@ -7,7 +7,7 @@
 - Baixar e instalar o Debian 13.4.0 kernel 6.12.85</br>
 	https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
 
-- Após instalado logar como root e digitar a seguinte sequencia de comandos:
+- Após instalado logar como root e digitar a seguinte sequência de comandos:
   
 > [!CAUTION]
 >
