@@ -19,8 +19,7 @@ apt update && apt upgrade -y
 yes | apt autoremove
 apt install sudo -y
 sudo su
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vps-install.sh
-chmod +x vps-install.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vps-install.sh && chmod +x vps-install.sh
 ./vps-install.sh -u kvmuser -p <$pass>
 ```
 
