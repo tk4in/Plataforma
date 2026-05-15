@@ -6,8 +6,8 @@ helpFunction()
    echo -e "\t-d Dominio do site"
    echo -e "\t-i IP"
    echo -e "\t-g gateway"
-   echo -e "\t-u Usuario"
-   echo -e "\t-p Senha do usuario"
+   echo -e "\t-u Usuário"
+   echo -e "\t-p Senha do usuário"
    exit 1 # Exit script after printing help
 }
 
@@ -22,11 +22,11 @@ while getopts d:i:g:u:p: opts; do
 done
 
 if [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
-   echo -e "\n\e[32mPreencha todos os parametros\e[0m";
+   echo -e "\n\e[32mPreencha todos os parâmetros\e[0m";
    helpFunction
 fi
 
-echo -e "\n\e[32mInstalando dependencias\e[0m"
+echo -e "\n\e[32mInstalando dependências\e[0m"
 apt install -y software-properties-common ca-certificates lsb-release apt-transport-https gnupg2
 apt install -y nano curl wget git sed subversion alembic libjansson-dev autoconf automake libxml2-dev libncurses-dev libtool
 
@@ -44,15 +44,14 @@ echo -e "\n\e[32mAlterando o HostName\e[0m"
 hostnamectl set-hostname ${DOM_VAL}
 echo "${DOM_VAL}"
 
-echo -e "\n\e[32mCriando o usuario\e[0m"
+echo -e "\n\e[32mCriando o usuário\e[0m"
 useradd ${USER_VAL} -c "Usuario" -s /bin/bash -m -p $(openssl passwd ${PASS_VAL})
-usermod -aG www-data,opendkim ${USER_VAL}
 
-echo -e "\n\e[32mAlterando a porta do SSH\e[0m"
+echo -e "\n\e[32mInstalando o SSH na porta 6922\e[0m"
+apt install -y openssh-server
 sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl daemon-reload
 systemctl restart ssh.socket
-echo "Port: 6922"
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
@@ -74,14 +73,24 @@ echo "<VirtualHost *:80>
                         AllowOverride All
                         Require all granted
                 </Directory>
+		<IfModule mod_headers.c>
+    			Header always set Strict-Transport-Security 'max-age=31536000; includeSubDomains'
+			Header always set Reporting-Endpoints default='https://${DOM_VAL}/report-to', csp-violation='https://${DOM_VAL}/report-to'
+			Header always set Content-Security-Policy default-src 'self'; report-to csp-violation
+			Header unset X-Powered-By
+		</IfModule>
 </VirtualHost>" | tee /etc/apache2/sites-available/${DOM_VAL}.conf
-mkdir -p /var/www/html/${DOM_VAL}/report-to
 chown -R www-data:www-data /var/www/html/${DOM_VAL}
+mkdir -p /var/www/html/${DOM_VAL}/report-to
+wget -O /var/www/html/${DOM_VAL}/report-to https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/report-to/index.php	 
+a2enmod headers
 a2dissite 000-default
 a2ensite ${DOM_VAL}
 a2dismod mpm_prefork
 a2enmod mpm_event http2
-systemctl start apache2 && systemctl enable apache2 
+usermod -aG www-data ${USER_VAL}
+systemctl start apache2 && systemctl enable apache2
+echo "${DOM_VAL}" | tee /var/www/html/${DOM_VAL}/index.html
 
 echo -e "\n\e[32mInstalando Certificados SSL\e[0m"
 apt install -y certbot python3-certbot-apache
@@ -203,6 +212,7 @@ milter_default_action = accept
 milter_protocol = 6
 smtpd_milters = local:opendkim/opendkim.sock
 non_smtpd_milters = $smtpd_milters' | tee -a /etc/postfix/main.cf
+usermod -aG opendkim ${USER_VAL}
 service opendkim restart
 service postfix restart
 
