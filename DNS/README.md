@@ -2,7 +2,7 @@
 
 # Guia de instalação do servidor DNS
 
-- Baixar e instalar o Alpine 3.23.4 kernel 6.12.85</br>
+- Baixar e instalar o Alpine 3.23.4 kernel 6.18.22-0-lts</br>
 	https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso
 
 - Após instalado logar como root e digitar a seguinte sequência de comandos (uma linha por vez):
