@@ -8,10 +8,8 @@
 - Após instalado logar como root e digitar a seguinte sequência de comandos (uma linha por vez):
   
 ```bash
-apt update && apt upgrade -y
-yes | apt autoremove
-apt install sudo -y
-sudo su
+apk update && apk upgrade --no-interactive
+lbu commit
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/DNS/dns-install.sh && chmod +x dns-install.sh
 ./dns-install.sh -u <$user> -p <$pass>
 ```
