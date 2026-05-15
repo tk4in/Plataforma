@@ -2,8 +2,8 @@
 
 # Guia de instalação do servidor DNS
 
-- Baixar e instalar o Debian 13.4.0 kernel 6.12.85</br>
-	https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
+- Baixar e instalar o Alpine 3.23.4 kernel 6.12.85</br>
+	https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso
 
 - Após instalado logar como root e digitar a seguinte sequência de comandos (uma linha por vez):
   
