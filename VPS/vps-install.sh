@@ -22,11 +22,17 @@ if [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    helpFunction
 fi
 
+echo -e "\n\e[32mInstalando dependências\e[0m"
+apt install -y nano curl wget git sed subversion libtool
+
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apt install -y ufw
 ufw default deny incoming && ufw default allow outgoing
 ufw allow 6922/tcp
 yes | ufw enable
+
+echo -e "\n\e[32mCriando o usuário\e[0m"
+useradd ${USER_VAL} -c "Usuario" -s /bin/bash -m -p $(openssl passwd ${PASS_VAL})
 
 echo -e "\n\e[32mInstalando o SSH na porta 6922\e[0m"
 apt install -y openssh-server
@@ -34,25 +40,19 @@ sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 systemctl daemon-reload
 systemctl restart sshd
 
-echo -e "\n\e[32mBaixando scripts\e[0m"
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-template.sh
-chmod +x vm-template.sh
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-template_a.sh
-chmod +x vm-template_a.sh
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-clone.sh
-chmod +x vm-clone.sh
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-stop.sh
-chmod +x vm-stop.sh
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-start.sh
-chmod +x vm-start.sh
-wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-remove.sh
-chmod +x vm-remove.sh
-
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 apt update
 apt install -y nodejs
 npm install -g npm@11.11.0
+
+echo -e "\n\e[32mBaixando scripts\e[0m"
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-template.sh && chmod +x vm-template.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-template_a.sh && chmod +x vm-template_a.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-clone.sh && chmod +x vm-clone.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-stop.sh && chmod +x vm-stop.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-start.sh && chmod +x vm-start.sh
+wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/VPS/vm-remove.sh && chmod +x vm-remove.sh
 
 echo -e "\n\e[32mInstalando o KVM\e[0m"
 apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils libosinfo-bin virt-install virt-manager virtinst libguestfs-tools
