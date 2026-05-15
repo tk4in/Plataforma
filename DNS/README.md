@@ -8,12 +8,10 @@
 - Após instalado logar como root e digitar a seguinte sequência de comandos (uma linha por vez):
   
 ```bash
-echo "http://dl-3.alpinelinux.org/alpine/v3.23/main \
-http://dl-3.alpinelinux.org/alpine/v3.23/community" | tee /etc/apk/repositories
+echo -e "http://dl-3.alpinelinux.org/alpine/v3.23/main\nhttp://dl-3.alpinelinux.org/alpine/v3.23/community" | tee /etc/apk/repositories
 apk update
 apk add --upgrade apk-tools
 apk upgrade --available --no-interactive
-lbu commit
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/DNS/dns-install.sh && chmod +x dns-install.sh
 ./dns-install.sh -u <$user> -p <$pass>
 ```
