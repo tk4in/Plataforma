@@ -30,7 +30,7 @@ echo -e "\n\e[32mInstalando dependências\e[0m"
 apt install -y nano curl wget git sed subversion libtool
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
-apt install ufw
+apk add ufw ip6tables
 ufw default deny incoming && ufw default allow outgoing
 ufw allow 53/tcp
 ufw allow 53/udp
