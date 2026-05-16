@@ -14,10 +14,10 @@
 - Um PC para o servidor web e banco de dados.
   
 # Sequência de instalação
-- Comece configurando a Routerboard (instruções na pasta RTB)
-- Instale o servidor de DNS (instruções na pasta DNS)
-- Instale o servidor para as VM`s (instruções na pasta VPS)
-- Instale o servidor WEB (instruções na pasta WEB)
+- Comece configurando a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
+- Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
+- Instale o servidor para as VM`s (instruções na pasta [VPS](https://github.com/tk4in/Plataforma/tree/master/VPS))
+- Instale o servidor WEB (instruções na pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB))
 
 # Quais distribuições vamos usar para as VM's
 | Distribuição | Kernel | link | Tamanho (KB)|
