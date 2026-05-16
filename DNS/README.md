@@ -7,9 +7,9 @@
  <br><b>Execução via RAM (Diskless Mode):</b> O sistema pode ser carregado inteiramente na memória RAM, tornando-o ideal para sistemas que exigem alta estabilidade e performace.<br>
 
 # Guia de instalação
-- Baixar e instalar o Alpine 3.23.4 kernel 6.18.24-0-lts</br>
+- Use o pendrive para instalar o Alpine 3.23.4 kernel 6.18.24-0-lts</br>
 	https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso
-
+- Se precisar aqui tem um <a href="https://www.youtube.com/watch?v=WhOxOof1J1g&t=236s" target="_blank" rel="noopener noreferrer">video</a> ensinando a instalar.
 - Após instalado logar como root e digitar a seguinte sequência de comandos (uma linha por vez):
   
 ```bash
