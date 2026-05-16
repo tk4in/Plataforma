@@ -45,7 +45,7 @@ useradd ${USER_VAL} -c "Usuario" -s /bin/bash -m -p $(openssl passwd ${PASS_VAL}
 
 echo -e "\n\e[32mInstalando o SSH na porta 6922\e[0m"
 apk add openssh
-
+sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 rc-update add sshd
 /etc/init.d/sshd start
 
