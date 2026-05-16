@@ -8,13 +8,15 @@
 > Vamos tentar resolver o mais rapido possivel.
 
 # Hardware necessário
+- Um pendrive de 16GB (para instalação das ISO`s linux)
 - Uma Routerboard MikroTik (Testado em uma [RB3011-UiAS-RM](https://mikrotik.com/product/RB3011UiAS-RM) e na [RB1100-AHx4](https://mikrotik.com/product/rb1100ahx4))
 - Um PC para o servidor DNS (pode ser uma mais simples)
 - Um PC para o servidor das VM's (Separe a melhor maquina que você tiver)
 - Um PC para o servidor web e banco de dados.
   
 # Sequência de instalação
-- Comece configurando a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
+- Comece baixando as ISO`s linux e criando o pendrive bootavel. (Intruções logo abaixo)
+- Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
 - Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
 - Instale o servidor para as VM`s (instruções na pasta [VPS](https://github.com/tk4in/Plataforma/tree/master/VPS))
 - Instale o servidor WEB (instruções na pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB))
