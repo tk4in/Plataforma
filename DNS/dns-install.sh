@@ -44,16 +44,13 @@ echo -e "\n\e[32mCriando o usuário\e[0m"
 useradd ${USER_VAL} -c "Usuario" -s /bin/bash -m -p $(openssl passwd ${PASS_VAL})
 
 echo -e "\n\e[32mInstalando o SSH na porta 6922\e[0m"
-apt install -y openssh-server
-sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
-systemctl daemon-reload
-systemctl restart ssh.socket
+apk add openssh
+
+rc-update add sshd
+/etc/init.d/sshd start
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-apt update
-apt install -y nodejs
-npm install -g npm@11.11.0
+apk add nodejs npm
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
