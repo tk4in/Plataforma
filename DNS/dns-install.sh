@@ -47,7 +47,7 @@ echo -e "\n\e[32mInstalando o SSH na porta 6922\e[0m"
 apk add openssh
 sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
 rc-update add sshd
-/etc/init.d/sshd start
+/etc/init.d/sshd restart
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 apk add nodejs npm
