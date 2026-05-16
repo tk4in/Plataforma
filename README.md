@@ -16,7 +16,8 @@
   
 ## Sequência de instalação
 - Comece criando um pendrive bootável com as ISO`s do linux que vamos usar. ([Instruções logo abaixo](#criando-um-pendrive-bootavel))
-- Reuna as informações para a Plataforma e crie o arquivo <b>config.env.</b> (dominio, IP, gateway, etc.. Tabela logo abaixo)
+- Reuna as informações para a Plataforma e crie o arquivo <b>config.env.</b> (dominio, IP, gateway, etc.. [Tabela logo abaixo](#criando-o-arquivo-configenv))
+- Entre no registro do dominio que será usado e aponte o DNS para o primeiro IP.  
 - Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
 - Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
 - Instale o servidor para as VM`s (instruções na pasta [VPS](https://github.com/tk4in/Plataforma/tree/master/VPS))
@@ -45,8 +46,8 @@
 |$DOM_VAL| meudominio.com.br | Nome de dominio do site |
 |$USER_VAL| useradm | Nome do usuário |
 |$PASS_VAL| P4$$w0rd123 | Senha para o usuário |
-|$IP_VAL| P4$$w0rd123 | Senha para o usuário |
-|$GW_VAL| P4$$w0rd123 | Senha para o usuário |
+|$IP_VAL| 200.128.100.210/29 | IP e mascara fornecido pela operadora |
+|$GW_VAL| 200.128.100.209 | Gateway |
 
 ## Vamos ao trabalho
 - A primeira coisa que vamos fazer e configurar a Routerboard
