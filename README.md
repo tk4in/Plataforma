@@ -24,10 +24,9 @@
 - Instale o servidor WEB (instruções na pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB))
 
 ## Criando um pendrive bootável
-- Use o [VENTOY](https://www.ventoy.net/) para cria o pendrive bootável, ele e simples e facil de usar. [Download](https://www.ventoy.net/en/download.html)
+- Use o [VENTOY](https://www.ventoy.net/) para cria o pendrive bootável, ele e simples e fácil de usar. [Download](https://www.ventoy.net/en/download.html)
 - Após criar o pendrive faça download das distribuiçoes linux (tabela abaixo) e copie para o pendrive.
     
-## Estas são as distribuições que vamos usar para a VPS.
 | Distribuição | Kernel | link | Tamanho (KB)|
 |:---|:---|:---|---:|
 | Almalinux 10.1 | 6.12.0 | https://repo.almalinux.org/almalinux/10/isos/x86_64/AlmaLinux-10.1-x86_64-minimal.iso | 1.499.840|
@@ -38,8 +37,8 @@
 | Ubuntu 26.04 LTS | 7.0.3 | https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso | 2.850.194|
 
 ## Criando o arquivo config.env
-- Você pode baixar o arquivo exemplo [aqui](https://github.com/tk4in/Plataforma/tree/master/config.env) e preencher os campos.<br>
-- Após preencher corretamente copie o arquivo para o pendrive. Os instaladores vão usa-lo para as configurações. 
+- Você pode baixar o arquivo exemplo [aqui](https://github.com/tk4in/Plataforma/tree/master/config.env) e preencher os campos conforme tabela abaixo.<br>
+- Após preencher corretamente copie o arquivo para o pendrive. Os instaladores vão usá-lo para as configurações. 
 
 | Parâmetro | Exemplo | Descrição |
 |:---|:---|:---|
