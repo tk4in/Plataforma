@@ -5,7 +5,7 @@
 > [!IMPORTANT]
 > Este projeto esta sempre em mudança. [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)
 >
-> Vamos tentar resolver o mais rapido possível.
+> Vamos tentar resolver o mais rápido possível.
 
 # Hardware necessário
 - Um pendrive de 16GB (para instalação das ISO`s linux)
@@ -15,15 +15,15 @@
 - Um PC para o servidor web e banco de dados.
   
 # Sequência de instalação
-- Comece reunindo as informações para a Plataforma
-- Crie um pendrive botavel com as ISO`s do linux que vamos usar. (Instruções logo abaixo)
+- Comece criando um pendrive bootável com as ISO`s do linux que vamos usar. (Instruções logo abaixo)
+- Reuna as informações para a Plataforma. (dominio, IP, gateway, etc.. Tabela logo abaixo)
 - Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
 - Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
 - Instale o servidor para as VM`s (instruções na pasta [VPS](https://github.com/tk4in/Plataforma/tree/master/VPS))
 - Instale o servidor WEB (instruções na pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB))
 
-# Criando um pendrive botavel
-- Use o ventoy para cria o pendrive botavel, ele e simples e facil de usar. [Download](https://www.ventoy.net/en/download.html)
+# Criando um pendrive bootável
+- Use o ventoy para cria o pendrive bootável, ele e simples e facil de usar. [Download](https://www.ventoy.net/en/download.html)
 - Após criar o pendrive faça download das distribuiçoes linux (tabela abaixo) e copie para o pendrive.
     
 # Estas são as distribuições que vamos usar para a VPS.
