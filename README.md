@@ -15,7 +15,7 @@
 - Um PC para o servidor web e banco de dados.
   
 # Sequência de instalação
-- Comece criando um pendrive bootável com as ISO`s do linux que vamos usar. (Instruções logo abaixo)
+- Comece criando um pendrive bootável com as ISO`s do linux que vamos usar. ([Instruções logo abaixo](#criando-um-pendrive-bootavel))
 - Reuna as informações para a Plataforma. (dominio, IP, gateway, etc.. Tabela logo abaixo)
 - Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
 - Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
