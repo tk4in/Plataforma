@@ -2,7 +2,8 @@
 
 helpFunction()
 {
-   echo -e "Use: $0 -d dominio -i ip -g gateway -u usuario -p password"
+   echo -e "Use: $0 -n nome -d dominio -i ip -g gateway -u usuario -p password"
+   echo -e "\t-n Nome da maquina"
    echo -e "\t-d Dominio do site"
    echo -e "\t-i IP"
    echo -e "\t-g gateway"
@@ -11,8 +12,9 @@ helpFunction()
    exit 1 # Exit script after printing help
 }
 
-while getopts d:i:g:u:p: opts; do
+while getopts n:d:i:g:u:p: opts; do
    case ${opts} in
+      n) NOM_VAL=${OPTARG} ;;
       d) DOM_VAL=${OPTARG} ;;
       i) IP_VAL=${OPTARG} ;;
       g) GW_VAL=${OPTARG} ;;
@@ -21,13 +23,10 @@ while getopts d:i:g:u:p: opts; do
    esac
 done
 
-if [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
+if [ -z "$NOM_VAL" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    echo -e "\n\e[32mPreencha todos os parâmetros\e[0m";
    helpFunction
 fi
-
-echo -e "\n\e[32mInstalando dependências\e[0m"
-apt install -y nano curl wget git sed subversion libtool
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apk add ufw ip6tables
