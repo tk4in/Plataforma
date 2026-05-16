@@ -56,7 +56,7 @@ apt install -y nodejs
 npm install -g npm@11.11.0
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
-apt install -y bind9 bind9utils bind9-doc dnsutils
+apk add bind
 
 echo -e "\n\e[32mInstalando o End Point pra o DNS\e[0m"
 mkdir -p /home/${USER_VAL}/epdns
