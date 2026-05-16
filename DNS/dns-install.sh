@@ -1,31 +1,14 @@
 #!/bin/bash
 
-helpFunction()
-{
-   echo -e "Use: $0 -n nome -d dominio -i ip -g gateway -u usuario -p password"
-   echo -e "\t-n Nome da maquina"
-   echo -e "\t-d Dominio do site"
-   echo -e "\t-i IP"
-   echo -e "\t-g gateway"
-   echo -e "\t-u Usuário"
-   echo -e "\t-p Senha do usuário"
-   exit 1 # Exit script after printing help
-}
-
-while getopts n:d:i:g:u:p: opts; do
-   case ${opts} in
-      n) NOM_VAL=${OPTARG} ;;
-      d) DOM_VAL=${OPTARG} ;;
-      i) IP_VAL=${OPTARG} ;;
-      g) GW_VAL=${OPTARG} ;;
-      u) USER_VAL=${OPTARG} ;;
-      p) PASS_VAL=${OPTARG} ;;
-   esac
-done
+echo -e "\n\e[32mCarrega as variáveis de configuração\e[0m"
+mkdir -p /mnt/usb
+mount -t vfat /dev/sdb1 /mnt/usb
+export $(cat /mnt/usb/config.env | xargs)
 
 if [ -z "$NOM_VAL" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
-   echo -e "\n\e[32mPreencha todos os parâmetros\e[0m";
-   helpFunction
+   echo -e "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
+   echo -e "Verifique se o pendrive esta conectado e se o arquivo config.env existe."
+   exit 1 # Sai do escript
 fi
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
