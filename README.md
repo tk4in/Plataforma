@@ -16,14 +16,14 @@
   
 ## Sequência de instalação
 - Comece criando um pendrive bootável com as ISO`s do linux que vamos usar. ([Instruções logo abaixo](#criando-um-pendrive-bootavel))
-- Reuna as informações para a Plataforma. (dominio, IP, gateway, etc.. Tabela logo abaixo)
+- Reuna as informações para a Plataforma e crie o arquivo <b>config.env.</b> (dominio, IP, gateway, etc.. Tabela logo abaixo)
 - Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
 - Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
 - Instale o servidor para as VM`s (instruções na pasta [VPS](https://github.com/tk4in/Plataforma/tree/master/VPS))
 - Instale o servidor WEB (instruções na pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB))
 
 ## Criando um pendrive bootável
-- Use o ventoy para cria o pendrive bootável, ele e simples e facil de usar. [Download](https://www.ventoy.net/en/download.html)
+- Use o [VENTOY](https://www.ventoy.net/) para cria o pendrive bootável, ele e simples e facil de usar. [Download](https://www.ventoy.net/en/download.html)
 - Após criar o pendrive faça download das distribuiçoes linux (tabela abaixo) e copie para o pendrive.
     
 ## Estas são as distribuições que vamos usar para a VPS.
@@ -36,12 +36,17 @@
 | Ubuntu 24.04.4 LTS| 6.8.0-111-generic | https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso | 3.325.654|
 | Ubuntu 26.04 LTS | 7.0.3 | https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso | 2.850.194|
 
-## Informações
+## Criando o arquivo config.env
+- Você pode baixar o arquivo exemplo [aqui](https://github.com/tk4in/Plataforma/tree/master/config.env) e preencher os campos.<br>
+- Após preencher corretamente copie o arquivo para o pendrive. Os instaladores vão usa-lo para as configurações. 
+
 | Parâmetro | Exemplo | Descrição |
 |:---|:---|:---|
 |$DOM_VAL| meudominio.com.br | Nome de dominio do site |
 |$USER_VAL| useradm | Nome do usuário |
 |$PASS_VAL| P4$$w0rd123 | Senha para o usuário |
+|$IP_VAL| P4$$w0rd123 | Senha para o usuário |
+|$GW_VAL| P4$$w0rd123 | Senha para o usuário |
 
 ## Vamos ao trabalho
 - A primeira coisa que vamos fazer e configurar a Routerboard
