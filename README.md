@@ -55,7 +55,7 @@
 |$PASS_VAL| Senha123 | Senha para o usuário |
 |$IP_VAL| 200.xxx.xxx.210/29 | IP e mascara fornecido pela operadora |
 |$GW_VAL| 200.xxx.xxx.209 | Gateway |
-|$SSH_PORT| 2222 | Porta para o SSH |
+|$SSH_VAL| 2222 | Porta para o SSH |
 
 ## Apontando seu dominio para o seu servidor de DNS
 - Esta operação e simples mas varia depedendo de onde você registrou seu dominio
