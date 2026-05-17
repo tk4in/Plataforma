@@ -57,6 +57,7 @@
 |$DNS2_NAM| dns2 | Nome do segundo servidor de DNS. (dns2.meudominio.com.br) |
 |$WEB1_NAM| websrv1 | Nome do servidor WEB "websrv1.meudominio.com.br" |
 |$VPS1_NAM| vpssrv1 | Nome do primeiro servidor VPS "vpssrv1.meudominio.com.br" |
+|$SSH_PORT| 2222 | Porta para o SSH |
 
 ## Apontando seu dominio para o seu servidor de DNS
 - Esta operação e simples mas varia depedendo de onde você registrou seu dominio
