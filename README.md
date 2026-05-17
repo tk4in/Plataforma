@@ -55,7 +55,7 @@
 |$GW_VAL| 200.xxx.xxx.209 | Gateway |
 |$DNS1_NAM| dns1 | Nome do primeiro servidor de DNS. (dns1.meudominio.com.br) |
 |$DNS2_NAM| dns2 | Nome do segundo servidor de DNS. (dns2.meudominio.com.br) |
-|$WEB_NAM| websrv | Nome do servidor WEB "websrv.meudominio.com.br" |
+|$WEB1_NAM| websrv1 | Nome do servidor WEB "websrv1.meudominio.com.br" |
 |$VPS1_NAM| vpssrv1 | Nome do primeiro servidor VPS "vpssrv1.meudominio.com.br" |
 
 ## Apontando seu dominio para o seu servidor de DNS
