@@ -3,9 +3,11 @@
 # Este projeto consiste de uma plataforma web para gerenciamento de VPS`s  
 
 > [!IMPORTANT]
-> Este projeto esta sempre em mudança. [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)
+> Este projeto ainda está em desenvolvimernto. [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)
 >
 > Vamos tentar resolver o mais rápido possível.
+
+<img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/connect.png" height="480"/>
 
 ## Hardware necessário
 - Um pendrive de 16GB (para instalação das ISO`s linux)
