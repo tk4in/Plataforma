@@ -22,8 +22,8 @@
 - Entre no registro do dominio que será usado e aponte o DNS para o primeiro IP.  
 - Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
 - Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
-- Instale o servidor para as VM`s (instruções na pasta [VPS](https://github.com/tk4in/Plataforma/tree/master/VPS))
 - Instale o servidor WEB (instruções na pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB))
+- Instale o servidor para as VM`s (instruções na pasta [VPS](https://github.com/tk4in/Plataforma/tree/master/VPS))
 
 ## Criando um pendrive bootável
 - Use o [VENTOY](https://www.ventoy.net/) para cria o pendrive bootável, ele e simples e fácil de usar. [Download](https://www.ventoy.net/en/download.html)
