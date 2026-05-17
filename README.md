@@ -7,15 +7,17 @@
 >
 > Vamos tentar resolver o mais rápido possível.
 
-<img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/connect.png" height="480"/>
-
 ## Hardware necessário
 - Um pendrive de 16GB (para instalação das ISO`s linux)
+- Um notebook para configurar a Routerboard (tambem serve um PC)
 - Uma Routerboard MikroTik (Testado em uma [RB3011-UiAS-RM](https://mikrotik.com/product/RB3011UiAS-RM) e na [RB1100-AHx4](https://mikrotik.com/product/rb1100ahx4))
 - Um PC para o servidor DNS (pode ser uma mais simples)
 - Um PC para o servidor das VM's (Separe a melhor maquina que você tiver)
 - Um PC para o servidor web e banco de dados.
-  
+
+## Eschema de ligação
+<img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/connect.png" height="480"/>
+
 ## Sequência de instalação
 - Comece criando um pendrive bootável com as ISO`s do linux que vamos usar. ([Instruções logo abaixo](#criando-um-pendrive-bootável))
 - Reuna as informações para criar o arquivo <b>config.env.</b> (dominio, IP, gateway, etc.. [Tabela logo abaixo](#criando-o-arquivo-configenv))
