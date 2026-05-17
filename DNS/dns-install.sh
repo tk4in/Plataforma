@@ -5,7 +5,7 @@ mkdir -p /mnt/usb
 mount -t vfat /dev/sdb1 /mnt/usb
 export $(cat /mnt/usb/config.env | xargs)
 
-if [ -z "$NOM_VAL" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
+if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    echo -e "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
    echo -e "Verifique se o pendrive esta conectado e se o arquivo config.env existe."
    exit 1 # Sai do escript
@@ -16,7 +16,7 @@ apk add ufw ip6tables
 ufw default deny incoming && ufw default allow outgoing
 ufw allow 53/tcp
 ufw allow 53/udp
-ufw allow 6922/tcp
+ufw allow ${SSH_PORT}/tcp
 yes | ufw enable
 
 echo -e "\n\e[32mAlterando o HostName\e[0m"
@@ -29,9 +29,9 @@ ${PASS_VAL}
 ${PASS_VAL}
 EOF
 
-echo -e "\n\e[32mInstalando o SSH na porta 6922\e[0m"
+echo -e "\n\e[32mInstalando o SSH na porta ${SSH_PORT}\e[0m"
 apk add openssh
-sed -i 's/#Port 22/Port 6922/g' /etc/ssh/sshd_config
+sed -i "s/#Port 22/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
 rc-update add sshd
 /etc/init.d/sshd restart
 
