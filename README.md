@@ -12,7 +12,7 @@
 - Um notebook para configurar a Routerboard (tambem serve um PC)
 - Uma Routerboard MikroTik (Testado em uma [RB3011-UiAS-RM](https://mikrotik.com/product/RB3011UiAS-RM) e na [RB1100-AHx4](https://mikrotik.com/product/rb1100ahx4))
 - Dois PC`s para os servidores DNS. (Podem ser maquinas mais simples)
-- Um PC para o servidor web e banco de dados. (
+- Um PC para o servidor web e banco de dados. (Precisa ser uma maquina boa tambem)
 - Um PC para o servidor das VM's. (Separe a melhor maquina que você tiver)
 
 ## Esquema de ligação
