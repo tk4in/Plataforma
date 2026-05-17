@@ -19,18 +19,13 @@ apk upgrade --available --no-interactive
 reboot
 ```
 
-- Após o reboot entre novamente como root e continua a instalação
+- Após o reboot entre novamente como root e continua a instalação.
+- Tenha certeza de que o pendrive esta conectado ao pc pois o instaldor vai usar o arquivo <b>config.env</b> nele para confirar o servidor.
   
 ```bash
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/DNS/dns-install.sh && chmod +x dns-install.sh
-./dns-install.sh -u <$user> -p <$pass>
+./dns-install.sh
 ```
-<br>
-
-> [!CAUTION]
->
-> Não se esqueça de trocar <$user> e <$pass> para seu usuário e senha respectivamente.
-> 
 
 # Tudo pronto ?
 - Mude para a Pasta VPS e siga as instruções.
