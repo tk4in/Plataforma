@@ -1,10 +1,12 @@
 <h1><img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/tk4in.png" height="142"/></h1>
 
-# Este projeto consiste de uma plataforma web para gerenciamento de VPS`s  
+# Este projeto consiste de uma plataforma web para gerenciamento de VPS`s
 
 > [!IMPORTANT]
-> Este projeto ainda está em desenvolvimernto. [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)
->
+> Este projeto ainda está em desenvolvimento.<br>
+> Não use ainda espere minha primeira release funcional.
+> 
+> [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma.wiki-site/issues/new)<br>
 > Vamos tentar resolver o mais rápido possível.
 
 ## Hardware necessário
@@ -50,13 +52,13 @@
 |:---|:---|:---|
 |$DOM_VAL| meudominio.com.br | Nome de dominio do site |
 |$USER_VAL| useradm | Nome do usuário |
-|$PASS_VAL| P4$$w0rd123 | Senha para o usuário |
+|$PASS_VAL| Senha123 | Senha para o usuário |
 |$IP_VAL| 200.xxx.xxx.210/29 | IP e mascara fornecido pela operadora |
 |$GW_VAL| 200.xxx.xxx.209 | Gateway |
 |$DNS1_NAM| dns1 | Nome do primeiro servidor de DNS. (dns1.meudominio.com.br) |
 |$DNS2_NAM| dns2 | Nome do segundo servidor de DNS. (dns2.meudominio.com.br) |
-|$WEB1_NAM| websrv1 | Nome do servidor WEB "websrv1.meudominio.com.br" |
-|$VPS1_NAM| vpssrv1 | Nome do primeiro servidor VPS "vpssrv1.meudominio.com.br" |
+|$WEB1_NAM| web1 | Nome do servidor WEB "web1.meudominio.com.br" |
+|$VPS1_NAM| vps1 | Nome do primeiro servidor VPS "vps1.meudominio.com.br" |
 |$SSH_PORT| 2222 | Porta para o SSH |
 
 ## Apontando seu dominio para o seu servidor de DNS
