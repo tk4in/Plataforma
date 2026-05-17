@@ -55,10 +55,6 @@
 |$PASS_VAL| Senha123 | Senha para o usuário |
 |$IP_VAL| 200.xxx.xxx.210/29 | IP e mascara fornecido pela operadora |
 |$GW_VAL| 200.xxx.xxx.209 | Gateway |
-|$DNS1_NAM| dns1 | Nome do primeiro servidor de DNS. (dns1.meudominio.com.br) |
-|$DNS2_NAM| dns2 | Nome do segundo servidor de DNS. (dns2.meudominio.com.br) |
-|$WEB1_NAM| web1 | Nome do servidor WEB "web1.meudominio.com.br" |
-|$VPS1_NAM| vps1 | Nome do primeiro servidor VPS "vps1.meudominio.com.br" |
 |$SSH_PORT| 2222 | Porta para o SSH |
 
 ## Apontando seu dominio para o seu servidor de DNS
