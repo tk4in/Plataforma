@@ -11,11 +11,13 @@
 - Um pendrive de 16GB (para instalação das ISO`s linux)
 - Um notebook para configurar a Routerboard (tambem serve um PC)
 - Uma Routerboard MikroTik (Testado em uma [RB3011-UiAS-RM](https://mikrotik.com/product/RB3011UiAS-RM) e na [RB1100-AHx4](https://mikrotik.com/product/rb1100ahx4))
-- Um PC para o servidor DNS (pode ser uma mais simples)
-- Um PC para o servidor das VM's (Separe a melhor maquina que você tiver)
+- Dois PC`s para os servidores DNS (pode ser uma mais simples)
 - Um PC para o servidor web e banco de dados.
+- Um PC para o servidor das VM's (Separe a melhor maquina que você tiver)
 
 ## Esquema de ligação
+- So pra deixar claro o segundo link não foi implementado mas deixa a porta vazia vamos fazer em breve.
+- Neste exemplo so tem um servidor VPS, mas nada impede de você colocar uma segunda, terceira ou quarta maquina.
 <img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/connect.png" height="480"/>
 
 ## Sequência de instalação
@@ -23,7 +25,7 @@
 - Reuna as informações para criar o arquivo <b>config.env.</b> (dominio, IP, gateway, etc.. [Tabela logo abaixo](#criando-o-arquivo-configenv))
 - Entre no registro do dominio que será usado e aponte o DNS para o seu segundo IP.  
 - Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
-- Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
+- Instale os servidores de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
 - Instale o servidor WEB (instruções na pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB))
 - Instale o servidor para as VM`s (instruções na pasta [VPS](https://github.com/tk4in/Plataforma/tree/master/VPS))
 
