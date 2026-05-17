@@ -18,7 +18,7 @@
   
 ## Sequência de instalação
 - Comece criando um pendrive bootável com as ISO`s do linux que vamos usar. ([Instruções logo abaixo](#criando-um-pendrive-bootável))
-- Reuna as informações para a Plataforma e crie o arquivo <b>config.env.</b> (dominio, IP, gateway, etc.. [Tabela logo abaixo](#criando-o-arquivo-configenv))
+- Reuna as informações para criar o arquivo <b>config.env.</b> (dominio, IP, gateway, etc.. [Tabela logo abaixo](#criando-o-arquivo-configenv))
 - Entre no registro do dominio que será usado e aponte o DNS para o primeiro IP.  
 - Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
 - Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
