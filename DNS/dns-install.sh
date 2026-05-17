@@ -24,7 +24,10 @@ hostnamectl set-hostname ${DOM_VAL}
 echo "${DOM_VAL}"
 
 echo -e "\n\e[32mCriando o usuário\e[0m"
-useradd ${USER_VAL} -c "Usuario" -s /bin/bash -m -p $(openssl passwd ${PASS_VAL})
+adduser ${USER_VAL} <<EOF
+${PASS_VAL}
+${PASS_VAL}
+EOF
 
 echo -e "\n\e[32mInstalando o SSH na porta 6922\e[0m"
 apk add openssh
