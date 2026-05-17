@@ -15,7 +15,7 @@
 - Um PC para o servidor das VM's (Separe a melhor maquina que você tiver)
 - Um PC para o servidor web e banco de dados.
 
-## Eschema de ligação
+## Esquema de ligação
 <img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/connect.png" height="480"/>
 
 ## Sequência de instalação
