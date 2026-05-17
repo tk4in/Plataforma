@@ -60,7 +60,7 @@
 ## Apontando seu dominio para o seu servidor de DNS
 - Esta operação e simples mas varia depedendo de onde você registrou seu dominio
 - Se você registrou na GoDaddy aqui esta um video ensinado [GoDaddy](https://www.youtube.com/watch?v=ogyzNSYcazI)
-- Se foi na Hostinger aqui estas um link ensinando [Hostinger](https://www.hostinger.com/br/support/1696789-como-alterar-os-nameservers-na-hostinger/)
+- Se foi na Hostinger aqui está um link ensinando [Hostinger](https://www.hostinger.com/br/support/1696789-como-alterar-os-nameservers-na-hostinger/)
 - Se for qualquer outro pergunte ao Google, o importante e fazer e não se preocupe e simples
     
 ## Vamos ao trabalho
