@@ -46,6 +46,7 @@ echo "${DOM_VAL}"
 
 echo -e "\n\e[32mCriando o usuário\e[0m"
 useradd ${USER_VAL} -c "Usuario" -s /bin/bash -m -p $(openssl passwd ${PASS_VAL})
+#useradd ${USER_VAL} -c "Usuario" -m -s /bin/bash -m -p $(echo ${PASS_VAL} | openssl passwd --stdin)
 
 echo -e "\n\e[32mInstalando o SSH na porta 6922\e[0m"
 apt install -y openssh-server
