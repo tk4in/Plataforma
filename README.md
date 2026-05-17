@@ -21,7 +21,7 @@
 ## Sequência de instalação
 - Comece criando um pendrive bootável com as ISO`s do linux que vamos usar. ([Instruções logo abaixo](#criando-um-pendrive-bootável))
 - Reuna as informações para criar o arquivo <b>config.env.</b> (dominio, IP, gateway, etc.. [Tabela logo abaixo](#criando-o-arquivo-configenv))
-- Entre no registro do dominio que será usado e aponte o DNS para o primeiro IP.  
+- Entre no registro do dominio que será usado e aponte o DNS para o seu segundo IP.  
 - Configure a Routerboard (instruções na pasta [RTB](https://github.com/tk4in/Plataforma/tree/master/RTB))
 - Instale o servidor de DNS (instruções na pasta [DNS](https://github.com/tk4in/Plataforma/tree/master/DNS))
 - Instale o servidor WEB (instruções na pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB))
@@ -49,9 +49,19 @@
 |$DOM_VAL| meudominio.com.br | Nome de dominio do site |
 |$USER_VAL| useradm | Nome do usuário |
 |$PASS_VAL| P4$$w0rd123 | Senha para o usuário |
-|$IP_VAL| 200.128.100.210/29 | IP e mascara fornecido pela operadora |
-|$GW_VAL| 200.128.100.209 | Gateway |
+|$IP_VAL| 200.xxx.xxx.210/29 | IP e mascara fornecido pela operadora |
+|$GW_VAL| 200.xxx.xxx.209 | Gateway |
+|$DNS1_NAM| dns1 | Nome do primeiro servidor de DNS. (dns1.meudominio.com.br) |
+|$DNS2_NAM| dns1 | Nome do segundo servidor de DNS. (dns2.meudominio.com.br) |
+|$WEB_NAM| websrv | Nome do servidor WEB "websrv.meudominio.com.br" |
+|$VPS1_NAM| vpssrv1 | Nome do primeiro servidor VPS "vpssrv1.meudominio.com.br" |
 
+## Apontando seu dominio para o seu servidor de DNS
+- Esta operação e simples mas varia depedendo de onde você registrou seu dominio
+- Se você registrou na GoDaddy aqui esta um video ensinado [GoDaddy](https://www.youtube.com/watch?v=ogyzNSYcazI)
+- Se foi na Hostinger aqui estas um link ensinando [Hostinger](https://www.hostinger.com/br/support/1696789-como-alterar-os-nameservers-na-hostinger/)
+- Se for qualquer outro pergunte ao Google, o importante e fazer e não se preocupe e simples
+    
 ## Vamos ao trabalho
-- A primeira coisa que vamos fazer e configurar a Routerboard
+- Após realizar as etapas acima estamos prontos para começar a configuração
 - [Configurando a routerboard.](https://github.com/tk4in/Plataforma/tree/master/RTB)
