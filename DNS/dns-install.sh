@@ -15,9 +15,11 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
             DNS_VAL="dns1"
+            DNS_IP=${IP_VAL%/*}
             ;;
         --dns2)
-            DNS_VAL="dns1"
+            DNS_VAL="dns2"
+            DNS_IP=${IP_VAL%/*}
             ;;
         *)
             echo -e "Você deve informar o parâmetro --DNS1 ou --DNS2."
@@ -35,8 +37,11 @@ ufw allow ${SSH_PORT}/tcp
 yes | ufw enable
 
 echo -e "\n\e[32mAlterando o HostName\e[0m"
-hostnamectl set-hostname ${DOM_VAL}
-echo "${DOM_VAL}"
+echo -e "${DNS_VAL}" | tee /etc/hostname
+echo -e "127.0.0.1 localhost localhost.localdomain
+${DNS_IP} ://${DOM_VAL} ${DNS_VAL}
+::1 localhost ip6-localhost ip6-loopback" | tee /etc/hosts
+hostname -F /etc/hostname
 
 echo -e "\n\e[32mCriando o usuário\e[0m"
 adduser ${USER_VAL} <<EOF
