@@ -5,7 +5,7 @@ if [ "$#" -eq 0 ]; then
     exit 1
 fi
 
-echo -e "\n\e[32mInstalando dependencias\e[0m"
+echo -e "\n\e[32mInstalando dependências\e[0m"
 apk add ipcalc e2fsprogs dosfstools ntfs-3g fuse-exfat
 
 echo -e "\n\e[32mCarrega as variáveis de configuração do config.env\e[0m"
@@ -16,7 +16,7 @@ export $(cat /mnt/usb/config.env | xargs)
 
 if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    echo "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
-   echo "Verifique se o pendrive esta conectado e se o arquivo config.env existe."
+   echo "Verifique se o pendrive está conectado e se o arquivo config.env existe."
    exit 1 # Sai do escript
 fi
 
@@ -45,4 +45,36 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo -e "${DNS_IP}"
+echo -e "\n\e[32mInstalando o Firewall\e[0m"
+apk add ufw ip6tables
+ufw default deny incoming && ufw default allow outgoing
+ufw allow 53/tcp
+ufw allow 53/udp
+ufw allow ${SSH_PORT}/tcp
+yes | ufw enable
+
+echo -e "\n\e[32mAlterando o HostName\e[0m"
+echo -e "${DNS_VAL}" | tee /etc/hostname
+echo -e "127.0.0.1 localhost localhost.localdomain
+${DNS_IP} ://${DOM_VAL} ${DNS_VAL}
+::1 localhost ip6-localhost ip6-loopback" | tee /etc/hosts
+hostname -F /etc/hostname
+
+echo -e "\n\e[32mCriando o usuário\e[0m"
+adduser ${USER_VAL} <<EOF
+${PASS_VAL}
+${PASS_VAL}
+EOF
+
+echo -e "\n\e[32mInstalando o SSH na porta ${SSH_PORT}\e[0m"
+apk add openssh
+sed -i "s/#Port 22/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
+rc-update add sshd
+/etc/init.d/sshd restart
+
+echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
+apk add nodejs npm
+
+echo -e "\n\e[32mInstalando o Bind9\e[0m"
+apk add bind
+
