@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo -e "\n\e[32mVerificando se os parâmetros vieram\e[0m"
 if [ "$#" -eq 0 ]; then
     echo "Você deve informar o parâmetro --dns1 ou --dns2."
     exit 1
@@ -8,7 +9,7 @@ fi
 echo -e "\n\e[32mInstalando dependências\e[0m"
 apk add ipcalc e2fsprogs dosfstools ntfs-3g fuse-exfat
 
-echo -e "\n\e[32mCarrega as variáveis de configuração do config.env\e[0m"
+echo -e "\n\e[32mCarregando as variáveis de configuração do config.env\e[0m"
 mkdir -p /mnt/usb
 modprobe fuse
 mount -t exfat /dev/sdb1 /mnt/usb
@@ -20,7 +21,7 @@ if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL"
    exit 1 # Sai do escript
 fi
 
-echo -e "\n\e[32mVerifica se os parâmetros vieram\e[0m"
+echo -e "\n\e[32mProcessando os parâmetros\e[0m"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
