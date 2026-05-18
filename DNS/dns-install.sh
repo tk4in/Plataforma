@@ -3,7 +3,19 @@
 echo -e "\n\e[32mInstalando dependencias\e[0m"
 apk add ipcalc e2fsprogs dosfstools ntfs-3g fuse-exfat
 
-echo -e "\n\e[32mVerifica os parâmetros vieram\e[0m"
+echo -e "\n\e[32mCarrega as variáveis de configuração do config.env\e[0m"
+mkdir -p /mnt/usb
+modprobe fuse
+mount -t exfat /dev/sdb1 /mnt/usb
+export $(cat /mnt/usb/config.env | xargs)
+
+if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
+   echo -e "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
+   echo -e "Verifique se o pendrive esta conectado e se o arquivo config.env existe."
+   exit 1 # Sai do escript
+fi
+
+echo -e "\n\e[32mVerifica se os parâmetros vieram\e[0m"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
@@ -24,19 +36,5 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-
-echo -e "\n\e[32mCarrega as variáveis de configuração do config.env\e[0m"
-mkdir -p /mnt/usb
-modprobe fuse
-mount -t exfat /dev/sdb1 /mnt/usb
-export $(cat /mnt/usb/config.env | xargs)
-
-if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
-   echo -e "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
-   echo -e "Verifique se o pendrive esta conectado e se o arquivo config.env existe."
-   exit 1 # Sai do escript
-fi
-
-
 
 echo -e "${DNS_IP}"
