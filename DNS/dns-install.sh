@@ -13,14 +13,17 @@ fi
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --DNS1=*)
-            DNS_VAL="${1#*=}" # Remove tudo antes do '='
+        --dns1)
+            DNS_VAL="dns1"
             ;;
-        --DNS2=*)
-            DNS_VAL="${1#*=}"
+        --dns2)
+            DNS_VAL="dns1"
+            ;;
+        *)
+            echo -e "Você deve informar o parâmetro --DNS1 ou --DNS2."
+            exit 1
             ;;
     esac
-    shift
 done
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
