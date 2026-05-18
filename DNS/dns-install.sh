@@ -11,6 +11,18 @@ if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL"
    exit 1 # Sai do escript
 fi
 
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --DNS1=*)
+            DNS_VAL="${1#*=}" # Remove tudo antes do '='
+            ;;
+        --DNS2=*)
+            DNS_VAL="${1#*=}"
+            ;;
+    esac
+    shift
+done
+
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apk add ufw ip6tables
 ufw default deny incoming && ufw default allow outgoing
@@ -44,21 +56,3 @@ apk add bind
 echo -e "\n\e[32mInstalando o End Point pra o DNS\e[0m"
 mkdir -p /home/${USER_VAL}/epdns
 wget -r -np -nH -O /var/home/${DOM_VAL}/epdns https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/DNS/epdns
-echo "[Unit]
-Description=End Point para receber as atualizações do DNS
-After=network.target
-
-[Service]
-Type=simple
-User=${USER_VAL}
-WorkingDirectory=/home/${USER_VAL}/epdns
-ExecStart=/usr/bin/node epdns.js
-Restart=always
-# Configura variáveis de ambiente se necessário
-Environment=NODE_ENV=production
-
-[Install]
-WantedBy=multi-user.target" | tee /etc/systemd/system/epdns.service
-sudo systemctl daemon-reload
-sudo systemctl enable epdns.service
-sudo systemctl start epdns.service
