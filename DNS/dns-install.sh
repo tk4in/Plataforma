@@ -2,7 +2,7 @@
 
 echo -e "\n\e[32mCarrega as variáveis de configuração\e[0m"
 mkdir -p /mnt/usb
-mount -t vfat /dev/sdb1 /mnt/usb
+mount -t auto /dev/sdb2 /mnt/usb
 export $(cat /mnt/usb/config.env | xargs)
 
 if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
