@@ -14,20 +14,10 @@
   
 ```bash
 echo -e "http://dl-3.alpinelinux.org/alpine/v3.23/main\nhttp://dl-3.alpinelinux.org/alpine/v3.23/community" | tee /etc/apk/repositories
-```
-```bash
 apk update
-```
-```bash
 apk add --upgrade apk-tools
-```
-```bash
 apk upgrade --available --no-interactive
-```
-```bash
 apk add bash
-```
-```bash
 reboot
 ```
 
@@ -37,11 +27,9 @@ reboot
   
 ```bash
 wget https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/DNS/dns-install.sh && chmod +x dns-install.sh
-```
-```bash
 ./dns-install.sh --dns1
 ```
 
 # Tudo pronto ? Vamos continuar ?
-- Deixe as duas maquinas ligadas pois as próximas etapas vão precisar se comunicar com elas.
-- Mude para a Pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB) e siga as instruções.
+- Deixe os dois servidores ligados pois as próximas etapas vão precisar se comunicar com eles.
+- Mude para a pasta [WEB](https://github.com/tk4in/Plataforma/tree/master/WEB) e siga as instruções.
