@@ -15,11 +15,15 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
             DNS_VAL="dns1"
-            DNS_IP=${IP_VAL%/*}
+            IP=${IP_VAL%/*}
+            IFS='.' read -r octeto1 octeto2 octeto3 octeto4 <<< "$IP"
+            DNS_IP==$((octeto1 + 2))
             ;;
         --dns2)
             DNS_VAL="dns2"
             DNS_IP=${IP_VAL%/*}
+            IFS='.' read -r octeto1 octeto2 octeto3 octeto4 <<< "$IP"
+            DNS_IP==$((octeto1 + 3))
             ;;
         *)
             echo -e "Você deve informar o parâmetro --DNS1 ou --DNS2."
