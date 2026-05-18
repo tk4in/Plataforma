@@ -23,15 +23,18 @@ while [[ $# -gt 0 ]]; do
             IP_MIN=$(ipcalc -n "$IP_VAL" | grep HostMin | awk '{print $2}')
             IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
             DNS_IP="$i1.$i2.$i3.$((i4 + 2))"
+            shift 
             ;;
         --dns2)
             DNS_VAL="dns2"
             IP_MIN=$(ipcalc -n "$IP_VAL" | grep HostMin | awk '{print $2}')
             IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
             DNS_IP="$i1.$i2.$i3.$((i4 + 3))"
+            shift 
             ;;
         *)
             echo -e "Você deve informar o parâmetro --dns1 ou --dns2."
+            shift 
             exit 1
             ;;
     esac
