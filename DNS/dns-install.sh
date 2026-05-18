@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z "$--dns1" ] && [ -z "$--dns2" ]; then
+   echo -e "Você deve informar o parâmetro --dns1 ou --dns2."
+   exit 1
+fi
+
 echo -e "\n\e[32mInstalando dependencias\e[0m"
 apk add ipcalc e2fsprogs dosfstools ntfs-3g fuse-exfat
 
@@ -13,11 +18,6 @@ if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL"
    echo -e "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
    echo -e "Verifique se o pendrive esta conectado e se o arquivo config.env existe."
    exit 1 # Sai do escript
-fi
-
-if [ -z "$dns1" ] && [ -z "$dns2" ]; then
-   echo -e "Você deve informar o parâmetro --dns1 ou --dns2."
-   exit 1
 fi
 
 while [[ $# -gt 0 ]]; do
