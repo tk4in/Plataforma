@@ -27,6 +27,7 @@ while [[ $# -gt 0 ]]; do
         --dns1)
             DNS_VAL="dns1"
             IP_MIN=$(ipcalc --minaddr "$IP_VAL" | awk -F '=' '{print $2}')
+            IP_MASK=$(ipcalc -m "$IP_VAL" | awk -F '=' '{print $2}')
             IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
             DNS_IP="$i1.$i2.$i3.$((i4 + 2))"
             shift 
@@ -34,6 +35,7 @@ while [[ $# -gt 0 ]]; do
         --dns2)
             DNS_VAL="dns2"
             IP_MIN=$(ipcalc --minaddr "$IP_VAL" | awk -F '=' '{print $2}')
+            IP_MASK=$(ipcalc -m "$IP_VAL" | awk -F '=' '{print $2}')
             IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
             DNS_IP="$i1.$i2.$i3.$((i4 + 3))"
             shift 
@@ -54,12 +56,27 @@ ufw allow 53/udp
 ufw allow ${SSH_PORT}/tcp
 yes | ufw enable
 
-echo -e "\n\e[32mAlterando o HostName\e[0m"
+echo -e "\n\e[32mAlterando o HostName/IP/DNS\e[0m"
 echo -e "${DNS_VAL}" | tee /etc/hostname
 echo -e "127.0.0.1 localhost localhost.localdomain
 ${DNS_IP} ://${DOM_VAL} ${DNS_VAL}
 ::1 localhost ip6-localhost ip6-loopback" | tee /etc/hosts
 hostname -F /etc/hostname
+echo -e "auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+    address ${DNS_IP}
+    netmask ${IP_MASK}
+    gateway ${GW_VAL}" | tee /etc/network/interfaces
+rc-service networking restart
+
+echo -e "\n\e[32mAlterando o IP\e[0m"
+echo -e "${DNS_VAL}" | tee /etc/hostname
+echo -e "127.0.0.1 localhost localhost.localdomain
+${DNS_IP} ://${DOM_VAL} ${DNS_VAL}
+::1 localhost ip6-localhost ip6-loopback" | tee /etc/hosts
 
 echo -e "\n\e[32mCriando o usuário\e[0m"
 adduser ${USER_VAL} <<EOF
