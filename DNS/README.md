@@ -8,7 +8,7 @@
 
 # Guia de instalação
 - Você vai usar este mesmo guia para fazer os dois servidores de DNS. Basta repetir as instruções usando os parâmetros <b>--dns1</b> ou <b>--dns2</b> como explicado abaixo.  
-- Use o pendrive para instalar o [Alpine 3.23.4 kernel 6.18.24-0-lts](https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso)<br>
+- Use o pendrive para instalar o [Alpine 3.23.4 kernel 6.18.32-0-lts](https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.4-x86_64.iso)<br>
 - Se precisar aqui tem um <a href="https://www.youtube.com/watch?v=WhOxOof1J1g&t=236s" target="_blank" rel="noopener noreferrer">video</a> ensinando a instalar. Você pode usar todas as opções "default" pois o instalador vai reconfigurar a instalação de acordo como arquivo <b>config.env</b>.
 - Após instalado logar como root e digitar a seguinte sequência de comandos (uma linha por vez):
   
