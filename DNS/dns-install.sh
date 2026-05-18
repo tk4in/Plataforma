@@ -1,8 +1,12 @@
 #!/bin/bash
 
+echo -e "\n\e[32mInstalando dependencias\e[0m"
+apk add ipcalc e2fsprogs dosfstools ntfs-3g fuse-exfat
+
 echo -e "\n\e[32mCarrega as variáveis de configuração\e[0m"
 mkdir -p /mnt/usb
-mount -t auto /dev/sdb2 /mnt/usb
+modprobe fuse
+mount -t exfat /dev/sdb1 /mnt/usb
 export $(cat /mnt/usb/config.env | xargs)
 
 if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
@@ -15,9 +19,6 @@ if [ -z "$dns1" ] && [ -z "$dns2" ]; then
    echo -e "Você deve informar o parâmetro --dns1 ou --dns2."
    exit 1
 fi
-
-echo -e "\n\e[32mInstalando dependencias\e[0m"
-apk add ipcalc
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
