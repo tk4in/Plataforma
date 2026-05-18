@@ -1,7 +1,7 @@
 <h1><img alt="Tk4in logo" src="https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/media/tk4in.png" height="142"/></h1>
 
-# O que você precisa saber para instalar o servidor DNS:
-- Neste servidor vamos usar o Alpine Linux por ser extremamente leve, seguro e focado em performace.<br>
+# O que você precisa saber para instalar os servidores DNS:
+- Nestee servidores vamos usar o Alpine Linux por ser extremamente leve, seguro e focado em performace.<br>
 - <b>Ultra Leve:</b> As imagens base do Alpine são minúsculas, cerca de 10 vezes menor do que distribuições como Ubuntu ou Debian. Por ter menos pacotes instalados por padrão, ele possui uma superfície de ataque muito menor.<br>
 - <b>Segurança reforçada:</b> Em vez de usar as ferramentas padrão do GNU/Linux (como glibc e coreutils), ele utiliza alternativas otimizadas que garantem vantagens operacionais diretas. Todos os binários são compilados nativamente com recursos de proteção avançados (como Stack Smashing Protection e Position Independent Executables) para dificultar invasões.
 - <b>Execução via RAM (Diskless Mode):</b> O sistema pode ser carregado inteiramente na memória RAM, tornando-o ideal para sistemas que exigem alta estabilidade e performace.<br>
