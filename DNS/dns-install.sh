@@ -1,5 +1,7 @@
 #!/bin/bash
 
+trap 'rm -f "$0"' EXIT
+
 echo -e "\n\e[32mVerificando se os parâmetros vieram\e[0m"
 if [ "$#" -eq 0 ]; then
     echo "Você deve informar o parâmetro --dns1 ou --dns2."
