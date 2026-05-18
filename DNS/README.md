@@ -32,7 +32,7 @@ reboot
 ```
 
 - Após o reboot entre novamente como root e continue a instalação.
-- Tenha certeza de que o pendrive esta conectado ao PC pois o instalador vai usar o arquivo <b>config.env</b> nele para confirar o servidor.
+- Tenha certeza de que o pendrive esta conectado ao PC pois o instalador vai usar o arquivo <b>config.env</b> nele para configurar o servidor.
 - Como temos de ter 2 servidores de DNS você tera de informar qual estamos fazendo. Use o parâmetro <b>--dns1</b> para o primeiro e <b>--dns2</b> para o segundo.
   
 ```bash
