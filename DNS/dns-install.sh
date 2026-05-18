@@ -11,22 +11,30 @@ if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL"
    exit 1 # Sai do escript
 fi
 
+if [ -z "$dns1" ] && [ -z "$dns2" ]; then
+   echo -e "Você deve informar o parâmetro --dns1 ou --dns2."
+   exit 1
+fi
+
+echo -e "\n\e[32mInstalando dependencias\e[0m"
+apk add ipcalc
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
             DNS_VAL="dns1"
-            IP=${IP_VAL%/*}
-            IFS='.' read -r octeto1 octeto2 octeto3 octeto4 <<< "$IP"
-            DNS_IP==$((octeto1 + 2))
+            IP_MIN=$(ipcalc -n "$IP_VAL" | grep HostMin | awk '{print $2}')
+            IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
+            DNS_IP="$i1.$i2.$i3.$((i4 + 2))"
             ;;
         --dns2)
             DNS_VAL="dns2"
-            DNS_IP=${IP_VAL%/*}
-            IFS='.' read -r octeto1 octeto2 octeto3 octeto4 <<< "$IP"
-            DNS_IP==$((octeto1 + 3))
+            IP_MIN=$(ipcalc -n "$IP_VAL" | grep HostMin | awk '{print $2}')
+            IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
+            DNS_IP="$i1.$i2.$i3.$((i4 + 3))"
             ;;
         *)
-            echo -e "Você deve informar o parâmetro --DNS1 ou --DNS2."
+            echo -e "Você deve informar o parâmetro --dns1 ou --dns2."
             exit 1
             ;;
     esac
