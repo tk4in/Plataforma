@@ -25,6 +25,9 @@ apk add --upgrade apk-tools
 apk upgrade --available --no-interactive
 ```
 ```bash
+apk add bash
+```
+```bash
 reboot
 ```
 
