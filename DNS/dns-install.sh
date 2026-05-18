@@ -20,14 +20,14 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
             DNS_VAL="dns1"
-            IP_MIN=$(ipcalc -n "$IP_VAL" | grep HostMin | awk '{print $2}')
+            IP_MIN=$(ipcalc --minaddr "$IP_VAL" | awk -F '=' '{print $2}')
             IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
             DNS_IP="$i1.$i2.$i3.$((i4 + 2))"
             shift 
             ;;
         --dns2)
             DNS_VAL="dns2"
-            IP_MIN=$(ipcalc -n "$IP_VAL" | grep HostMin | awk '{print $2}')
+            IP_MIN=$(ipcalc --minaddr "$IP_VAL" | awk -F '=' '{print $2}')
             IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
             DNS_IP="$i1.$i2.$i3.$((i4 + 3))"
             shift 
