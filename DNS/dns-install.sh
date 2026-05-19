@@ -62,9 +62,9 @@ ${PASS_VAL}
 EOF
 
 echo -e "\n\e[32mInstalando o SSH na porta ${SSH_PORT}\e[0m"
-apk add openssh
+apk add openssh openssh-server
 sed -i "s/#Port 22/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
-rc-update add sshd
+rc-update add sshd default
 /etc/init.d/sshd restart
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
