@@ -9,7 +9,8 @@ if [ "$#" -eq 0 ]; then
 fi
 
 echo -e "\n\e[32mInstalando dependências\e[0m"
-apk add ipcalc e2fsprogs dosfstools ntfs-3g fuse-exfat
+apk add ipcalc fuse-exfat
+#e2fsprogs dosfstools ntfs-3g 
 
 echo -e "\n\e[32mCarregando as variáveis de configuração do config.env\e[0m"
 mkdir -p /mnt/usb
