@@ -1,7 +1,5 @@
 #!/bin/bash
 
-trap 'rm -f "$0"' EXIT
-
 echo -e "\n\e[32mVerificando se os parâmetros vieram\e[0m"
 if [ "$#" -eq 0 ]; then
     echo "Você deve informar o parâmetro --dns1 ou --dns2."
@@ -17,6 +15,7 @@ mkdir -p /mnt/usb
 modprobe fuse
 mount -t exfat /dev/sdb1 /mnt/usb
 export $(cat /mnt/usb/config.env | xargs)
+umount -f sdb1 
 
 if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
    echo "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
@@ -53,6 +52,7 @@ apk add ufw ip6tables
 ufw default deny incoming && ufw default allow outgoing
 ufw allow 53/tcp
 ufw allow 53/udp
+ufw allow 3000/tcp
 ufw allow ${SSH_PORT}/tcp
 yes | ufw enable
 
@@ -73,7 +73,8 @@ apk add nodejs npm
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
-mkdir -p /etc/bind/master
+mkdir -p /etc/bind/zones
+chown named /etc/bind/zones
 echo -e `options {
     directory "/var/bind"
 
@@ -90,11 +91,10 @@ echo -e `options {
 
 zone "$DOM_VAL" IN {
     type master;
-    file "/etc/bind/master/$DOM_VAL";
+    file "/etc/bind/zones/$DOM_VAL";
 };
 
-include "/etc/bind/zones.conf";
-` | tee /etc/bind/named.conf
+include "/etc/bind/zones.conf";` | tee /etc/bind/named.conf
 rc-update add named
 service named start
 
@@ -113,3 +113,5 @@ iface eth0 inet static
     netmask ${IP_MASK}
     gateway ${GW_VAL}" | tee /etc/network/interfaces
 rc-service networking restart
+
+trap 'rm -f "$0"' EXIT
