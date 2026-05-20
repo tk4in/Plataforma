@@ -73,10 +73,32 @@ apk add nodejs npm
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
-service named start
-rc-update add named
+mkdir -p /etc/bind/master
+echo -e `options {
+    directory "/var/bind"
 
-echo -e "\n\e[32mAlterando o HostName/IP/DNS\e[0m"
+    listen-on { ${DNS_IP}; };
+    listen-on-v6 { none; };
+
+    allow-transfer { none; };
+
+    pid-file "/var/run/named/named.pid";
+    
+    allow-recursion { none; };
+    recursion no;
+};
+
+zone "$DOM_VAL" IN {
+    type master;
+    file "/etc/bind/master/$DOM_VAL";
+};
+
+include "/etc/bind/zones.conf";
+` | tee /etc/bind/named.conf
+rc-update add named
+service named start
+
+echo -e "\n\e[32mAlterando o HostName/IP\e[0m"
 echo -e "${DNS_VAL}" | tee /etc/hostname
 echo -e "127.0.0.1 localhost localhost.localdomain
 ${DNS_IP} ://${DOM_VAL} ${DNS_VAL}
