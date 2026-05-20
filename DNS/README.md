@@ -2,7 +2,7 @@
 
 # O que você precisa saber para instalar os servidores DNS:
 - Nestes servidores vamos usar o <a href="https://www.alpinelinux.org/" target="_blank" rel="noopener noreferrer">Alpine Linux</a> por ser extremamente leve, seguro e focado em performace.<br>
-- <b>Ultra Leve:</b> As imagens base do Alpine são minúsculas, cerca de 10 vezes menor do que distribuições como Ubuntu ou Debian. Por ter menos pacotes instalados por padrão, ele possui uma superfície de ataque muito menor.<br>
+- <b>Ultra Leve:</b> As imagens base do Alpine são minúsculas, cerca de 10 vezes menor do que distribuições como Ubuntu e metade do Debian. Por ter menos pacotes instalados por padrão, ele possui uma superfície de ataque muito menor.<br>
 - <b>Segurança reforçada:</b> Em vez de usar as ferramentas padrão do GNU/Linux (como glibc e coreutils), ele utiliza alternativas otimizadas que garantem vantagens operacionais diretas. Todos os binários são compilados nativamente com recursos de proteção avançados (como Stack Smashing Protection e Position Independent Executables) para dificultar invasões.
 - <b>Execução via RAM (Diskless Mode):</b> O sistema pode ser carregado inteiramente na memória RAM, tornando-o ideal para sistemas que exigem alta estabilidade e performance.<br>
 
