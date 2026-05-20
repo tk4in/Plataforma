@@ -73,6 +73,8 @@ apk add nodejs npm
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
+service named start
+rc-update add named
 
 echo -e "\n\e[32mAlterando o HostName/IP/DNS\e[0m"
 echo -e "${DNS_VAL}" | tee /etc/hostname
