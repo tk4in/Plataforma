@@ -27,21 +27,19 @@ echo -e "\n\e[32mProcessando os parâmetros\e[0m"
 IP_MIN=$(ipcalc --minaddr "$IP_VAL" | awk -F '=' '{print $2}')
 IP_MASK=$(ipcalc -m "$IP_VAL" | awk -F '=' '{print $2}')
 IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
+DNS1="$i1.$i2.$i3.$((i4 + 2))"
+DNS2="$i1.$i2.$i3.$((i4 + 3))"
 WEB1="$i1.$i2.$i3.$((i4 + 4))"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
             DNS_VAL="dns1"
-            DNS_IP="$i1.$i2.$i3.$((i4 + 2))"
-            NS1=$DNS_IP;
-            NS2="$i1.$i2.$i3.$((i4 + 3))"
+            DNS_IP=$DNS1
             shift 
             ;;
         --dns2)
             DNS_VAL="dns2"
-            DNS_IP="$i1.$i2.$i3.$((i4 + 3))"
-            NS2=$DNS_IP;
-            NS1="$i1.$i2.$i3.$((i4 + 2))"
+            DNS_IP=$DNS2
             shift 
             ;;
         *)
@@ -110,8 +108,8 @@ echo -e `\$TTL 3600
     IN NS   dns1.$DOM_VAL.
     IN NS   dns2.$DOM_VAL.
     
-dns1 IN A    $NS1
-dns2 IN A    $NS2
+dns1 IN A    $DNS1
+dns2 IN A    $DNS2
 @    IN A    $WEB1
 
 www  IN CNAME @
