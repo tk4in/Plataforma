@@ -27,16 +27,21 @@ echo -e "\n\e[32mProcessando os parâmetros\e[0m"
 IP_MIN=$(ipcalc --minaddr "$IP_VAL" | awk -F '=' '{print $2}')
 IP_MASK=$(ipcalc -m "$IP_VAL" | awk -F '=' '{print $2}')
 IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
+WEB1="$i1.$i2.$i3.$((i4 + 4))"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
             DNS_VAL="dns1"
             DNS_IP="$i1.$i2.$i3.$((i4 + 2))"
+            NS1=$DNS_IP;
+            NS2="$i1.$i2.$i3.$((i4 + 3))"
             shift 
             ;;
         --dns2)
             DNS_VAL="dns2"
             DNS_IP="$i1.$i2.$i3.$((i4 + 3))"
+            NS2=$DNS_IP;
+            NS1="$i1.$i2.$i3.$((i4 + 2))"
             shift 
             ;;
         *)
@@ -74,7 +79,7 @@ apk add nodejs npm
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
 mkdir -p /etc/bind/zones
-chown named /etc/bind/zones
+chown $USER_VAL:named /etc/bind/zones
 echo -e `options {
     directory "/var/bind"
 
@@ -95,6 +100,26 @@ zone "$DOM_VAL" IN {
 };
 
 include "/etc/bind/zones.conf";` | tee /etc/bind/named.conf
+echo -e `\$TTL 3600
+@   IN SOA ns1.$DOM_VAL. hostmaster.$DOM_VAL. (
+        1          ; serial (YYYYMMDDNN)
+        3600       ; refresh
+        900        ; retry
+        1209600    ; expire
+        300 )      ; negative cache
+    IN NS   dns1.$DOM_VAL.
+    IN NS   dns2.$DOM_VAL.
+    
+ns1 IN A    $NS1
+ns2 IN A    $NS2
+@   IN A    $WEB1
+
+www IN CNAME @
+mail IN A    $WEB1
+@   IN MX 10 mail.$DOM_VAL.
+
+_txt IN TXT "v=spf1 a mx ~all"
+_dmarc IN TXT "v=DMARC1; p=none; rua=mailto:dmarc@$DOM_VAL"` | tee /etc/bind/zones/$DOM_VAL
 rc-update add named
 service named start
 
