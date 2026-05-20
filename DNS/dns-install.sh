@@ -101,7 +101,7 @@ zone "$DOM_VAL" IN {
 
 include "/etc/bind/zones.conf";` | tee /etc/bind/named.conf
 echo -e `\$TTL 3600
-@   IN SOA ns1.$DOM_VAL. hostmaster.$DOM_VAL. (
+@   IN SOA dns1.$DOM_VAL. hostmaster.$DOM_VAL. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
         900        ; retry
@@ -110,13 +110,13 @@ echo -e `\$TTL 3600
     IN NS   dns1.$DOM_VAL.
     IN NS   dns2.$DOM_VAL.
     
-ns1 IN A    $NS1
-ns2 IN A    $NS2
-@   IN A    $WEB1
+dns1 IN A    $NS1
+dns2 IN A    $NS2
+@    IN A    $WEB1
 
-www IN CNAME @
-mail IN A    $WEB1
-@   IN MX 10 mail.$DOM_VAL.
+www  IN CNAME @
+mail IN A     $WEB1
+@    IN MX 10 mail.$DOM_VAL.
 
 _txt IN TXT "v=spf1 a mx ~all"
 _dmarc IN TXT "v=DMARC1; p=none; rua=mailto:dmarc@$DOM_VAL"` | tee /etc/bind/zones/$DOM_VAL
