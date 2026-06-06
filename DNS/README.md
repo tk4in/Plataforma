@@ -14,7 +14,7 @@
 - Após instalado logar como <b>root</b> e digitar a sequência de comandos abaixo (uma linha por vez) para atualizar os packs mais recentes do Alpine:
   
 ```bash
-echo "http://dl-3.alpinelinux.org/alpine/v3.23/main\nhttp://dl-3.alpinelinux.org/alpine/v3.23/community" | tee /etc/apk/repositories
+echo -e "http://dl-3.alpinelinux.org/alpine/v3.23/main\nhttp://dl-3.alpinelinux.org/alpine/v3.23/community" | tee /etc/apk/repositories
 apk update
 apk add --upgrade apk-tools
 apk upgrade --available --no-interactive
