@@ -33,12 +33,12 @@ WEB1="$i1.$i2.$i3.$((i4 + 4))"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dns1)
-            DNS_VAL="dns1"
+            DNS_VAL="ns1"
             DNS_IP=$DNS1
             shift 
             ;;
         --dns2)
-            DNS_VAL="dns2"
+            DNS_VAL="ns2"
             DNS_IP=$DNS2
             shift 
             ;;
@@ -105,11 +105,11 @@ echo -e `\$TTL 3600
         900        ; retry
         1209600    ; expire
         300 )      ; negative cache
-    IN NS   dns1.$DOM_VAL.
-    IN NS   dns2.$DOM_VAL.
+    IN NS   ns1.$DOM_VAL.
+    IN NS   ns2.$DOM_VAL.
     
-dns1 IN A    $DNS1
-dns2 IN A    $DNS2
+ns1  IN A    $DNS1
+ns2  IN A    $DNS2
 @    IN A    $WEB1
 
 www  IN CNAME @
