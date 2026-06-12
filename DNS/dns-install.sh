@@ -59,6 +59,13 @@ ufw allow 3000/tcp
 ufw allow ${SSH_PORT}/tcp
 yes | ufw enable
 
+echo -e "\n\e[32mSetando fuso horário\e[0m"
+ln -sf /etc/zoneinfo/America/Sao_Paulo /etc/localtime;
+apk add openntpd openntpd-openrc;
+echo -e "servers pool.ntp.org\nserver time.cloudflare.com\nsensor *\n\nconstraint from "9.9.9.9\nconstraint from "2620:fe::fe\nconstraints from "www.google.com" | tee /etc/systemd/timesyncd.conf
+service openntpd restart
+rc-update add openntpd default
+
 echo -e "\n\e[32mCriando o usuário\e[0m"
 adduser ${USER_VAL} <<EOF
 ${PASS_VAL}
