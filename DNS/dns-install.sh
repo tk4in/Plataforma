@@ -111,8 +111,8 @@ echo -e `\$TTL 3600
         900        ; retry
         1209600    ; expire
         300 )      ; negative cache
-    IN NS   ns1.$DOM_VAL.
-    IN NS   ns2.$DOM_VAL.
+@    IN NS   ns1.$DOM_VAL.
+@    IN NS   ns2.$DOM_VAL.
     
 ns1  IN A    $DNS1
 ns2  IN A    $DNS2
