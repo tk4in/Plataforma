@@ -7,7 +7,7 @@ if [ "$#" -eq 0 ]; then
 fi
 
 echo -e "\n\e[32mInstalando dependências\e[0m"
-apk add ipcalc fuse-exfat curl libstdc++
+apk add ipcalc fuse-exfat libstdc++
 #e2fsprogs dosfstools ntfs-3g 
 
 echo -e "\n\e[32mCarregando as variáveis de configuração do config.env\e[0m"
@@ -76,9 +76,9 @@ export NODE_VERSION="22.22.3"
 wget https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64-musl.tar.gz
 mkdir -p /usr/local/lib/nodejs
 tar -xzf node-v$NODE_VERSION-linux-x64-musl.tar.gz -C /usr/local/lib/nodejs
+rm node-v$NODE_VERSION-linux-x64-musl.tar.gz
 echo -e 'export PATH=/usr/local/lib/nodejs/node-v$NODE_VERSION-linux-x64-musl/bin:$PATH' >> /etc/bash/bashrc
 source /etc/bash/bashrc
-rm node-v$NODE_VERSION-linux-x64-musl.tar.gz
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
