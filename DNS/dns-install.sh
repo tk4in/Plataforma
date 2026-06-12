@@ -72,8 +72,8 @@ rc-update add sshd default
 /etc/init.d/sshd restart
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
-export NODE_VERSION="22.20.0"
-curl -O https://nodejs.org
+export NODE_VERSION="22.22.3"
+wget https://unofficial-builds.nodejs.org/download/release/v22.22.3/node-v$NODE_VERSION-linux-x64-musl.tar.gz
 mkdir -p /usr/local/lib/nodejs
 tar -xzf node-v$NODE_VERSION-linux-x64-musl.tar.gz -C /usr/local/lib/nodejs
 echo -e 'export PATH=/usr/local/lib/nodejs/node-v$NODE_VERSION-linux-x64-musl/bin:$PATH' >> /etc/bash/bashrc
