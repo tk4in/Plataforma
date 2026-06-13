@@ -5,6 +5,7 @@ if [ "$#" -eq 0 ]; then
     echo "Você deve informar o parâmetro --dns1 ou --dns2."
     exit 1
 fi
+echo -e "Instalando: $1\n"
 
 echo -e "\n\e[32mInstalando dependências\e[0m"
 apk add ipcalc fuse-exfat libstdc++
@@ -17,15 +18,15 @@ mount -t exfat /dev/sdb1 /mnt/usb
 export $(cat /mnt/usb/config.env | xargs)
 umount -f sdb1 
 
-if [ -z "$SSH_PORT" ] || [ -z "$DOM_VAL" ] || [ -z "$IP_VAL" ] || [ -z "$GW_VAL" ] || [ -z "$USER_VAL" ] || [ -z "$PASS_VAL" ]; then
+if [ -z "$TK_SSH" ] || [ -z "$TK_DOM" ] || [ -z "$TK_IP" ] || [ -z "$TK_GW" ] || [ -z "$TK_USER" ] || [ -z "$TK_PASS" ]; then
    echo "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
    echo "Verifique se o pendrive está conectado e se o arquivo config.env existe."
    exit 1 # Sai do escript
 fi
 
 echo -e "\n\e[32mProcessando os parâmetros\e[0m"
-IP_MIN=$(ipcalc --minaddr "$IP_VAL" | awk -F '=' '{print $2}')
-IP_MASK=$(ipcalc -m "$IP_VAL" | awk -F '=' '{print $2}')
+IP_MIN=$(ipcalc --minaddr "$TK_IP" | awk -F '=' '{print $2}')
+IP_MASK=$(ipcalc -m "$TK_IP" | awk -F '=' '{print $2}')
 IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
 DNS1="$i1.$i2.$i3.$((i4 + 2))"
 DNS2="$i1.$i2.$i3.$((i4 + 3))"
@@ -56,7 +57,7 @@ ufw default deny incoming && ufw default allow outgoing
 ufw allow 53/tcp
 ufw allow 53/udp
 ufw allow 3000/tcp
-ufw allow ${SSH_PORT}/tcp
+ufw allow ${TK_SSH}/tcp
 yes | ufw enable
 
 echo -e "\n\e[32mSetando fuso horário\e[0m"
@@ -67,12 +68,12 @@ service openntpd restart
 rc-update add openntpd default
 
 echo -e "\n\e[32mCriando o usuário\e[0m"
-adduser ${USER_VAL} <<EOF
-${PASS_VAL}
-${PASS_VAL}
+adduser ${TK_USER} <<EOF
+${TK_PASS}
+${TK_PASS}
 EOF
 
-echo -e "\n\e[32mInstalando o SSH na porta ${SSH_PORT}\e[0m"
+echo -e "\n\e[32mInstalando o SSH na porta ${TK_SSH}\e[0m"
 apk add openssh openssh-server
 sed -i "s/#Port 22/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
 rc-update add sshd default
@@ -90,7 +91,7 @@ source /etc/bash/bashrc
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
 mkdir -p /etc/bind/zones
-chown $USER_VAL:named /etc/bind/zones
+chown $TK_USER:named /etc/bind/zones
 echo -e `options {
     directory "/var/bind"
 
@@ -105,21 +106,21 @@ echo -e `options {
     recursion no;
 };
 
-zone "$DOM_VAL" IN {
+zone "$TK_DOM" IN {
     type master;
-    file "/etc/bind/zones/$DOM_VAL";
+    file "/etc/bind/zones/$TK_DOM";
 };
 
 include "/etc/bind/zones.conf";` | tee /etc/bind/named.conf
 echo -e `\$TTL 3600
-@   IN SOA dns1.$DOM_VAL. hostmaster.$DOM_VAL. (
+@   IN SOA dns1.$TK_DOM. hostmaster.$TK_DOM. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
         900        ; retry
         1209600    ; expire
         300 )      ; negative cache
-@    IN NS   ns1.$DOM_VAL.
-@    IN NS   ns2.$DOM_VAL.
+@    IN NS   ns1.$TK_DOM.
+@    IN NS   ns2.$TK_DOM.
     
 ns1  IN A    $DNS1
 ns2  IN A    $DNS2
@@ -127,10 +128,10 @@ ns2  IN A    $DNS2
 
 www  IN CNAME @
 mail IN A     $WEB1
-@    IN MX 10 mail.$DOM_VAL.
+@    IN MX 10 mail.$TK_DOM.
 
 _txt IN TXT "v=spf1 a mx ~all"
-_dmarc IN TXT "v=DMARC1; p=none; rua=mailto:dmarc@$DOM_VAL"` | tee /etc/bind/zones/$DOM_VAL
+_dmarc IN TXT "v=DMARC1; p=none; rua=mailto:dmarc@$TK_DOM"` | tee /etc/bind/zones/$TK_DOM
 rc-update add named
 service named start
 
@@ -265,7 +266,7 @@ sysctl -q -p        2>/dev/null;
 echo -e "\n\e[32mAlterando o HostName/IP\e[0m"
 echo -e "${DNS_VAL}" | tee /etc/hostname
 echo -e "127.0.0.1 localhost localhost.localdomain
-${DNS_IP} ://${DOM_VAL} ${DNS_VAL}
+${DNS_IP} ://${TK_DOM} ${DNS_VAL}
 ::1 localhost ip6-localhost ip6-loopback" | tee /etc/hosts
 hostname -F /etc/hostname
 echo -e "auto lo
@@ -275,7 +276,7 @@ auto eth0
 iface eth0 inet static
     address ${DNS_IP}
     netmask ${IP_MASK}
-    gateway ${GW_VAL}" | tee /etc/network/interfaces
+    gateway ${TK_GW}" | tee /etc/network/interfaces
 rc-service networking restart
 
 trap 'rm -f "$0"' EXIT
