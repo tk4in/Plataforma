@@ -16,7 +16,7 @@ mkdir -p /mnt/usb
 modprobe fuse
 mount -t exfat /dev/sdb1 /mnt/usb
 export $(cat /mnt/usb/config.env | xargs)
-umount -f sdb1 
+umount -f /dev/sdb1 
 
 if [ -z "$TK_SSH" ] || [ -z "$TK_DOM" ] || [ -z "$TK_IP" ] || [ -z "$TK_GW" ] || [ -z "$TK_USER" ] || [ -z "$TK_PASS" ]; then
    echo "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
@@ -135,6 +135,7 @@ _dmarc IN TXT "v=DMARC1; p=none; rua=mailto:dmarc@$TK_DOM"` | tee /etc/bind/zone
 rc-update add named
 service named start
 
+echo -e "\n\e[32mTunando o Alpine kernel\e[0m"
 # Liberar mais RAM para aceleração de rede
 (   
     echo  "net.core.rmem_default=31457280";
@@ -279,4 +280,5 @@ iface eth0 inet static
     gateway ${TK_GW}" | tee /etc/network/interfaces
 rc-service networking restart
 
+echo -e "\n\e[32m============== Fim ============\e[0m"
 trap 'rm -f "$0"' EXIT
