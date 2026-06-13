@@ -23,6 +23,7 @@ if [ -z "$TK_SSH" ] || [ -z "$TK_DOM" ] || [ -z "$TK_IP" ] || [ -z "$TK_GW" ] ||
    echo "Verifique se o pendrive está conectado e se o arquivo config.env existe."
    exit 1 # Sai do escript
 fi
+echo -e "OK\n"
 
 echo -e "\n\e[32mProcessando os parâmetros\e[0m"
 IP_MIN=$(ipcalc --minaddr "$TK_IP" | awk -F '=' '{print $2}')
@@ -50,6 +51,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+echo -e "OK\n"
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apk add ufw ip6tables
@@ -85,7 +87,7 @@ wget https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v
 mkdir -p /usr/local/lib/nodejs
 tar -xzf node-v$NODE_VERSION-linux-x64-musl.tar.gz -C /usr/local/lib/nodejs
 rm node-v$NODE_VERSION-linux-x64-musl.tar.gz
-echo -e 'export PATH=/usr/local/lib/nodejs/node-v$NODE_VERSION-linux-x64-musl/bin:$PATH' >> /etc/bash/bashrc
+echo -e "export PATH=/usr/local/lib/nodejs/node-v$NODE_VERSION-linux-x64-musl/bin:$PATH" | tee /etc/bash/bashrc
 source /etc/bash/bashrc
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
