@@ -50,12 +50,12 @@
 
 | Parâmetro | Exemplo | Descrição |
 |:---|:---|:---|
-|$DOM_VAL| meudominio.com.br | Nome de dominio do site |
-|$USER_VAL| useradm | Nome do usuário |
-|$PASS_VAL| Senha123 | Senha para o usuário |
-|$IP_VAL| 200.xxx.xxx.210/29 | IP e mascara fornecido pela operadora |
-|$GW_VAL| 200.xxx.xxx.209 | Gateway |
-|$SSH_VAL| 2222 | Porta para o SSH |
+|$TK_DOM| meudominio.com.br | Nome de dominio do site |
+|$TK_USER| useradm | Nome do usuário |
+|$TK_PASS| Senha123 | Senha para o usuário |
+|$TK_IP| 200.xxx.xxx.210/29 | IP e mascara fornecido pela operadora |
+|$TK_GW| 200.xxx.xxx.209 | Gateway |
+|$TK_SSH| 2222 | Porta para o SSH |
 
 ## Apontando seu dominio para o seu servidor de DNS
 - Esta operação e simples mas muda depedendo de onde você registrou seu dominio
@@ -65,4 +65,4 @@
     
 ## Vamos ao trabalho
 - Após realizar as etapas acima estamos prontos para começar a configuração
-- [Configurando a routerboard.](https://github.com/tk4in/Plataforma/tree/master/RTB)
+- Vamos começar aqui: [Configurando a routerboard.](https://github.com/tk4in/Plataforma/tree/master/RTB)
