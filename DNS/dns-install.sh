@@ -97,7 +97,7 @@ apk add bind
 mkdir -p /etc/bind/zones
 chown $TK_USER:named /etc/bind/zones
 echo -e 'options {
-    directory "/var/bind"
+    directory "/var/bind";
 
     listen-on { ${DNS_IP}; };
     listen-on-v6 { none; };
@@ -267,6 +267,7 @@ echo  "kernel.panic=10"            >  /etc/sysctl.d/081-kernel-panic.conf;
 # Aplicar imediatamente:
 sysctl -q --system  2>/dev/null;
 sysctl -q -p        2>/dev/null;
+echo -e "OK"
 
 echo -e "\n\e[32mAlterando o HostName/IP\e[0m"
 echo -e "${DNS_VAL}" | tee /etc/hostname
@@ -284,5 +285,4 @@ iface eth0 inet static
     gateway ${TK_GW}" | tee /etc/network/interfaces
 rc-service networking restart
 
-echo -e "\n\e[32m============== Fim ============\e[0m"
 trap 'rm -f "$0"' EXIT
