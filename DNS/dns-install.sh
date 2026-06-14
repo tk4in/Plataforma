@@ -128,7 +128,7 @@ zone \"${IP_REV}\" IN {
 " | tee /etc/bind/zones.conf
 echo -e ";\$ORIGIN ${TK_DOM}.
 ;\$TTL 3600
-@   IN SOA ns1.${TK_DOM}. hostmaster.${TK_DOM}. (
+@   IN SOA ns1.${TK_DOM}. root.${TK_DOM}. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
         900        ; retry
