@@ -147,9 +147,20 @@ mail IN A     ${WEB1}
 
 _txt IN TXT \"v=spf1 a mx ~all\"
 _dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@${TK_DOM}\"" | tee /etc/bind/zones/${TK_DOM}
-echo -e "
-
-" | tee /etc/bind/zones/rev.${TK_DOM}
+echo -e ";\$ORIGIN ${IP_REV}.
+;\$TTL 3600
+@   IN SOA ns1.${TK_DOM}. hostmaster.${TK_DOM}. (
+        1          ; serial (YYYYMMDDNN)
+        3600       ; refresh
+        900        ; retry
+        1209600    ; expire
+        300 )      ; negative cache
+    IN NS   ns1.${TK_DOM}.
+    IN NS   ns2.${TK_DOM}.
+10  IN PTR  ns1.${TK_DOM}.
+11  IN PTR  ns2.${TK_DOM}.
+20  IN PTR  ${TK_DOM}.
+30  IN PTR  mail.${TK_DOM}." | tee /etc/bind/zones/rev.${TK_DOM}
 rc-update add named
 service named start
 
