@@ -29,6 +29,7 @@ echo -e "OK"
 echo -e "\n\e[32mProcessando os parâmetros\e[0m"
 IP_MIN=$(ipcalc --minaddr "$TK_IP" | awk -F '=' '{print $2}')
 IP_MASK=$(ipcalc -m "$TK_IP" | awk -F '=' '{print $2}')
+IP_REV=$(ipcalc --reverse-dns "$TK_IP" | awk -F '=' '{print $2}')
 IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
 DNS1="$i1.$i2.$i3.$((i4 + 2))"
 DNS2="$i1.$i2.$i3.$((i4 + 3))"
@@ -101,10 +102,11 @@ mkdir -p /etc/bind/zones
 chown ${TK_USER}:named /etc/bind/zones
 echo -e "options {
     directory \"/var/bind\";
+    
+    listen-on { any; };
+    listen-on-v6 { any; };
 
-    listen-on { ${DNS_IP}; };
-    listen-on-v6 { none; };
-
+    allow-query { any; };
     allow-transfer { none; };
 
     pid-file \"/var/run/named/named.pid\";
@@ -113,14 +115,19 @@ echo -e "options {
     recursion no;
 };
 
+include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
+echo -e "
 zone \"${TK_DOM}\" IN {
     type master;
     file \"/etc/bind/zones/${TK_DOM}\";
 };
-
-include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
-echo -e "" | tee /etc/bind/zones.conf
-echo -e "\$TTL 3600
+zone \"${IP_REV}\" IN {
+    type master;
+    file \"/etc/bind/zones/rev.${TK_DOM}\";
+}
+" | tee /etc/bind/zones.conf
+echo -e ";\$ORIGIN ${TK_DOM}.
+;\$TTL 3600
 @   IN SOA ns1.${TK_DOM}. hostmaster.${TK_DOM}. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
@@ -140,6 +147,9 @@ mail IN A     ${WEB1}
 
 _txt IN TXT \"v=spf1 a mx ~all\"
 _dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@${TK_DOM}\"" | tee /etc/bind/zones/${TK_DOM}
+echo -e "
+
+" | tee /etc/bind/zones/rev.${TK_DOM}
 rc-update add named
 service named start
 
