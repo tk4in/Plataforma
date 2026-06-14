@@ -5,7 +5,7 @@ if [ "$#" -eq 0 ]; then
     echo "Você deve informar o parâmetro --dns1 ou --dns2."
     exit 1
 fi
-echo -e "Instalando: $1\n"
+echo -e "Instalando: $1"
 
 echo -e "\n\e[32mInstalando dependências\e[0m"
 apk add ipcalc fuse-exfat libstdc++
@@ -19,8 +19,8 @@ export $(cat /mnt/usb/config.env | xargs)
 umount -f /dev/sdb1 
 
 if [ -z "$TK_SSH" ] || [ -z "$TK_DOM" ] || [ -z "$TK_IP" ] || [ -z "$TK_GW" ] || [ -z "$TK_USER" ] || [ -z "$TK_PASS" ]; then
-   echo "O arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
-   echo "Verifique se o pendrive está conectado e se o arquivo config.env existe."
+   echo -e "\n\e[33mO arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
+   echo -e "Verifique se o pendrive está conectado e se o arquivo config.env existe.\e[0m"
    exit 1 # Sai do escript
 fi
 echo -e "OK\n"
