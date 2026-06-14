@@ -23,7 +23,7 @@ if [ -z "$TK_SSH" ] || [ -z "$TK_DOM" ] || [ -z "$TK_IP" ] || [ -z "$TK_GW" ] ||
    echo -e "Verifique se o pendrive está conectado e se o arquivo config.env existe.\e[0m"
    exit 1 # Sai do escript
 fi
-echo -e "OK\n"
+echo -e "OK"
 
 echo -e "\n\e[32mProcessando os parâmetros\e[0m"
 IP_MIN=$(ipcalc --minaddr "$TK_IP" | awk -F '=' '{print $2}')
@@ -51,7 +51,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-echo -e "OK\n"
+echo -e "OK"
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apk add ufw ip6tables
