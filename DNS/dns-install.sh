@@ -96,27 +96,27 @@ echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
 mkdir -p /etc/bind/zones
 chown $TK_USER:named /etc/bind/zones
-echo -e 'options {
-    directory "/var/bind";
+echo -e "options {
+    directory \"/var/bind\";
 
     listen-on { ${DNS_IP}; };
     listen-on-v6 { none; };
 
     allow-transfer { none; };
 
-    pid-file "/var/run/named/named.pid";
+    pid-file \"/var/run/named/named.pid\";
     
     allow-recursion { none; };
     recursion no;
 };
 
-zone "$TK_DOM" IN {
+zone \"$TK_DOM\" IN {
     type master;
-    file "/etc/bind/zones/$TK_DOM";
+    file \"/etc/bind/zones/$TK_DOM\";
 };
 
-include "/etc/bind/zones.conf";' | tee /etc/bind/named.conf
-echo -e '\$TTL 3600
+include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
+echo -e "\$TTL 3600
 @   IN SOA dns1.$TK_DOM. hostmaster.$TK_DOM. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
@@ -134,12 +134,18 @@ www  IN CNAME @
 mail IN A     $WEB1
 @    IN MX 10 mail.$TK_DOM.
 
-_txt IN TXT "v=spf1 a mx ~all"
-_dmarc IN TXT "v=DMARC1; p=none; rua=mailto:dmarc@$TK_DOM"' | tee /etc/bind/zones/$TK_DOM
+_txt IN TXT \"v=spf1 a mx ~all\"
+_dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@$TK_DOM\"" | tee /etc/bind/zones/$TK_DOM
 rc-update add named
 service named start
 
 echo -e "\n\e[32mTunando o Alpine kernel\e[0m"
+# Trocando mesagem de bem vindo
+(   
+    echo  "Bem vindo ao servidor de DNS";
+    echo;
+) > /etc/motd;
+
 # Liberar mais RAM para aceleração de rede
 (   
     echo  "net.core.rmem_default=31457280";
