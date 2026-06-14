@@ -120,7 +120,7 @@ zone \"$TK_DOM\" IN {
 
 include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
 echo -e "\$TTL 3600
-@   IN SOA dns1.$TK_DOM. hostmaster.$TK_DOM. (
+@   IN SOA ns1.$TK_DOM. hostmaster.$TK_DOM. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
         900        ; retry
