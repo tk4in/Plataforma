@@ -96,7 +96,7 @@ echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
 mkdir -p /etc/bind/zones
 chown $TK_USER:named /etc/bind/zones
-echo -e `options {
+echo -e 'options {
     directory "/var/bind"
 
     listen-on { ${DNS_IP}; };
@@ -115,8 +115,8 @@ zone "$TK_DOM" IN {
     file "/etc/bind/zones/$TK_DOM";
 };
 
-include "/etc/bind/zones.conf";` | tee /etc/bind/named.conf
-echo -e `\$TTL 3600
+include "/etc/bind/zones.conf";' | tee /etc/bind/named.conf
+echo -e '\$TTL 3600
 @   IN SOA dns1.$TK_DOM. hostmaster.$TK_DOM. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
@@ -135,7 +135,7 @@ mail IN A     $WEB1
 @    IN MX 10 mail.$TK_DOM.
 
 _txt IN TXT "v=spf1 a mx ~all"
-_dmarc IN TXT "v=DMARC1; p=none; rua=mailto:dmarc@$TK_DOM"` | tee /etc/bind/zones/$TK_DOM
+_dmarc IN TXT "v=DMARC1; p=none; rua=mailto:dmarc@$TK_DOM"' | tee /etc/bind/zones/$TK_DOM
 rc-update add named
 service named start
 
