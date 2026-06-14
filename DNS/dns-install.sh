@@ -119,6 +119,7 @@ zone \"$TK_DOM\" IN {
 };
 
 include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
+echo -e "" | tee /etc/bind/zones.conf
 echo -e "\$TTL 3600
 @   IN SOA ns1.$TK_DOM. hostmaster.$TK_DOM. (
         1          ; serial (YYYYMMDDNN)
