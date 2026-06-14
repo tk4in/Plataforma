@@ -8,7 +8,7 @@ fi
 echo -e "Instalando: $1"
 
 echo -e "\n\e[32mInstalando dependências\e[0m"
-apk add ipcalc fuse-exfat libstdc++
+apk add ipcalc fuse-exfat
 #e2fsprogs dosfstools ntfs-3g 
 
 echo -e "\n\e[32mCarregando as variáveis de configuração do config.env\e[0m"
@@ -16,7 +16,8 @@ mkdir -p /mnt/usb
 modprobe fuse
 mount -t exfat /dev/sdb1 /mnt/usb
 export $(cat /mnt/usb/config.env | xargs)
-umount -f /dev/sdb1 
+umount -f /dev/sdb1
+apk del fuse-exfat
 
 if [ -z "$TK_SSH" ] || [ -z "$TK_DOM" ] || [ -z "$TK_IP" ] || [ -z "$TK_GW" ] || [ -z "$TK_USER" ] || [ -z "$TK_PASS" ]; then
    echo -e "\n\e[33mO arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
@@ -51,6 +52,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+apk del ipcalc
 echo -e "OK"
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
@@ -84,6 +86,7 @@ rc-update add sshd default
 /etc/init.d/sshd restart
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
+apk add libstdc++
 export NODE_VERSION="22.22.3"
 wget https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64-musl.tar.gz
 mkdir -p /usr/local/lib/nodejs
