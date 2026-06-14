@@ -108,7 +108,7 @@ echo -e "options {
     allow-transfer { none; };
 
     pid-file \"/var/run/named/named.pid\";
-    
+
     allow-recursion { none; };
     recursion no;
 };
@@ -145,13 +145,13 @@ service named start
 
 echo -e "\n\e[32mTunando o Alpine kernel\e[0m"
 # Trocando mesagem de bem vindo
-(   
+(
     echo  "Bem vindo ao servidor de DNS";
     echo;
 ) > /etc/motd;
 
 # Liberar mais RAM para aceleração de rede
-(   
+(
     echo  "net.core.rmem_default=31457280";
     echo  "net.core.wmem_default=31457280";
     echo  "net.core.rmem_max=134217728";
@@ -175,24 +175,24 @@ echo -e "\n\e[32mTunando o Alpine kernel\e[0m"
     echo "net.ipv4.tcp_mtu_probing=1";
     echo "net.ipv4.tcp_moderate_rcvbuf =1";
     echo "net.ipv4.tcp_no_metrics_save = 1";
-)  >  /etc/sysctl.d/052-net-tcp-ipv4.conf;
+) > /etc/sysctl.d/052-net-tcp-ipv4.conf;
 
 # Ativar TCP-Fast-Open
 (
     echo  "net.ipv4.tcp_fastopen=3";
-)  >  /etc/sysctl.d/053-tcp-fast-open.conf;
+) > /etc/sysctl.d/053-tcp-fast-open.conf;
 
 # Ativar TCP-KeepAlive
 (
     echo  "net.ipv4.tcp_keepalive_probes=9";
     echo  "net.ipv4.tcp_keepalive_intvl=75";
     echo  "net.ipv4.tcp_keepalive_time=7200";
-)  >  /etc/sysctl.d/054-tcp-keepalive.conf;
+) > /etc/sysctl.d/054-tcp-keepalive.conf;
 
 # TTL padrão dos pacotes IPv4
 (
     echo "net.ipv4.ip_default_ttl=128";
-) >  /etc/sysctl.d/062-default-ttl-ipv4.conf;
+) > /etc/sysctl.d/062-default-ttl-ipv4.conf;
 
 # Ajustes de ARP e fragmentacao (maior capacidade) - IPv4
 (
@@ -207,7 +207,7 @@ echo -e "\n\e[32mTunando o Alpine kernel\e[0m"
     echo "net.ipv4.ipfrag_max_dist=64";
     echo "net.ipv4.ipfrag_secret_interval=0";
     echo "net.ipv4.ipfrag_time=30";
-)  >  /etc/sysctl.d/063-neigh-ipv4.conf;
+) > /etc/sysctl.d/063-neigh-ipv4.conf;
 
 # Ajustes de ARP e fragmentacao (maior capacidade) - IPv6
 (
@@ -221,17 +221,17 @@ echo -e "\n\e[32mTunando o Alpine kernel\e[0m"
     echo "net.ipv6.ip6frag_low_thresh=3145728";
     echo "net.ipv6.ip6frag_secret_interval=0";
     echo "net.ipv6.ip6frag_time=60";
-)  >  /etc/sysctl.d/064-neigh-ipv6.conf;
+) > /etc/sysctl.d/064-neigh-ipv6.conf;
 
 # Ativar roteamento de pacotes IPv4
 (
     echo  "net.ipv4.conf.default.forwarding=1"
-)  >  /etc/sysctl.d/065-default-foward-ipv4.conf;
+) > /etc/sysctl.d/065-default-foward-ipv4.conf;
 
 # Ativar roteamento de pacotes IPv6
 (
     echo  "net.ipv6.conf.default.forwarding=1"
-) >  /etc/sysctl.d/066-default-foward-ipv6.conf;
+) > /etc/sysctl.d/066-default-foward-ipv6.conf;
 
 # Ativar roteamento em todas as interfaces de rede
 echo  "net.ipv4.conf.all.forwarding=1"   >  /etc/sysctl.d/067-all-foward-ipv4.conf
@@ -250,10 +250,10 @@ echo  "net.ipv4.ip_forward=1"            >  /etc/sysctl.d/069-ipv4-forward.conf
 )  >  /etc/sysctl.d/072-fs-options.conf;
 
 # Nao usar SWAP enquanto houver memoria RAM livre
-echo  "vm.swappiness=0"            >  /etc/sysctl.d/073-swappiness.conf;
+echo  "vm.swappiness=0" > /etc/sysctl.d/073-swappiness.conf;
 
 # Usar mais RAM para priorizar metadados de sistema de arquivos
-echo  "vm.vfs_cache_pressure=50"   >  /etc/sysctl.d/074-vfs-cache-pressure.conf;
+echo  "vm.vfs_cache_pressure=50" > /etc/sysctl.d/074-vfs-cache-pressure.conf;
 
 # Flush escrita mais rápido
 (
@@ -262,10 +262,10 @@ echo  "vm.vfs_cache_pressure=50"   >  /etc/sysctl.d/074-vfs-cache-pressure.conf;
 ) > /etc/sysctl.d/075-dirty.conf;
 
 # Flexibilizar a alocacao de RAM para alem dos limites reais
-echo  "vm.overcommit_memory=1"     > /etc/sysctl.d/076-ram-overcommit.conf;
+echo  "vm.overcommit_memory=1" > /etc/sysctl.d/076-ram-overcommit.conf;
 
 # Reiniciar o kernel apos 10 segundos em caso de pane geral
-echo  "kernel.panic=10"            >  /etc/sysctl.d/081-kernel-panic.conf;
+echo  "kernel.panic=10" > /etc/sysctl.d/081-kernel-panic.conf;
 
 # Comando (sysctl -p) requer tudo em um unico arquivo:
 (
@@ -275,8 +275,8 @@ echo  "kernel.panic=10"            >  /etc/sysctl.d/081-kernel-panic.conf;
 ) > /etc/sysctl.conf;
 
 # Aplicar imediatamente:
-sysctl -q --system  2>/dev/null;
-sysctl -q -p        2>/dev/null;
+sysctl -q --system 2>/dev/null;
+sysctl -q -p 2>/dev/null;
 echo -e "OK"
 
 echo -e "\n\e[32mAlterando o HostName/IP\e[0m"
