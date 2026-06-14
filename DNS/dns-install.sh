@@ -81,24 +81,24 @@ EOF
 
 echo -e "\n\e[32mInstalando o SSH na porta ${TK_SSH}\e[0m"
 apk add openssh openssh-server
-sed -i "s/#Port 22/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
+sed -i "s/#Port 22/Port ${TK_SSH}/g" /etc/ssh/sshd_config
 rc-update add sshd default
 /etc/init.d/sshd restart
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 apk add libstdc++
 export NODE_VERSION="22.22.3"
-wget https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64-musl.tar.gz
+wget https://unofficial-builds.nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64-musl.tar.gz
 mkdir -p /usr/local/lib/nodejs
-tar -xzf node-v$NODE_VERSION-linux-x64-musl.tar.gz -C /usr/local/lib/nodejs
-rm node-v$NODE_VERSION-linux-x64-musl.tar.gz
-echo -e "export PATH=$PATH:/usr/local/lib/nodejs/node-v$NODE_VERSION-linux-x64-musl/bin" >> /etc/profile
+tar -xzf node-v${NODE_VERSION}-linux-x64-musl.tar.gz -C /usr/local/lib/nodejs
+rm node-v${NODE_VERSION}-linux-x64-musl.tar.gz
+echo -e "export PATH=/"$PATH:/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-x64-musl/bin/"" >> /etc/profile
 source /etc/profile
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
 mkdir -p /etc/bind/zones
-chown $TK_USER:named /etc/bind/zones
+chown ${TK_USER}:named /etc/bind/zones
 echo -e "options {
     directory \"/var/bind\";
 
@@ -113,33 +113,33 @@ echo -e "options {
     recursion no;
 };
 
-zone \"$TK_DOM\" IN {
+zone \"${TK_DOM}\" IN {
     type master;
-    file \"/etc/bind/zones/$TK_DOM\";
+    file \"/etc/bind/zones/${TK_DOM}\";
 };
 
 include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
 echo -e "" | tee /etc/bind/zones.conf
 echo -e "\$TTL 3600
-@   IN SOA ns1.$TK_DOM. hostmaster.$TK_DOM. (
+@   IN SOA ns1.${TK_DOM}. hostmaster.${TK_DOM}. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
         900        ; retry
         1209600    ; expire
         300 )      ; negative cache
-@    IN NS   ns1.$TK_DOM.
-@    IN NS   ns2.$TK_DOM.
+@    IN NS   ns1.${TK_DOM}.
+@    IN NS   ns2.${TK_DOM}.
     
-ns1  IN A    $DNS1
-ns2  IN A    $DNS2
-@    IN A    $WEB1
+ns1  IN A    ${DNS1}
+ns2  IN A    ${DNS2}
+@    IN A    ${WEB1}
 
 www  IN CNAME @
-mail IN A     $WEB1
-@    IN MX 10 mail.$TK_DOM.
+mail IN A     ${WEB1}
+@    IN MX 10 mail.${TK_DOM}.
 
 _txt IN TXT \"v=spf1 a mx ~all\"
-_dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@$TK_DOM\"" | tee /etc/bind/zones/$TK_DOM
+_dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@${TK_DOM}\"" | tee /etc/bind/zones/${TK_DOM}
 rc-update add named
 service named start
 
