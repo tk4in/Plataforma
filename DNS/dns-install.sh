@@ -103,16 +103,15 @@ chown ${TK_USER}:named /etc/bind/zones
 echo -e "options {
     directory \"/var/bind\";
     
-    listen-on { any; };
+    listen-on port 53 { 127.0.0.1; ${DNS_IP};};
     listen-on-v6 { any; };
 
     allow-query { any; };
-    allow-transfer { none; };
-
-    pid-file \"/var/run/named/named.pid\";
 
     allow-recursion { none; };
     recursion no;
+
+    pid-file \"/var/run/named/named.pid\";
 };
 
 include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
@@ -120,12 +119,12 @@ echo -e "
 zone \"${TK_DOM}\" IN {
     type master;
     file \"/etc/bind/zones/${TK_DOM}\";
+    allow-transfer { 201.91.220.213; }; # Permite transferência para o ns2
 };
-zone \"${IP_REV}\" IN {
+zone \"${IP_REV#*.}\" IN {
     type master;
     file \"/etc/bind/zones/rev.${TK_DOM}\";
-}
-" | tee /etc/bind/zones.conf
+}" | tee /etc/bind/zones.conf
 echo -e ";\$ORIGIN ${TK_DOM}.
 ;\$TTL 3600
 @   IN SOA ns1.${TK_DOM}. root.${TK_DOM}. (
@@ -148,13 +147,13 @@ mail IN A     ${WEB1}
 _txt IN TXT \"v=spf1 a mx ~all\"
 _dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@${TK_DOM}\"" | tee /etc/bind/zones/${TK_DOM}
 echo -e ";\$ORIGIN ${IP_REV}.
-;\$TTL 3600
-@   IN SOA ns1.${TK_DOM}. hostmaster.${TK_DOM}. (
+\$TTL 3600
+@   IN SOA ns1.${TK_DOM}. root.${TK_DOM}. (
         1          ; serial (YYYYMMDDNN)
-        3600       ; refresh
-        900        ; retry
-        1209600    ; expire
-        300 )      ; negative cache
+        604800     ; refresh
+        86400      ; retry
+        2419200    ; expire
+        604800  )  ; negative cache
     IN NS   ns1.${TK_DOM}.
     IN NS   ns2.${TK_DOM}.
 10  IN PTR  ns1.${TK_DOM}.
