@@ -88,12 +88,12 @@ rc-update add sshd default
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 apk add libstdc++
-export NODE_VERSION="22.22.3"
+export NODE_VERSION="22.23.1"
 wget https://unofficial-builds.nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64-musl.tar.gz
 mkdir -p /usr/local/lib/nodejs
 tar -xzf node-v${NODE_VERSION}-linux-x64-musl.tar.gz -C /usr/local/lib/nodejs
 rm node-v${NODE_VERSION}-linux-x64-musl.tar.gz
-echo -e "export PATH=/"$PATH:/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-x64-musl/bin/"" >> /etc/profile
+echo -e "export PATH=\"$PATH:/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-x64-musl/bin\"" >> /etc/profile
 source /etc/profile
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
