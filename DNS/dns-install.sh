@@ -75,7 +75,7 @@ rc-update add chronyd default
 rc-service chronyd start
 
 echo -e "\n\e[32mCriando o usuário\e[0m"
-adduser ${TK_USER} <<EOF
+adduser -G ${TK_USER} ${TK_USER} <<EOF
 ${TK_PASS}
 ${TK_PASS}
 EOF
@@ -87,7 +87,7 @@ rc-update add sshd default
 /etc/init.d/sshd restart
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
-apk add libstdc++
+apk add libstdc++ git
 export NODE_VERSION="22.23.1"
 wget https://unofficial-builds.nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64-musl.tar.gz
 mkdir -p /usr/local/lib/nodejs
