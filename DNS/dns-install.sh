@@ -7,11 +7,9 @@ if [ "$#" -eq 0 ]; then
 fi
 echo -e "Instalando: $1"
 
-echo -e "\n\e[32mInstalando dependências\e[0m"
-apk add ipcalc fuse-exfat
-#e2fsprogs dosfstools ntfs-3g 
-
 echo -e "\n\e[32mCarregando as variáveis de configuração do config.env\e[0m"
+apk add fuse-exfat
+#e2fsprogs dosfstools ntfs-3g 
 mkdir -p /mnt/usb
 modprobe fuse
 mount -t exfat /dev/sdb1 /mnt/usb
@@ -22,39 +20,9 @@ apk del fuse-exfat
 if [ -z "$TK_SSH" ] || [ -z "$TK_DOM" ] || [ -z "$TK_IP" ] || [ -z "$TK_GW" ] || [ -z "$TK_USER" ] || [ -z "$TK_PASS" ]; then
    echo -e "\n\e[33mO arquivo config.env não foi encontrado no pendrive ou falta alguma variável"
    echo -e "Verifique se o pendrive está conectado e se o arquivo config.env existe.\e[0m"
-   exit 1 # Sai do escript
+   exit 1
 fi
-echo -e "OK"
-
-echo -e "\n\e[32mProcessando os parâmetros\e[0m"
-IP_MIN=$(ipcalc --minaddr "$TK_IP" | awk -F '=' '{print $2}')
-IP_MASK=$(ipcalc -m "$TK_IP" | awk -F '=' '{print $2}')
-IP_REV=$(ipcalc --reverse-dns "$TK_IP" | awk -F '=' '{print $2}')
-IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
-DNS1="$i1.$i2.$i3.$((i4 + 2))"
-DNS2="$i1.$i2.$i3.$((i4 + 3))"
-WEB1="$i1.$i2.$i3.$((i4 + 4))"
-while [[ $# -gt 0 ]]; do
-    case "$1" in
-        --dns1)
-            DNS_VAL="ns1"
-            DNS_IP=$DNS1
-            shift 
-            ;;
-        --dns2)
-            DNS_VAL="ns2"
-            DNS_IP=$DNS2
-            shift 
-            ;;
-        *)
-            echo "Você deve informar o parâmetro --dns1 ou --dns2."
-            shift 
-            exit 1
-            ;;
-    esac
-done
-apk del ipcalc
-echo -e "OK"
+echo "OK"
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apk add ufw ip6tables
@@ -96,43 +64,86 @@ rm node-v${NODE_VERSION}-linux-x64-musl.tar.gz
 echo -e "export PATH=\"$PATH:/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-x64-musl/bin\"" >> /etc/profile
 source /etc/profile
 
+echo -e "\n\e[32mInstalando o EPDNS\e[0m"
+mkdir -p /home/${TK_USER}/epdns
+chown ${TK_USER}:${TK_USER} /home/${TK_USER}/epdns
+
+echo -e "\n\e[32mProcessando os parâmetros para o Bind9\e[0m"
+apk add ipcalc
+IP_MIN=$(ipcalc --minaddr "$TK_IP" | awk -F '=' '{print $2}')
+IP_MASK=$(ipcalc -m "$TK_IP" | awk -F '=' '{print $2}')
+IP_REV=$(ipcalc --reverse-dns "$TK_IP" | awk -F '=' '{print $2}')
+IFS=. read -r i1 i2 i3 i4 <<< "$IP_MIN"
+DNS1="$i1.$i2.$i3.$((i4 + 2))"
+DNS2="$i1.$i2.$i3.$((i4 + 3))"
+WEB1="$i1.$i2.$i3.$((i4 + 4))"
+DNS1_rev="$((i4 + 2))"
+DNS2_rev="$((i4 + 3))"
+WEB1_rev="$((i4 + 4))"
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dns1)
+            DNS_TYPE="master"
+            DNS_LINK="allow-transfer { ${DNS2}; };"
+            DNS_VAL="ns1"
+            DNS_IP=$DNS1
+            shift 
+            ;;
+        --dns2)
+            DNS_TYPE="slave"       
+            DNS_LINK="masters {  ${DNS1}; };"
+            DNS_VAL="ns2"
+            DNS_IP=$DNS2
+            shift 
+            ;;
+        *)
+            echo "Você deve informar o parâmetro --dns1 ou --dns2."
+            shift 
+            exit 1
+            ;;
+    esac
+done
+apk del ipcalc
+echo -e "OK"
+
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
+rc-update add named default
 mkdir -p /etc/bind/zones
-chown ${TK_USER}:named /etc/bind/zones
+chown -R named:named /var/bind /etc/bind
+
+echo -e "\n\e[32mCriando os arquivos do Bind9\e[0m"
 echo -e "options {
-    directory \"/var/bind\";
-    
-    listen-on port 53 { 127.0.0.1; ${DNS_IP};};
-    listen-on-v6 { any; };
-
+    directory "/var/bind";
+    listen-on port 53 { any; };
+    listen-on-v6 port 53 { any; };
     allow-query { any; };
-
     allow-recursion { none; };
     recursion no;
-
-    pid-file \"/var/run/named/named.pid\";
 };
 
-include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
-echo -e "
+// Zona Direta
 zone \"${TK_DOM}\" IN {
-    type master;
-    file \"/etc/bind/zones/${TK_DOM}\";
-    allow-transfer { 201.91.220.213; }; # Permite transferência para o ns2
+    type ${DNS_TYPE};
+    file \"zones/${TK_DOM}.zone\";
+    ${DNS_LINK} # Permite transferência para o ns2
 };
-zone \"${IP_REV#*.}\" IN {
-    type master;
-    file \"/etc/bind/zones/rev.${TK_DOM}\";
-}" | tee /etc/bind/zones.conf
-echo -e ";\$ORIGIN ${TK_DOM}.
-;\$TTL 3600
-@   IN SOA ns1.${TK_DOM}. root.${TK_DOM}. (
+
+// Zona Reversa
+zone \"${IP_REV}\" IN {
+    type ${DNS_TYPE};
+    file \"zones/${TK_DOM}.reverso.zone\";
+    ${DNS_LINK} 
+};
+
+// include \"/etc/bind/zones.conf\";" | tee /etc/bind/named.conf
+echo -e "\$TTL 86400
+@   IN SOA ns1.${TK_DOM}. admin.${TK_DOM}. (
         1          ; serial (YYYYMMDDNN)
         3600       ; refresh
         900        ; retry
-        1209600    ; expire
-        300 )      ; negative cache
+        604800     ; expire
+        86400 )    ; minimum ttl
 @    IN NS   ns1.${TK_DOM}.
 @    IN NS   ns2.${TK_DOM}.
     
@@ -145,23 +156,49 @@ mail IN A     ${WEB1}
 @    IN MX 10 mail.${TK_DOM}.
 
 _txt IN TXT \"v=spf1 a mx ~all\"
-_dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@${TK_DOM}\"" | tee /etc/bind/zones/${TK_DOM}
-echo -e ";\$ORIGIN ${IP_REV}.
-\$TTL 3600
-@   IN SOA ns1.${TK_DOM}. root.${TK_DOM}. (
+_dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@${TK_DOM}\"" | tee /etc/bind/zones/${TK_DOM}.zone
+
+echo -e "\$TTL 3600
+@   IN SOA ns1.${TK_DOM}. admin.${TK_DOM}. (
         1          ; serial (YYYYMMDDNN)
         604800     ; refresh
         86400      ; retry
         2419200    ; expire
-        604800  )  ; negative cache
-    IN NS   ns1.${TK_DOM}.
-    IN NS   ns2.${TK_DOM}.
+        86400 )    ; minimum ttl
+; Servidores de nomes
+@   IN NS   ns1.${TK_DOM}.
+@   IN NS   ns2.${TK_DOM}.
+
+; Apontamentos reverso (PTR)
 10  IN PTR  ns1.${TK_DOM}.
 11  IN PTR  ns2.${TK_DOM}.
 20  IN PTR  ${TK_DOM}.
-30  IN PTR  mail.${TK_DOM}." | tee /etc/bind/zones/rev.${TK_DOM}
-rc-update add named
-service named start
+30  IN PTR  mail.${TK_DOM}." | tee /etc/bind/zones/${TK_DOM}.reverso.zone
+
+
+rc-service named start
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 echo -e "\n\e[32mTunando o Alpine kernel\e[0m"
 # Trocando mesagem de bem vindo
