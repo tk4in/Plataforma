@@ -85,15 +85,11 @@ while [[ $# -gt 0 ]]; do
         --dns1)
             DNS_TYPE="master"
             DNS_LINK="allow-transfer { ${DNS2}; };"
-            DNS_VAL="ns1"
-            DNS_IP=$DNS1
             shift 
             ;;
         --dns2)
             DNS_TYPE="slave"       
             DNS_LINK="masters {  ${DNS1}; };"
-            DNS_VAL="ns2"
-            DNS_IP=$DNS2
             shift 
             ;;
         *)
@@ -126,7 +122,7 @@ echo -e "options {
 zone \"${TK_DOM}\" IN {
     type ${DNS_TYPE};
     file \"zones/${TK_DOM}.zone\";
-    ${DNS_LINK} # Permite transferência para o ns2
+    ${DNS_LINK}
 };
 
 // Zona Reversa
@@ -152,12 +148,11 @@ ns2  IN A    ${DNS2}
 @    IN A    ${WEB1}
 
 www  IN CNAME @
-mail IN A     ${WEB1}
+mail IN CNAME @
 @    IN MX 10 mail.${TK_DOM}.
 
 _txt IN TXT \"v=spf1 a mx ~all\"
 _dmarc IN TXT \"v=DMARC1; p=none; rua=mailto:dmarc@${TK_DOM}\"" | tee /etc/bind/zones/${TK_DOM}.zone
-
 echo -e "\$TTL 3600
 @   IN SOA ns1.${TK_DOM}. admin.${TK_DOM}. (
         1          ; serial (YYYYMMDDNN)
@@ -165,40 +160,17 @@ echo -e "\$TTL 3600
         86400      ; retry
         2419200    ; expire
         86400 )    ; minimum ttl
+
 ; Servidores de nomes
 @   IN NS   ns1.${TK_DOM}.
 @   IN NS   ns2.${TK_DOM}.
 
 ; Apontamentos reverso (PTR)
-10  IN PTR  ns1.${TK_DOM}.
-11  IN PTR  ns2.${TK_DOM}.
-20  IN PTR  ${TK_DOM}.
-30  IN PTR  mail.${TK_DOM}." | tee /etc/bind/zones/${TK_DOM}.reverso.zone
-
-
+${DNS1_rev}  IN PTR  ns1.${TK_DOM}.
+${DNS2_rev}  IN PTR  ns2.${TK_DOM}.
+${WEB1_rev}  IN PTR  ${TK_DOM}.
+${WEB1_rev}  IN PTR  mail.${TK_DOM}." | tee /etc/bind/zones/${TK_DOM}.reverso.zone
 rc-service named start
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 echo -e "\n\e[32mTunando o Alpine kernel\e[0m"
 # Trocando mesagem de bem vindo
