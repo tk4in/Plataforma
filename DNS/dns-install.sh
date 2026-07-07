@@ -85,12 +85,14 @@ while [[ $# -gt 0 ]]; do
             DNS_TYPE="master"
             DNS_LINK="allow-transfer { ${DNS2}; };"
             HOST_NAME="ns1"
+            DNS_IP=${DNS1};
             shift 
             ;;
         --dns2)
             DNS_TYPE="slave"       
             DNS_LINK="masters {  ${DNS1}; };"
             HOST_NAME="ns2"
+            DNS_IP=${DNS2};
             shift 
             ;;
         *)
