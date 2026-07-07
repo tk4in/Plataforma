@@ -41,6 +41,7 @@ rc-update add chronyd default
 rc-service chronyd start
 
 echo -e "\n\e[32mCriando o usuário\e[0m"
+addgroup ${TK_USER}
 adduser -G ${TK_USER} ${TK_USER} <<EOF
 ${TK_PASS}
 ${TK_PASS}
@@ -83,13 +84,13 @@ while [[ $# -gt 0 ]]; do
         --dns1)
             DNS_TYPE="master"
             DNS_LINK="allow-transfer { ${DNS2}; };"
-            DNS_VAL="ns1"
+            HOST_NAME="ns1"
             shift 
             ;;
         --dns2)
             DNS_TYPE="slave"       
             DNS_LINK="masters {  ${DNS1}; };"
-            DNS_VAL="ns2"
+            HOST_NAME="ns2"
             shift 
             ;;
         *)
@@ -309,9 +310,9 @@ sysctl -q -p 2>/dev/null;
 echo "OK"
 
 echo -e "\n\e[32mAlterando o HostName/IP\e[0m"
-echo -e "${DNS_VAL}" | tee /etc/hostname
+echo -e "${HOST_NAME}" | tee /etc/hostname
 echo -e "127.0.0.1 localhost localhost.localdomain
-${DNS_IP} ://${TK_DOM} ${DNS_VAL}
+${DNS_IP} ://${TK_DOM} ${HOST_NAME}
 ::1 localhost ip6-localhost ip6-loopback" | tee /etc/hosts
 hostname -F /etc/hostname
 echo -e "auto lo
@@ -323,4 +324,3 @@ iface eth0 inet static
     netmask ${IP_MASK}
     gateway ${TK_GW}" | tee /etc/network/interfaces
 echo -e "\n\e[32mReiniciando o servidor\e[0m"
-reboot
