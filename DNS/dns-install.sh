@@ -109,7 +109,7 @@ chown -R named:named /var/bind /etc/bind
 
 echo -e "\n\e[32mCriando os arquivos do Bind9\e[0m"
 echo -e "options {
-    directory "/var/bind";
+    directory \"/var/bind\";
     listen-on port 53 { any; };
     listen-on-v6 port 53 { any; };
     allow-query { any; };
