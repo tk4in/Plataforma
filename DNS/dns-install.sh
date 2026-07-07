@@ -21,7 +21,6 @@ if [ -z "$TK_SSH" ] || [ -z "$TK_DOM" ] || [ -z "$TK_IP" ] || [ -z "$TK_GW" ] ||
    echo -e "Verifique se o pendrive está conectado e se o arquivo config.env existe.\e[0m"
    exit 1
 fi
-echo "OK"
 
 echo -e "\n\e[32mInstalando o Firewall\e[0m"
 apk add ufw ip6tables
@@ -305,7 +304,7 @@ echo  "kernel.panic=10" > /etc/sysctl.d/081-kernel-panic.conf;
 # Aplicar imediatamente:
 sysctl -q --system 2>/dev/null;
 sysctl -q -p 2>/dev/null;
-echo -e "OK"
+echo "OK"
 
 echo -e "\n\e[32mAlterando o HostName/IP\e[0m"
 echo -e "${DNS_VAL}" | tee /etc/hostname
@@ -321,6 +320,5 @@ iface eth0 inet static
     address ${DNS_IP}
     netmask ${IP_MASK}
     gateway ${TK_GW}" | tee /etc/network/interfaces
-rc-service networking restart
-
-trap 'rm -f "$0"' EXIT
+echo -e "\n\e[32mReiniciando o servidor\e[0m"
+reboot
