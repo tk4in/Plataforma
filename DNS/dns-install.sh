@@ -85,14 +85,14 @@ while [[ $# -gt 0 ]]; do
             DNS_TYPE="master"
             DNS_LINK="allow-transfer { ${DNS2}; };"
             HOST_NAME="ns1"
-            DNS_IP=${DNS1};
+            IP_HOST=${DNS1};
             shift 
             ;;
         --dns2)
             DNS_TYPE="slave"       
             DNS_LINK="masters {  ${DNS1}; };"
             HOST_NAME="ns2"
-            DNS_IP=${DNS2};
+            IP_HOST=${DNS2};
             shift 
             ;;
         *)
@@ -322,7 +322,7 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet static
-    address ${DNS_IP}
+    address ${IP_HOST}
     netmask ${IP_MASK}
     gateway ${TK_GW}" | tee /etc/network/interfaces
 echo -e "\n\e[32mReiniciando o servidor\e[0m"
