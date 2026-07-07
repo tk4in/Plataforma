@@ -9,7 +9,6 @@ echo -e "Instalando: $1"
 
 echo -e "\n\e[32mCarregando as variáveis de configuração do config.env\e[0m"
 apk add fuse-exfat
-#e2fsprogs dosfstools ntfs-3g 
 mkdir -p /mnt/usb
 modprobe fuse
 mount -t exfat /dev/sdb1 /mnt/usb
@@ -36,8 +35,8 @@ yes | ufw enable
 echo -e "\n\e[32mSetando fuso horário\e[0m"
 apk add tzdata
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+echo "export TZ=America/Sao_Paulo" >> /etc/profile
 echo "America/Sao_Paulo" > /etc/timezone
-apk del tzdata
 apk add chrony
 rc-update add chronyd default
 rc-service chronyd start
