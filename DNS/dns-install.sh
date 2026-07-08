@@ -103,7 +103,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 apk del ipcalc
-echo -e "OK"
 
 echo -e "\n\e[32mInstalando o Bind9\e[0m"
 apk add bind
