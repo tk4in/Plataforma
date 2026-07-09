@@ -6,7 +6,7 @@
 > Este projeto ainda está em desenvolvimento.<br>
 > Não use ainda espere minha primeira release funcional.
 > 
-> [Por favor reporte erros ou faltas aqui]([https://github.com/tk4in/Plataforma/issues])<br>
+> [Por favor reporte erros ou faltas aqui](https://github.com/tk4in/Plataforma/issues)<br>
 > Vamos tentar resolver o mais rápido possível.
 
 ## Hardware necessário
