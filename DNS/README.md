@@ -9,7 +9,7 @@
 # Guia de instalação
 - Por motivos de redundância e segurança vamos fazer dois servidores de DNS.
 - Você vai usar este mesmo guia para fazer os dois servidores. Basta repetir as instruções usando os parâmetros <b>--dns1</b> ou <b>--dns2</b> como explicado abaixo.  
-- Use o pendrive para instalar a ISO do [Alpine 3.24.1 kernel 6.18.34-0-lts](https://dl-cdn.alpinelinux.org/alpine/v3.24/releases/x86_64/alpine-standard-3.24.1-x86_64.iso).
+- Use o pendrive para instalar a ISO do [Alpine 3.24 kernel 6.18.38-0-lts](https://dl-cdn.alpinelinux.org/alpine/v3.24/releases/x86_64/alpine-standard-3.24.1-x86_64.iso).
 - Se precisar aqui tem um <a href="https://www.youtube.com/watch?v=WhOxOof1J1g&t=236s" target="_blank" rel="noopener noreferrer">video</a> ensinando a instalar. Você pode usar todas as opções "default" pois o instalador vai reconfigurar a instalação de acordo com o arquivo <b>config.env</b>.
 - Após instalado logar como <b>root</b> e digitar a sequência de comandos abaixo (uma linha por vez) para atualizar os packs mais recentes do Alpine:
   
