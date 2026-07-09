@@ -38,7 +38,7 @@
 | Distribuição | Kernel | link | Tamanho (KB)|
 |:---|:---|:---|---:|
 | Almalinux 10.2 | 6.12.0 | https://repo.almalinux.org/almalinux/10/isos/x86_64/AlmaLinux-10.2-x86_64-minimal.iso | 1.612.672|
-| Alpinelinux 3.24.1 | 6.18.34-0-lts | https://dl-cdn.alpinelinux.org/alpine/v3.24/releases/x86_64/alpine-standard-3.24.1-x86_64.iso | 360.448|
+| Alpinelinux 3.24.1 | 6.18.35-0-lts | https://dl-cdn.alpinelinux.org/alpine/v3.24/releases/x86_64/alpine-standard-3.24.1-x86_64.iso | 360.448|
 | Debian 13.5.0 | 6.12.85 | https://cdimage.debian.org/debian-cd/13.5.0/amd64/iso-cd/debian-13.5.0-amd64-netinst.iso | 773.120|
 | Ubuntu 22.04.5 | 6.8 | https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso | 2.086.842|
 | Ubuntu 24.04.4 LTS| 6.8.0-111-generic | https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso | 3.325.654|
