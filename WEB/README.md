@@ -13,7 +13,7 @@ yes | apt autoremove
 apt install sudo -y
 sudo su
 reboot
-...
+```
 
 - Após o reboot entre novamente como <b>root</b>.
 - Tenha certeza de que o pendrive está conectado ao PC pois o instalador vai usar o arquivo <b>config.env</b> que colocamos nele para configurar o servidor.
