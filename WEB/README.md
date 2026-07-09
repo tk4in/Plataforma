@@ -4,7 +4,7 @@
 - Neste servidor vamos usar o <a href="https://www.debian.org/download" target="_blank" rel="noopener noreferrer">Debian Linux</a> por ser um dos mais leves e conhecidos.<br>
 
 # Guia de instalação do servidor WEB
-- Use o pendrive para instalar a ISO do [Debian 13.4.0 kernel 6.12.85](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso).
+- Use o pendrive para instalar a ISO do [Debian 13.5.0 kernel 6.12.85](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.5.0-amd64-netinst.iso).
 - Após instalado logar como <b>root</b> e digitar a sequência de comandos abaixo (uma linha por vez) para atualizar os packs mais recentes do Debian:
  
 ```bash
