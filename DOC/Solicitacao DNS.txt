@@ -1,0 +1,12 @@
+Solicitação de Delegação de DNS Reverso (bloco /29) e Zona Direta
+
+Prezada equipe de engenharia/suporte,
+
+Somos proprietários do bloco de IP público 999.999.999.999/29 e do domínio meudominio.com. Atualmente, estamos configurando nossos próprios servidores DNS autoritativos para hospedar a zona direta e reversa.
+Solicitamos a delegação da autoridade do DNS reverso (PTR) e da zona deste bloco para os nossos servidores através da técnica RFC 2317 (Cidr-In-Addr). Os nossos servidores de nomes são:
+NS1: ns1.meudominio.com (IP: 999.999.999.1)
+NS2: ns2.meudominio.com (IP: 999.999.999.2)
+Aproveitamos para solicitar que apontem os servidores de DNS (NS) do nosso domínio meudominio.com no painel de vocês para estes mesmos IPs, caso a gestão da zona do bloco IP esteja sob sua custódia.
+Ficamos no aguardo da confirmação da delegação para iniciarmos os testes.
+
+Atenciosamente,
