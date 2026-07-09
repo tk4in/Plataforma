@@ -45,7 +45,7 @@
 | Ubuntu 26.04 LTS | 7.0.3 | https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso | 2.850.194|
 
 ## Criando o arquivo config.env
-- Você pode baixar o arquivo exemplo [aqui](https://github.com/tk4in/Plataforma/tree/master/config.env) e preencher os campos conforme tabela abaixo.<br>
+- Você pode baixar o arquivo exemplo [aqui](https://github.com/tk4in/Plataforma/tree/master/DOC/config.env) e preencher os campos conforme tabela abaixo.<br>
 - Após preencher corretamente copie o arquivo para o pendrive. Os instaladores vão usá-lo para as configurações. 
 
 | Parâmetro | Exemplo | Descrição |
