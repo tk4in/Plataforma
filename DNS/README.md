@@ -14,6 +14,7 @@
 - Após instalado logar como <b>root</b> e digitar a sequência de comandos abaixo (uma linha por vez) para atualizar os packs mais recentes do Alpine:
   
 ```bash
+sed -i "s/#http/http/g" /etc/apk/repositories
 apk update
 apk add --upgrade apk-tools
 apk upgrade --available --no-interactive
