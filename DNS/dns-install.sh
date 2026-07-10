@@ -316,12 +316,32 @@ echo -e "127.0.0.1 localhost localhost.localdomain
 ${DNS_IP} ://${TK_DOM} ${HOST_NAME}
 ::1 localhost ip6-localhost ip6-loopback" | tee /etc/hosts
 hostname -F /etc/hostname
-echo -e "auto lo
-iface lo inet loopback
+#echo -e "auto lo
+#iface lo inet loopback
 
-auto eth0
-iface eth0 inet static
-    address ${IP_HOST}
-    netmask ${IP_MASK}
-    gateway ${TK_GW}" | tee /etc/network/interfaces
+#auto eth0
+#iface eth0 inet static
+#    address ${IP_HOST}
+#    netmask ${IP_MASK}
+#    gateway ${TK_GW}" | tee /etc/network/interfaces
 echo -e "\n\e[32mReiniciando o servidor\e[0m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
