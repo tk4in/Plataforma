@@ -90,13 +90,13 @@ echo "<VirtualHost *:80>
                 CustomLog ${APACHE_LOG_DIR}/access.log combined
 		<IfModule mod_headers.c>
   			Header always set Strict-Transport-Security 'max-age=31536000; includeSubDomains'
-			Header always set Reporting-Endpoints default='https://${TK_DOM}/report-to', csp-violation='https://${TK_DOM}/report-to'
+			Header always set Reporting-Endpoints "default=\"https://${TK_DOM}/report-to\""
 			Header always set Content-Security-Policy default-src 'self'; report-to csp-violation
 			Header unset X-Powered-By
 		</IfModule>
 </VirtualHost>" | tee /etc/apache2/vhosts.conf
 mkdir -p /var/www/${TK_DOM}/report-to
-wget -O /var/www/${TK_DOM}/report-to https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/report-to/index.php	 
+wget -O /var/www/${TK_DOM}/report-to/index.php https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/report-to/index.php	 
 echo "${TK_DOM}" | tee /var/www/${TK_DOM}/index.html
 rc-update add apache2 default
 rc-service apache2 start
