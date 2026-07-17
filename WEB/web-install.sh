@@ -75,35 +75,31 @@ echo -e "\n\e[32mInstalando o Apache2\e[0m"
 apk add apache2 openrc
 chown -R apache:apache /var/www/
 chmod -R 755 /var/www/
-mkdir -p /etc/apache2/sites-available
-mkdir -p /etc/apache2/sites-enabled
-sed -i "s/#LoadModule vhost_alias/LoadModule vhost_alias/g" /etc/apache2/httpd.conf
-
+echo -e "LoadModule vhost_alias_module modules/mod_vhost_alias.so\nInclude /etc/apache2/vhosts.conf" >> /etc/apache2/httpd.conf
 echo "<VirtualHost *:80>
                 ServerAdmin ${TK_USER}@${TK_DOM}
                 ServerName ${TK_DOM}
                 ServerAlias www.${TK_DOM}
-                DocumentRoot /var/www/html/${TK_DOM}
-                ErrorLog ${APACHE_LOG_DIR}/error.log
-                CustomLog ${APACHE_LOG_DIR}/access.log combined
-                <Directory /var/www/html/website>
+                DocumentRoot "/var/www/${TK_DOM}"
+                <Directory "/var/www/${TK_DOM}">
                         Options Indexes FollowSymLinks
                         AllowOverride All
                         Require all granted
                 </Directory>
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
 		<IfModule mod_headers.c>
    			Header always set Strict-Transport-Security 'max-age=31536000; includeSubDomains'
 			Header always set Reporting-Endpoints default='https://${TK_DOM}/report-to', csp-violation='https://${TK_DOM}/report-to'
 			Header always set Content-Security-Policy default-src 'self'; report-to csp-violation
 			Header unset X-Powered-By
 		</IfModule>
-</VirtualHost>" | tee /etc/apache2/sites-available/${TK_DOM}.conf
+</VirtualHost>" | tee /etc/apache2/vhosts.conf
 mkdir -p /var/www/${TK_DOM}/report-to
 wget -O /var/www/${TK_DOM}/report-to https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/report-to/index.php	 
-
+echo "${TK_DOM}" | tee /var/www/${TK_DOM}/index.html
 rc-update add apache2 default
 rc-service apache2 start
-echo "${TK_DOM}" | tee /var/www/${TK_DOM}/index.html
 
 
 
