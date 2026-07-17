@@ -73,12 +73,11 @@ apk del ipcalc
 
 echo -e "\n\e[32mInstalando o Apache2\e[0m"
 apk add apache2 openrc
-mkdir -p /var/www/html/${TK_DOM}/report-to
-chmod -R 755 /var/www/html/${TK_DOM}
-chown -R apache:apache /var/www/html
-
+chown -R apache:apache /var/www/
+chmod -R 755 /var/www/
 mkdir -p /etc/apache2/sites-available
 mkdir -p /etc/apache2/sites-enabled
+sed -i "s/#LoadModule vhost_alias/LoadModule vhost_alias/g" /etc/apache2/httpd.conf
 
 echo "<VirtualHost *:80>
                 ServerAdmin ${TK_USER}@${TK_DOM}
@@ -99,19 +98,12 @@ echo "<VirtualHost *:80>
 			Header unset X-Powered-By
 		</IfModule>
 </VirtualHost>" | tee /etc/apache2/sites-available/${TK_DOM}.conf
-chown -R www-data:www-data /var/www/html/${TK_DOM}
-wget -O /var/www/html/${TK_DOM}/report-to https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/report-to/index.php	 
-a2enmod headers
-a2dissite 000-default
-a2ensite ${TK_DOM}
-a2dismod mpm_prefork
-a2enmod mpm_event http2
-usermod -aG www-data ${TK_USER}
-
+mkdir -p /var/www/${TK_DOM}/report-to
+wget -O /var/www/${TK_DOM}/report-to https://raw.githubusercontent.com/tk4in/Plataforma/refs/heads/master/WEB/report-to/index.php	 
 
 rc-update add apache2 default
 rc-service apache2 start
-echo "${TK_DOM}" | tee /var/www/html/${TK_DOM}/index.html
+echo "${TK_DOM}" | tee /var/www/${TK_DOM}/index.html
 
 
 
