@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo -e "Instalando: WEB1"
 
 echo -e "\n\e[32mCarregando as variáveis de configuração do config.env\e[0m"
