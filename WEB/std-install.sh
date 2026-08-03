@@ -100,3 +100,20 @@ wget -O /var/www/${TK_DOM}/report-to/index.php https://raw.githubusercontent.com
 echo "${TK_DOM}" | tee /var/www/${TK_DOM}/index.html
 rc-update add apache2 default
 rc-service apache2 start
+
+echo -e "\n\e[32mInstalando o MariaDB\e[0m"
+apk add mariadb mariadb-client
+mariadb-install-db --user=mysql --datadir=/var/lib/mysql
+mariadb-secure-installation <<EOF
+
+y
+y
+${PASS_VAL}
+${PASS_VAL}
+y
+y
+y
+y
+EOF
+rc-update add mariadb default
+rc-service mariadb start
