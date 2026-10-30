@@ -51,7 +51,7 @@ rc-update add sshd default
 
 echo -e "\n\e[32mInstalando o Node/NPM\e[0m"
 apk add libstdc++ git
-export NODE_VERSION="22.23.1"
+export NODE_VERSION="24.22.2"
 wget https://unofficial-builds.nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64-musl.tar.gz
 mkdir -p /usr/local/lib/nodejs
 tar -xzf node-v${NODE_VERSION}-linux-x64-musl.tar.gz -C /usr/local/lib/nodejs
